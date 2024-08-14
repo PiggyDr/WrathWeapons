@@ -29,7 +29,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> SCULK_CLEAVER = REGISTRY.register("sculk_cleaver", () -> new SculkCleaverItem());
 	public static final RegistryObject<Item> SCULK_SABER = REGISTRY.register("sculk_saber", () -> new SculkSaberItem());
 	public static final RegistryObject<Item> DWARVEN_LEGACY = REGISTRY.register("dwarven_legacy", () -> new DwarvenLegacyItem());
-	public static final RegistryObject<Item> BALLS_DELIGHTFUL_PAN = REGISTRY.register("balls_delightful_pan", () -> new BallsDelightfulPanItem());
+	public static final RegistryObject<Item> BALLS_DELIGHTFUL_PAN = REGISTRY.register("balls_delightful_pan", () -> new BallsDelightfulPanItem(BiosWrathWeaponsModBlocks.BALLS_DELIGHTFUL_PAN.get()));
 	public static final RegistryObject<Item> ENDER_KATANA = REGISTRY.register("ender_katana", () -> new EnderKatanaItem());
 	public static final RegistryObject<Item> HIGH_ELF_BLADE = REGISTRY.register("high_elf_blade", () -> new HighElfBladeItem());
 	public static final RegistryObject<Item> BLADEOFTHE_PIXIE = REGISTRY.register("bladeofthe_pixie", () -> new BladeofthePixieItem());
