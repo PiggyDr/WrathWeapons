@@ -1,0 +1,7 @@
+{
+  "parent": "bios_wrath_weapons:custom/ballsdelightfulpan",
+  "textures": {
+    "0": "bios_wrath_weapons:block/ballsdelightfulpan",
+    "particle": "bios_wrath_weapons:item/ballspanmcreator"
+  }
+}

@@ -1,30 +1,32 @@
-
 package net.mcreator.bioswrathweapons.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Item;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
 public class BallsDelightfulPanItem extends SkilletItem {
 	private final Tier tier;
 	private final float attackDamage;
@@ -58,32 +60,24 @@ public class BallsDelightfulPanItem extends SkilletItem {
 				return 22;
 			}
 
-			public Ingredient getRepairIngredient() {
+			public @NotNull Ingredient getRepairIngredient() {
 				return Ingredient.of();
 			}
 		};
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack itemstack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("\u00A76The Grand Chef has arrived."));
+		list.add(Component.literal("§6The Grand Chef has arrived."));
 	}
 
 	public float getDamage() {
 		return this.attackDamage;
 	}
 
-	public boolean canAttackBlock(BlockState p_43291_, Level p_43292_, BlockPos p_43293_, Player p_43294_) {
-		return !p_43294_.isCreative();
-	}
-
-	public float getDestroySpeed(ItemStack p_43288_, BlockState p_43289_) {
-		if (p_43289_.is(Blocks.COBWEB)) {
-			return 15.0F;
-		} else {
-			return p_43289_.is(BlockTags.SWORD_EFFICIENT) ? 1.5F : 1.0F;
-		}
+	public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
+		return !player.isCreative();
 	}
 
 	public boolean hurtEnemy(ItemStack p_43278_, LivingEntity p_43279_, LivingEntity p_43280_) {
@@ -107,7 +101,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 		return p_43298_.is(Blocks.COBWEB);
 	}
 
-	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot p_43274_) {
+	public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot p_43274_) {
 		return p_43274_ == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(p_43274_);
 	}
 

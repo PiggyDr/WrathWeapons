@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "bios_wrath_weapons:block/balls_delightful_pan"
+    },
+    "facing=south": {
+      "model": "bios_wrath_weapons:block/balls_delightful_pan",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "bios_wrath_weapons:block/balls_delightful_pan",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "bios_wrath_weapons:block/balls_delightful_pan",
+      "y": 90
+    }
+  }
+}
