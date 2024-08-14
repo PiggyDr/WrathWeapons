@@ -53,9 +53,9 @@ public class HighElfBladeItem extends SwordItem {
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity entity, LivingEntity attacker) {
 		super.hurtEnemy(stack, entity, attacker);
-		entity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0), attacker);
-		entity.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 0), attacker);
-		entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 240, 0), attacker);
+		entity.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0), attacker);
+		entity.addEffect(new MobEffectInstance(MobEffects.WITHER, 200, 0), attacker);
+		entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0), attacker);
 		return true;
 	}
 }
