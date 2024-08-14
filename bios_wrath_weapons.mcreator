@@ -1,0 +1,265 @@
+{
+  "mod_elements": [
+    {
+      "name": "WrathWeapons",
+      "type": "tab",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "wrath_weapons",
+      "metadata": {
+        "files": []
+      }
+    },
+    {
+      "name": "UnhoolyHammerTime",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "unhooly_hammer_time",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/bios_wrath_weapons/models/item/unhooly_hammer_time.json",
+          "src/main/java/net/mcreator/bioswrathweapons/item/UnhoolyHammerTimeItem.java"
+        ]
+      }
+    },
+    {
+      "name": "UnhoolyHammerTimeLivingEntityIsHitWithTool",
+      "type": "procedure",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "unhooly_hammer_time_living_entity_is_hit_with_tool",
+      "metadata": {
+        "files": [
+          "src/main/java/net/mcreator/bioswrathweapons/procedures/UnhoolyHammerTimeLivingEntityIsHitWithToolProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "sourceentity",
+            "type": "entity"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PuristSword",
+      "type": "animateditem",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "purist_sword",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/bios_wrath_weapons/models/item/purist_sword.json",
+          "src/main/java/net/mcreator/bioswrathweapons/item/PuristSwordItem.java",
+          "src/main/java/net/mcreator/bioswrathweapons/item/renderer/PuristSwordItemRenderer.java",
+          "src/main/java/net/mcreator/bioswrathweapons/item/model/PuristSwordItemModel.java"
+        ]
+      }
+    },
+    {
+      "name": "SculkCleaver",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "sculk_cleaver",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/bios_wrath_weapons/models/item/sculk_cleaver.json",
+          "src/main/java/net/mcreator/bioswrathweapons/item/SculkCleaverItem.java"
+        ]
+      }
+    },
+    {
+      "name": "SculkSaber",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "sculk_saber",
+      "metadata": {
+        "files": [
+          "src/main/java/net/mcreator/bioswrathweapons/item/SculkSaberItem.java",
+          "src/main/resources/assets/bios_wrath_weapons/models/item/sculk_saber.json"
+        ]
+      }
+    },
+    {
+      "name": "SculkSaberLivingEntityIsHitWithTool",
+      "type": "procedure",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "sculk_saber_living_entity_is_hit_with_tool",
+      "metadata": {
+        "files": [
+          "src/main/java/net/mcreator/bioswrathweapons/procedures/SculkSaberLivingEntityIsHitWithToolProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DwarvenLegacy",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "dwarven_legacy",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/bios_wrath_weapons/models/item/dwarven_legacy.json",
+          "src/main/java/net/mcreator/bioswrathweapons/item/DwarvenLegacyItem.java"
+        ]
+      }
+    },
+    {
+      "name": "BallsDelightfulPan",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "balls_delightful_pan",
+      "metadata": {
+        "files": [
+          "src/main/java/net/mcreator/bioswrathweapons/item/BallsDelightfulPanItem.java",
+          "src/main/resources/assets/bios_wrath_weapons/models/item/balls_delightful_pan.json"
+        ]
+      }
+    },
+    {
+      "name": "EnderKatana",
+      "type": "animateditem",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "ender_katana",
+      "metadata": {
+        "files": [
+          "src/main/java/net/mcreator/bioswrathweapons/item/EnderKatanaItem.java",
+          "src/main/resources/assets/bios_wrath_weapons/models/item/ender_katana.json",
+          "src/main/java/net/mcreator/bioswrathweapons/item/model/EnderKatanaItemModel.java",
+          "src/main/java/net/mcreator/bioswrathweapons/item/renderer/EnderKatanaItemRenderer.java"
+        ]
+      }
+    },
+    {
+      "name": "HighElfBlade",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "high_elf_blade",
+      "metadata": {
+        "files": [
+          "src/main/java/net/mcreator/bioswrathweapons/item/HighElfBladeItem.java",
+          "src/main/resources/assets/bios_wrath_weapons/models/item/high_elf_blade.json"
+        ]
+      }
+    },
+    {
+      "name": "BladeofthePixie",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "bladeofthe_pixie",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/bios_wrath_weapons/models/item/bladeofthe_pixie.json",
+          "src/main/java/net/mcreator/bioswrathweapons/item/BladeofthePixieItem.java"
+        ]
+      }
+    },
+    {
+      "name": "GodsTool",
+      "type": "tool",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "gods_tool",
+      "metadata": {
+        "files": [
+          "src/main/java/net/mcreator/bioswrathweapons/item/GodsToolItem.java",
+          "src/main/resources/assets/bios_wrath_weapons/models/item/gods_tool.json"
+        ]
+      }
+    }
+  ],
+  "variable_elements": [
+    {
+      "name": "unhoolyshockwave",
+      "type": "logic",
+      "scope": "map",
+      "value": "false"
+    },
+    {
+      "name": "immunity",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    }
+  ],
+  "sound_elements": [],
+  "tag_elements": {
+    "ITEMS:minecraft:pickaxes": [
+      "~CUSTOM:DwarvenLegacy",
+      "~CUSTOM:UnhoolyHammerTime"
+    ],
+    "ITEMS:minecraft:swords": [
+      "~CUSTOM:GodsTool",
+      "~CUSTOM:BladeofthePixie",
+      "~CUSTOM:HighElfBlade",
+      "~CUSTOM:BallsDelightfulPan",
+      "~CUSTOM:SculkSaber",
+      "~CUSTOM:SculkCleaver"
+    ]
+  },
+  "tab_element_order": {
+    "CUSTOM:WrathWeapons": [
+      "BallsDelightfulPan",
+      "BladeofthePixie",
+      "DwarvenLegacy",
+      "HighElfBlade",
+      "PuristSword",
+      "SculkCleaver",
+      "SculkSaber",
+      "UnhoolyHammerTime",
+      "EnderKatana"
+    ]
+  },
+  "language_map": {
+    "en_us": {
+      "item.bios_wrath_weapons.sculk_cleaver": "§3§lSculk Cleaver",
+      "item_group.bios_wrath_weapons.wrath_weapons": "Wrath Weapons",
+      "item.bios_wrath_weapons.unhooly_hammer_time": "§4§lUnhooly (Hammer Time)",
+      "item.bios_wrath_weapons.bladeofthe_pixie": "§a§lBladeofthe Pixie",
+      "item.bios_wrath_weapons.dwarven_legacy": "§dDwarven Legacy",
+      "item.bios_wrath_weapons.purist_sword": "§6§lPurist Sword",
+      "item.bios_wrath_weapons.ender_katana": "§5§lEnder Katana",
+      "item.bios_wrath_weapons.high_elf_blade": "§b§lHigh Elf Slicer",
+      "item.bios_wrath_weapons.balls_delightful_pan": "§6§lBalls Delightful Golden Pan of Wonder and Power",
+      "item.bios_wrath_weapons.gods_tool": "§l§oGods Tool",
+      "item.bios_wrath_weapons.sculk_saber": "§6Sculk Saber"
+    }
+  },
+  "foldersRoot": {
+    "name": "~",
+    "children": []
+  },
+  "workspaceSettings": {
+    "modid": "bios_wrath_weapons",
+    "modName": "Bio\u0027s Wrath Weapons",
+    "version": "1.0.0",
+    "author": "Bioscar, MCreator",
+    "websiteURL": "https://mcreator.net",
+    "license": "Not specified",
+    "serverSideOnly": false,
+    "requiredMods": [],
+    "dependencies": [],
+    "dependants": [],
+    "mcreatorDependencies": [
+      "curios_api",
+      "geckolib"
+    ],
+    "currentGenerator": "forge-1.20.1",
+    "credits": "Created using mod maker MCreator - https://mcreator.net/about",
+    "modElementsPackage": "net.mcreator.bioswrathweapons"
+  },
+  "mcreatorVersion": 202400232117
+}

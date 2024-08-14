@@ -1,0 +1,44 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.purist_sword",
+				"texture_width": 32,
+				"texture_height": 32,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "PureBlade",
+					"pivot": [0, 12, 0],
+					"cubes": [
+						{"origin": [-0.8, 6.5, -0.5], "size": [1.5, 13, 1], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "Spinners",
+					"parent": "PureBlade",
+					"pivot": [-0.1, 12.5, 0.5],
+					"cubes": [
+						{"origin": [1.2, 8.5, -0.5], "size": [1.5, 9, 1], "uv": [8, 0]},
+						{"origin": [-2.8, 8.5, -0.5], "size": [1.5, 9, 1], "uv": [4, 0]}
+					]
+				},
+				{
+					"name": "PureHilt",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-1, -1, -0.5], "size": [2, 2, 1], "uv": [12, 0]},
+						{"origin": [-0.5, 1, -0.5], "size": [1, 4, 1], "uv": [12, 5]},
+						{"origin": [-2.5, 5, -0.5], "size": [5, 1, 1], "uv": [4, 10]},
+						{"origin": [-4.5, 5, -0.5], "size": [2, 1, 1], "pivot": [-2.5, 5, 0.5], "rotation": [0, 0, 20], "uv": [4, 12]},
+						{"origin": [0.5, 5, -1.5], "size": [2, 1, 1], "pivot": [2.5, 5, -0.5], "rotation": [180, 0, 160], "uv": [12, 3]}
+					]
+				}
+			]
+		}
+	]
+}

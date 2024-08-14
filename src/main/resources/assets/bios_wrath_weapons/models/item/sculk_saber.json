@@ -1,0 +1,7 @@
+{
+  "parent": "bios_wrath_weapons:custom/sculksaber",
+  "textures": {
+    "0": "bios_wrath_weapons:block/sculksaber",
+    "particle": "bios_wrath_weapons:item/sculksabermcreator"
+  }
+}

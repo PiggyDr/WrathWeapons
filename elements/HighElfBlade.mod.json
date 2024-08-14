@@ -1,0 +1,37 @@
+{
+  "_fv": 66,
+  "_type": "tool",
+  "definition": {
+    "toolType": "Sword",
+    "renderType": 1,
+    "blockingRenderType": 0,
+    "texture": "highelfblade",
+    "customModelName": "highelfslicer:default",
+    "blockingModelName": "Normal blocking",
+    "name": "§b§lHigh Elf Slicer",
+    "specialInformation": {
+      "fixedValue": [
+        "§bDancing among the leaves and quartz."
+      ]
+    },
+    "creativeTabs": [
+      {
+        "value": "CUSTOM:WrathWeapons"
+      }
+    ],
+    "efficiency": 9.0,
+    "attackSpeed": 1.5,
+    "enchantability": 22,
+    "damageVsEntity": 5.0,
+    "usageCount": 0,
+    "glowCondition": {
+      "fixedValue": false
+    },
+    "repairItems": [],
+    "immuneToFire": true,
+    "blockDropsTier": "NETHERITE",
+    "blocksAffected": [],
+    "stayInGridWhenCrafting": false,
+    "damageOnCrafting": false
+  }
+}

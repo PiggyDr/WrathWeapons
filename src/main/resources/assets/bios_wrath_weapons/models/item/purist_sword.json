@@ -1,0 +1,6 @@
+{
+  "parent": "bios_wrath_weapons:displaysettings/purist_sword.item",
+  "textures": {
+    "layer0": "bios_wrath_weapons:item/purist_sword"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "bios_wrath_weapons:custom/highelfslicer",
+  "textures": {
+    "0": "bios_wrath_weapons:block/highelfslasher",
+    "particle": "bios_wrath_weapons:item/highelfblade"
+  }
+}

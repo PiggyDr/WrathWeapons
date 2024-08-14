@@ -1,0 +1,57 @@
+{
+  "_fv": 66,
+  "_type": "animateditem",
+  "definition": {
+    "renderType": 0,
+    "texture": "enderkatana",
+    "name": "§5§lEnder Katana",
+    "idle": "speen",
+    "rarity": "EPIC",
+    "displaySettings": "enderblade.item.json",
+    "leftArm": "",
+    "rightArm": "",
+    "perspective": "All Perspectives",
+    "creativeTabs": [
+      {
+        "value": "CUSTOM:WrathWeapons"
+      }
+    ],
+    "firstPersonArms": false,
+    "stackSize": 1,
+    "enchantability": 22,
+    "useDuration": 0,
+    "toolType": 1.5,
+    "damageCount": 0,
+    "recipeRemainder": {
+      "value": ""
+    },
+    "destroyAnyBlock": false,
+    "immuneToFire": true,
+    "stayInGridWhenCrafting": false,
+    "enableArmPose": false,
+    "damageOnCrafting": false,
+    "enableMeleeDamage": true,
+    "damageVsEntity": 9.0,
+    "specialInformation": {
+      "fixedValue": [
+        "§5Echoes of the Void watch you."
+      ]
+    },
+    "hasGlow": false,
+    "guiBoundTo": "<NONE>",
+    "inventorySize": 9,
+    "inventoryStackSize": 64,
+    "isFood": false,
+    "nutritionalValue": 4,
+    "saturation": 0.3,
+    "eatResultItem": {
+      "value": ""
+    },
+    "isMeat": false,
+    "isAlwaysEdible": false,
+    "animation": "none",
+    "normal": "enderblade.geo.json",
+    "armPoseList": [],
+    "disableSwing": false
+  }
+}

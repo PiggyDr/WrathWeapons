@@ -1,0 +1,37 @@
+{
+  "_fv": 66,
+  "_type": "tool",
+  "definition": {
+    "toolType": "Pickaxe",
+    "renderType": 1,
+    "blockingRenderType": 0,
+    "texture": "dwarvenlegacymcreator",
+    "customModelName": "dwarvenlegacy:default",
+    "blockingModelName": "Normal blocking",
+    "name": "§dDwarven Legacy",
+    "specialInformation": {
+      "fixedValue": [
+        "§dThe next light of the Dwarven Race."
+      ]
+    },
+    "creativeTabs": [
+      {
+        "value": "CUSTOM:WrathWeapons"
+      }
+    ],
+    "efficiency": 9.0,
+    "attackSpeed": 0.9,
+    "enchantability": 22,
+    "damageVsEntity": 8.0,
+    "usageCount": 0,
+    "glowCondition": {
+      "fixedValue": false
+    },
+    "repairItems": [],
+    "immuneToFire": true,
+    "blockDropsTier": "NETHERITE",
+    "blocksAffected": [],
+    "stayInGridWhenCrafting": false,
+    "damageOnCrafting": false
+  }
+}

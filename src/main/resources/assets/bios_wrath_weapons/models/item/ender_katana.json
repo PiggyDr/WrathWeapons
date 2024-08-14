@@ -1,0 +1,6 @@
+{
+  "parent": "bios_wrath_weapons:displaysettings/enderblade.item",
+  "textures": {
+    "layer0": "bios_wrath_weapons:item/enderkatana"
+  }
+}

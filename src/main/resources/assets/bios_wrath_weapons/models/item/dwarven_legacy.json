@@ -1,0 +1,7 @@
+{
+  "parent": "bios_wrath_weapons:custom/dwarvenlegacy",
+  "textures": {
+    "0": "bios_wrath_weapons:block/dwarvenlegacy",
+    "particle": "bios_wrath_weapons:item/dwarvenlegacymcreator"
+  }
+}
