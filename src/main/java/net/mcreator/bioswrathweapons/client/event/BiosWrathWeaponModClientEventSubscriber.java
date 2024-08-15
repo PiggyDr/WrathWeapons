@@ -1,5 +1,6 @@
 package net.mcreator.bioswrathweapons.client.event;
 
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -18,10 +19,14 @@ public class BiosWrathWeaponModClientEventSubscriber {
     public static void onModelBake(ModelEvent.ModifyBakingResult event) { //copied from the farmersdelight event subscriber that does the same thing
         Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
 
-        ModelResourceLocation ballsPanLocation = new ModelResourceLocation(new ResourceLocation("bios_wrath_weapons", "balls_delightful_pan"), "inventory");
+        ModelResourceLocation ballsPanLocation = new ModelResourceLocation(new ResourceLocation(BiosWrathWeaponsMod.MODID, "balls_delightful_pan"), "inventory");
         BakedModel ballsPanModel = modelRegistry.get(ballsPanLocation);
-        BakedModel ballsPanCookingModel = modelRegistry.get(new ModelResourceLocation(new ResourceLocation("bios_wrath_weapons", "balls_delightful_pan"), "inventory"));
+        BakedModel ballsPanCookingModel = modelRegistry.get(new ModelResourceLocation(new ResourceLocation(BiosWrathWeaponsMod.MODID, "balls_delightful_pan_cooking"), "inventory"));
         modelRegistry.put(ballsPanLocation, new BallsDelightfulPanModel(event.getModelBakery(), ballsPanModel, ballsPanCookingModel));
+    }
 
+    @SubscribeEvent
+    public static void onModelRegister(ModelEvent.RegisterAdditional event) {
+        event.register(new ModelResourceLocation(new ResourceLocation(BiosWrathWeaponsMod.MODID, "balls_delightful_pan_cooking"), "inventory"));
     }
 }
