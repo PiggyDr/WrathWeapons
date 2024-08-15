@@ -6,6 +6,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,5 +29,10 @@ public class BiosWrathWeaponModClientEventSubscriber {
     @SubscribeEvent
     public static void onModelRegister(ModelEvent.RegisterAdditional event) {
         event.register(new ModelResourceLocation(new ResourceLocation(BiosWrathWeaponsMod.MODID, "balls_delightful_pan_cooking"), "inventory"));
+    }
+
+    @SubscribeEvent
+    public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+
     }
 }
