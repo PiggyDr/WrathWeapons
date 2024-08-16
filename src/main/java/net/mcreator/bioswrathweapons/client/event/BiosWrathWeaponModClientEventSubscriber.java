@@ -2,6 +2,8 @@ package net.mcreator.bioswrathweapons.client.event;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel;
+import net.mcreator.bioswrathweapons.client.renderer.BallsDelightfulPanRenderer;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +12,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import vectorwing.farmersdelight.client.renderer.SkilletRenderer;
 
 import java.util.Map;
 
@@ -33,6 +36,6 @@ public class BiosWrathWeaponModClientEventSubscriber {
 
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-
+        event.registerBlockEntityRenderer(BiosWrathWeaponsModBlockEntityTypes.BALLS_DELIGHTFUL_PAN.get(), BallsDelightfulPanRenderer::new);
     }
 }

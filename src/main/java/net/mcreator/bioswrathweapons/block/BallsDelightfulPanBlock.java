@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import vectorwing.farmersdelight.common.block.SkilletBlock;
-import vectorwing.farmersdelight.common.block.entity.SkilletBlockEntity;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
@@ -94,7 +93,7 @@ public class BallsDelightfulPanBlock extends SkilletBlock {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof BallsDelightfulPanBlockEntity) {
-                Containers.dropItemStack(level, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), ((SkilletBlockEntity)tileEntity).getInventory().getStackInSlot(0));
+                Containers.dropItemStack(level, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), ((BallsDelightfulPanBlockEntity)tileEntity).getInventory().getStackInSlot(0));
             }
 
             super.onRemove(state, level, pos, newState, isMoving);
@@ -103,7 +102,7 @@ public class BallsDelightfulPanBlock extends SkilletBlock {
     }
 
     public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {
-        ItemStack stack = super.getCloneItemStack(level, pos, state);
+        ItemStack stack = new ItemStack(this);
         BallsDelightfulPanBlockEntity skilletEntity = (BallsDelightfulPanBlockEntity) level.getBlockEntity(pos);
         CompoundTag nbt = new CompoundTag();
         if (skilletEntity != null) {
