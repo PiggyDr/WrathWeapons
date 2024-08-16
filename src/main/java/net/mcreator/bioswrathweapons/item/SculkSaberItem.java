@@ -1,6 +1,18 @@
 
 package net.mcreator.bioswrathweapons.item;
 
+import com.github.sculkhorde.core.ModMobEffects;
+import com.github.sculkhorde.core.ModPotions;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.TooltipFlag;
@@ -55,5 +67,21 @@ public class SculkSaberItem extends SwordItem {
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
 		list.add(Component.literal("\u00A76\u00A7l[Cleansing Protocol Confirmed]"));
+	}
+
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		ItemStack itemStack = player.getItemInHand(hand);
+		player.getCooldowns().addCooldown(itemStack.getItem(), 400);
+		if (!level.isClientSide()) {
+			AreaEffectCloud aec = new AreaEffectCloud(level, player.getX(), player.getY(), player.getZ());
+			aec.setDuration(50);
+			aec.setRadius(5);
+			aec.setOwner(player);
+			aec.setPotion(new Potion(new MobEffectInstance(ModMobEffects.PURITY.get(), 1200))); //aec effect application is weird
+			aec.setParticle(ParticleTypes.TOTEM_OF_UNDYING);
+			((ServerLevel)level).addFreshEntity(aec);
+		}
+		return InteractionResultHolder.sidedSuccess(itemStack, !level.isClientSide());
 	}
 }
