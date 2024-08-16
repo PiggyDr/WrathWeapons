@@ -1,5 +1,6 @@
 package net.mcreator.bioswrathweapons;
 
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlocks;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -47,6 +48,7 @@ public class BiosWrathWeaponsMod {
 
 		// Start of user code block mod init
 		BiosWrathWeaponsModBlocks.REGISTRY.register(bus);
+		BiosWrathWeaponsModBlockEntityTypes.REGISTRY.register(bus);
 		// End of user code block mod init
 	}
 
