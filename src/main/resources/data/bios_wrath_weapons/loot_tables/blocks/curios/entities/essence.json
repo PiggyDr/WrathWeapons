@@ -1,7 +1,0 @@
-{
-  "entities": [ "minecraft:player" ],
-  "slots": [ "back",
-    "body",
-    "belt",
-    "bios_wrath_weapons:essence" ]
-}

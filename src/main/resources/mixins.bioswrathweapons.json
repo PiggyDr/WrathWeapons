@@ -1,5 +1,7 @@
 {
   "package": "net.mcreator.bioswrathweapons.mixin",
   "mixins": [
+    "EndermanMixin",
+    "MobMixin"
   ]
 }
