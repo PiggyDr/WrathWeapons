@@ -17,13 +17,11 @@ public class EndermanMixin {
             argsOnly = true
     )
     private LivingEntity modifyTarget(LivingEntity value) {
-        if (CuriosApi.getCuriosInventory(value).lazyMap(inventory ->
+        return CuriosApi.getCuriosInventory(value).lazyMap(inventory ->
                 inventory.getStacksHandler("essence").map(slot ->
                         slot.getStacks().getStackInSlot(0).getItem() == BiosWrathWeaponsModItems.ENDER_ESSENCE.get())
                         .orElse(false))
-                .orElse(false)) {
-            return null;
-        }
-        return value;
+                .orElse(false)
+                ? null : value;
     }
 }

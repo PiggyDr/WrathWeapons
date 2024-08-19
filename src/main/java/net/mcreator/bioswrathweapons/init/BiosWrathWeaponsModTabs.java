@@ -32,6 +32,8 @@ public class BiosWrathWeaponsModTabs {
 				tabData.accept(BiosWrathWeaponsModItems.SCULK_SABER.get());
 				tabData.accept(BiosWrathWeaponsModItems.UNHOOLY_HAMMER_TIME.get());
 				tabData.accept(BiosWrathWeaponsModItems.ENDER_KATANA.get());
+
+				tabData.accept(BiosWrathWeaponsModItems.ENDER_ESSENCE.get());
 			})
 
 					.build());

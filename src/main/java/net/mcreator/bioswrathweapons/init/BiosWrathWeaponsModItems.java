@@ -4,6 +4,7 @@
  */
 package net.mcreator.bioswrathweapons.init;
 
+import net.mcreator.bioswrathweapons.item.*;
 import net.mcreator.bioswrathweapons.network.BiosWrathWeaponsModVariables;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -11,16 +12,6 @@ import net.minecraftforge.registries.DeferredRegister;
 
 import net.minecraft.world.item.Item;
 
-import net.mcreator.bioswrathweapons.item.UnhoolyHammerTimeItem;
-import net.mcreator.bioswrathweapons.item.SculkSaberItem;
-import net.mcreator.bioswrathweapons.item.SculkCleaverItem;
-import net.mcreator.bioswrathweapons.item.PuristSwordItem;
-import net.mcreator.bioswrathweapons.item.HighElfBladeItem;
-import net.mcreator.bioswrathweapons.item.GodsToolItem;
-import net.mcreator.bioswrathweapons.item.EnderKatanaItem;
-import net.mcreator.bioswrathweapons.item.DwarvenLegacyItem;
-import net.mcreator.bioswrathweapons.item.BladeofthePixieItem;
-import net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 
 public class BiosWrathWeaponsModItems {
@@ -35,7 +26,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> HIGH_ELF_BLADE = REGISTRY.register("high_elf_blade", () -> new HighElfBladeItem());
 	public static final RegistryObject<Item> BLADEOFTHE_PIXIE = REGISTRY.register("bladeofthe_pixie", () -> new BladeofthePixieItem());
 	public static final RegistryObject<Item> GODS_TOOL = REGISTRY.register("gods_tool", () -> new GodsToolItem());
-    public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", () -> new EnderEssenceItem());
     // Start of user code block custom items
 	// End of user code block custom items
 }

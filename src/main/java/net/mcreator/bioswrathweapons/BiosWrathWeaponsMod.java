@@ -2,6 +2,8 @@ package net.mcreator.bioswrathweapons;
 
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlocks;
+import net.mcreator.bioswrathweapons.item.EnderEssenceItem;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -21,6 +23,7 @@ import net.minecraft.network.FriendlyByteBuf;
 
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModTabs;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.function.Supplier;
 import java.util.function.Function;
@@ -53,6 +56,9 @@ public class BiosWrathWeaponsMod {
 	}
 
 	// Start of user code block mod methods
+	private void setup(FMLCommonSetupEvent event) {
+		CuriosApi.registerCurio(BiosWrathWeaponsModItems.ENDER_ESSENCE.get(), new EnderEssenceItem());
+	}
 	// End of user code block mod methods
 	private static final String PROTOCOL_VERSION = "1";
 	public static final SimpleChannel PACKET_HANDLER = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, MODID), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
