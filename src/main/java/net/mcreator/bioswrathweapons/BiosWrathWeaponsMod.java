@@ -1,7 +1,6 @@
 package net.mcreator.bioswrathweapons;
 
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlocks;
+import net.mcreator.bioswrathweapons.init.*;
 import net.mcreator.bioswrathweapons.item.EnderEssenceItem;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.Logger;
@@ -21,8 +20,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.FriendlyByteBuf;
 
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModTabs;
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.function.Supplier;
@@ -52,6 +49,7 @@ public class BiosWrathWeaponsMod {
 		// Start of user code block mod init
 		BiosWrathWeaponsModBlocks.REGISTRY.register(bus);
 		BiosWrathWeaponsModBlockEntityTypes.REGISTRY.register(bus);
+		BiosWrathWeaponsMobEffects.REGISTRY.register(bus);
 		// End of user code block mod init
 	}
 
