@@ -6,6 +6,7 @@ package net.mcreator.bioswrathweapons.init;
 
 import net.mcreator.bioswrathweapons.item.*;
 import net.mcreator.bioswrathweapons.network.BiosWrathWeaponsModVariables;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.DeferredRegister;
@@ -26,7 +27,8 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> HIGH_ELF_BLADE = REGISTRY.register("high_elf_blade", () -> new HighElfBladeItem());
 	public static final RegistryObject<Item> BLADEOFTHE_PIXIE = REGISTRY.register("bladeofthe_pixie", () -> new BladeofthePixieItem());
 	public static final RegistryObject<Item> GODS_TOOL = REGISTRY.register("gods_tool", () -> new GodsToolItem());
-    public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", () -> new EnderEssenceItem());
     // Start of user code block custom items
+	public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", () -> new EnderEssenceItem());
+	public static final RegistryObject<Item> INDOMITABLE_ESSENCE = REGISTRY.register("indomitable_essence", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
 	// End of user code block custom items
 }

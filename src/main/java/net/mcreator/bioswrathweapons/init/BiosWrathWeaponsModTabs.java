@@ -34,6 +34,7 @@ public class BiosWrathWeaponsModTabs {
 				tabData.accept(BiosWrathWeaponsModItems.ENDER_KATANA.get());
 
 				tabData.accept(BiosWrathWeaponsModItems.ENDER_ESSENCE.get());
+				tabData.accept(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get());
 			})
 
 					.build());

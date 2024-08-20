@@ -1,6 +1,12 @@
 
 package net.mcreator.bioswrathweapons.item;
 
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.player.Player;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.core.animation.RawAnimation;
@@ -130,5 +136,12 @@ public class EnderKatanaItem extends Item implements GeoItem {
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
 		list.add(Component.literal("\u00A75Echoes of the Void watch you."));
+	}
+
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.ENDER_KATANA.get(), 4000);
+		player.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.WATER_RESISTANCE.get(), 3000));
+		return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), !level.isClientSide());
 	}
 }
