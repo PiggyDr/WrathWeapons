@@ -5,7 +5,6 @@
 package net.mcreator.bioswrathweapons.init;
 
 import net.mcreator.bioswrathweapons.item.*;
-import net.mcreator.bioswrathweapons.network.BiosWrathWeaponsModVariables;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;

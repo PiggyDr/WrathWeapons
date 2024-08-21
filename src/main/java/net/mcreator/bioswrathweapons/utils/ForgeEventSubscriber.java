@@ -1,15 +1,8 @@
 package net.mcreator.bioswrathweapons.utils;
 
-import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
 import net.mcreator.bioswrathweapons.network.PacketHandler;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundEntityEventPacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;

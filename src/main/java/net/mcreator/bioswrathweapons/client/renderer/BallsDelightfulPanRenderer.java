@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import vectorwing.farmersdelight.common.block.StoveBlock;
-import vectorwing.farmersdelight.common.block.entity.SkilletBlockEntity;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
