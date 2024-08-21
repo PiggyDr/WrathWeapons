@@ -1,0 +1,59 @@
+package net.mcreator.bioswrathweapons.item;
+
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
+import java.util.UUID;
+
+public class DwarvenEssenceItem extends Item implements ICurioItem {
+
+    public DwarvenEssenceItem() {
+        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
+        Multimap<Attribute, AttributeModifier> attributes = LinkedHashMultimap.create();
+        attributes.put(Attributes.ARMOR, new AttributeModifier(uuid, BiosWrathWeaponsMod.MODID + ":armor_bonus", 5, AttributeModifier.Operation.ADDITION));
+        return attributes;
+    }
+
+    @Override
+    public void curioTick(SlotContext slotContext, ItemStack stack) {
+        ICurioItem.super.curioTick(slotContext, stack);
+        if (!inSunlight(slotContext.entity())) {
+            slotContext.entity().addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400));
+        }
+    }
+
+    private boolean inSunlight(LivingEntity entity) {
+        return entity.level().canSeeSky(BlockPos.containing(entity.position()))
+//                && entity.level().isDay()
+//                && !entity.isInWaterRainOrBubble()
+                || inExposedPowderSnow(entity.level(), BlockPos.containing(entity.position()));
+    }
+
+    private boolean inExposedPowderSnow(Level level, BlockPos pos) {
+        while (level.getBlockState(pos).getBlock() == Blocks.POWDER_SNOW) {
+            pos = pos.offset(0, 1, 0);
+        }
+        return level.canSeeSky(pos);
+    }
+}
