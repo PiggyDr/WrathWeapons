@@ -1,10 +1,11 @@
 package net.mcreator.bioswrathweapons.network;
 
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
-import net.minecraft.client.Minecraft;
+import net.mcreator.bioswrathweapons.client.BiosWrathWeaponsModClientPacketHandler;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -18,17 +19,34 @@ public class ClientboundIndomitableEssencePacket implements Packet<ClientPacketL
     }
 
     @Override
-    public void write(FriendlyByteBuf p_131343_) {}
+    public void write(FriendlyByteBuf p_131343_) {
+
+    }
 
     @Override
     public void handle(ClientPacketListener p_131342_) {
 
     }
 
-    public static void handle(ClientboundIndomitableEssencePacket packer, Supplier<NetworkEvent.Context> idk) {
-        idk.get().enqueueWork(() -> {
-            Minecraft.getInstance().gameRenderer.displayItemActivation(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get().getDefaultInstance());
+    public static void handle(ClientboundIndomitableEssencePacket packet, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                    BiosWrathWeaponsModClientPacketHandler.handle(packet, ctx));
         });
-        idk.get().setPacketHandled(true);
+        ctx.get().setPacketHandled(true);
     }
+
+//    private static Runnable displayActivation() {
+//        if (FMLEnvironment.dist == Dist.CLIENT)
+//            return getClientSupplier();
+//        else
+//            return () -> {};
+//    }
+
+//    @OnlyIn(Dist.CLIENT)
+//    private static Runnable getClientSupplier() {
+//        return () -> ;
+//    }
+
+
 }

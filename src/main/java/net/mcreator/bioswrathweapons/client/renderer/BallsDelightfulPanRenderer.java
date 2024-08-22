@@ -11,12 +11,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
 import vectorwing.farmersdelight.common.block.StoveBlock;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@OnlyIn(Dist.CLIENT)
 @ParametersAreNonnullByDefault
 public class BallsDelightfulPanRenderer implements BlockEntityRenderer<BallsDelightfulPanBlockEntity> {
 
