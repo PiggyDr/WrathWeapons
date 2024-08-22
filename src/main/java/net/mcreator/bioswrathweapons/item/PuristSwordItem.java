@@ -1,6 +1,13 @@
 
 package net.mcreator.bioswrathweapons.item;
 
+import com.github.sculkhorde.core.ModMobEffects;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.core.animation.RawAnimation;
@@ -125,5 +132,13 @@ public class PuristSwordItem extends Item implements GeoItem {
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
 		list.add(Component.literal("\u00A76Purification is the way to peace."));
+	}
+
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, new AABB(player.position().add(-15, -15, -15), player.position().add(15, 15, 15)))) {
+			entity.addEffect(new MobEffectInstance(ModMobEffects.PURITY.get(), 600));
+		}
+		return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), !level.isClientSide());
 	}
 }
