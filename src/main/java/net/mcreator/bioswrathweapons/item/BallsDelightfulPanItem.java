@@ -3,6 +3,7 @@ package net.mcreator.bioswrathweapons.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
 import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 import net.minecraft.core.BlockPos;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
 import vectorwing.farmersdelight.common.tag.ModTags;
@@ -153,11 +155,14 @@ public class BallsDelightfulPanItem extends SkilletItem {
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
 		if (stack.getOrCreateTag().contains("Cooking")) {
 			super.releaseUsing(stack, level, entity, timeLeft);
-		} else if (this.getUseDuration(stack) - timeLeft >= 10 && entity instanceof Player player) {
-			ThrownTrident trident = new ThrownTrident(level, player, stack);
-			trident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 0);
-			level.addFreshEntity(trident);
-			player.getInventory().removeItem(stack);
+		} else if (this.getUseDuration(stack) - timeLeft >= 10 && entity instanceof Player player && !level.isClientSide()) {
+//			BiosWrathWeaponsMod.LOGGER.info("releaseUsing | " + level.isClientSide());
+			BiosWrathWeaponsMod.LOGGER.info(stack);
+			ThrownBallsDelightfulPan pan = new ThrownBallsDelightfulPan(level, player, stack.copy());
+			pan.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3, 0);
+			level.addFreshEntity(pan);
+			if (!player.getAbilities().instabuild)
+				player.getInventory().removeItem(stack);
 		}
 	}
 
