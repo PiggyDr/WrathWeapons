@@ -2,8 +2,11 @@ package net.mcreator.bioswrathweapons.client.event;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel;
+import net.mcreator.bioswrathweapons.client.model.ballsdelightfulpanthrown;
 import net.mcreator.bioswrathweapons.client.renderer.BallsDelightfulPanRenderer;
+import net.mcreator.bioswrathweapons.client.renderer.ThrownBallsDelightfulPanRenderer;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -38,5 +41,12 @@ public class BiosWrathWeaponModClientEventSubscriber {
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(BiosWrathWeaponsModBlockEntityTypes.BALLS_DELIGHTFUL_PAN.get(), BallsDelightfulPanRenderer::new);
+
+        event.registerEntityRenderer(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), ThrownBallsDelightfulPanRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(ballsdelightfulpanthrown.LAYER_LOCATION, ballsdelightfulpanthrown::createBodyLayer);
     }
 }
