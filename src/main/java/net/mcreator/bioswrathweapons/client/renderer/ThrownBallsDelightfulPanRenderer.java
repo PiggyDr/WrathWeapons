@@ -33,6 +33,12 @@ public class ThrownBallsDelightfulPanRenderer extends EntityRenderer<ThrownBalls
 //        //rotate to motion
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, entity.yRotO, entity.getYRot()) - 90.0F));
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, entity.xRotO, entity.getXRot()) + 90.0F));
+        poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+        float rot = Mth.lerp(partialTick,
+                ((entity.level().getGameTime() % 50) * (360F / 50)) + entity.getInitialYRot(),
+                (((entity.level().getGameTime() + 1 ) % 50) * (360F / 50)) + entity.getInitialYRot());
+        poseStack.mulPose(Axis.ZP.rotationDegrees(rot));
+        BiosWrathWeaponsMod.LOGGER.info(rot);
 //        //correct way to throw a frisbee
 //
 //        poseStack.scale(2F, 2F, 2F);

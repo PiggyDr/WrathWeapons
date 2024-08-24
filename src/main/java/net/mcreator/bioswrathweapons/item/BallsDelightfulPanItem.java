@@ -24,6 +24,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
@@ -159,7 +160,8 @@ public class BallsDelightfulPanItem extends SkilletItem {
 //			BiosWrathWeaponsMod.LOGGER.info("releaseUsing | " + level.isClientSide());
 			BiosWrathWeaponsMod.LOGGER.info(stack);
 			ThrownBallsDelightfulPan pan = new ThrownBallsDelightfulPan(level, player, stack.copy());
-			pan.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 0.8F, 0);
+			pan.shootFromRotation(player, player.getXRot() - 0.2F, player.getYRot(), 0, 1.5F, 0);
+			pan.setPos(pan.position().add(0, 0.2, 0));
 			level.addFreshEntity(pan);
 			if (!player.getAbilities().instabuild)
 				player.getInventory().removeItem(stack);

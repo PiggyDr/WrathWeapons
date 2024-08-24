@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(Mob.class)
-public class MobMixin {
+public abstract class MobMixin {
 
     @ModifyVariable(
             method = "setTarget",

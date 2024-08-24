@@ -27,6 +27,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     private ItemStack item;
     private boolean isReturning;
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> ID_INITIAL_Y_ROT = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.FLOAT);
 
     public ThrownBallsDelightfulPan(EntityType<? extends ThrownBallsDelightfulPan> type, Level level) {
         super(type, level);
@@ -36,6 +37,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, level);
         this.item = itemStack;
         this.entityData.set(ID_FOIL, item.hasFoil());
+        this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
 //        BiosWrathWeaponsMod.LOGGER.info(item + " | " + level().isClientSide());
     }
 
@@ -43,6 +45,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ID_FOIL, false);
+        this.entityData.define(ID_INITIAL_Y_ROT, 0F);
     }
 
     @Override
@@ -52,6 +55,10 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
 
     public boolean isFoil() {
         return this.entityData.get(ID_FOIL);
+    }
+
+    public float getInitialYRot() {
+        return this.entityData.get(ID_INITIAL_Y_ROT);
     }
 
     @Override

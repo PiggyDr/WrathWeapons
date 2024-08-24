@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(EnderMan.class)
-public class EndermanMixin {
+public abstract class EndermanMixin {
 
     @ModifyVariable(
             method = "setTarget",
