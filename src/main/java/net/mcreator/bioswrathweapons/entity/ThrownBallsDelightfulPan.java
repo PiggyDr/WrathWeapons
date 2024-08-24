@@ -2,6 +2,9 @@ package net.mcreator.bioswrathweapons.entity;
 
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -23,6 +26,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
 
     private ItemStack item;
     private boolean isReturning;
+    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.BOOLEAN);
 
     public ThrownBallsDelightfulPan(EntityType<? extends ThrownBallsDelightfulPan> type, Level level) {
         super(type, level);
@@ -31,7 +35,14 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     public ThrownBallsDelightfulPan(Level level, LivingEntity owner, ItemStack itemStack) {
         super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, level);
         this.item = itemStack;
+        this.entityData.set(ID_FOIL, item.hasFoil());
 //        BiosWrathWeaponsMod.LOGGER.info(item + " | " + level().isClientSide());
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(ID_FOIL, false);
     }
 
     @Override
@@ -40,7 +51,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     }
 
     public boolean isFoil() {
-        return item.hasFoil();
+        return this.entityData.get(ID_FOIL);
     }
 
     @Override

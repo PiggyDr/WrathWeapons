@@ -8,9 +8,7 @@ import net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel;
 import net.mcreator.bioswrathweapons.client.model.ballsdelightfulpanthrown;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -26,18 +24,23 @@ public class ThrownBallsDelightfulPanRenderer extends EntityRenderer<ThrownBalls
         this.model = new ballsdelightfulpanthrown<>(context.bakeLayer(ballsdelightfulpanthrown.LAYER_LOCATION));
     }
 
-    public void render(ThrownBallsDelightfulPan entity, float idk1, float idk2, PoseStack poseStack, MultiBufferSource source, int idk3) {
+    public void render(ThrownBallsDelightfulPan entity, float yRotInterpolationThingy, float partialTick, PoseStack poseStack, MultiBufferSource source, int packedLight) {
         poseStack.pushPose();
-//        p_116114_.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.yRotO, p_116111_.getYRot()) - 90.0F));
-//        p_116114_.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(p_116113_, p_116111_.xRotO, p_116111_.getXRot()) + 90.0F));
-//        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(p_116111_)), false, p_116111_.isFoil());
-//        this.model.renderToBuffer(p_116114_, vertexconsumer, p_116116_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        //VertexConsumer vertexConsumer = source.getBuffer(this.model.renderType(TEXTURE_LOCATION));
-        VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(source, this.model.renderType(TEXTURE_LOCATION), false, false);
-        this.model.renderToBuffer(poseStack, vertexConsumer, idk3, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+//        //could probably do this directly in the model but im lazy
+        poseStack.translate(0.0, 0.25, 0.0);
+//
+//        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+//        //rotate to motion
+        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, entity.yRotO, entity.getYRot()) - 90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, entity.xRotO, entity.getXRot()) + 90.0F));
+//        //correct way to throw a frisbee
+//
+//        poseStack.scale(2F, 2F, 2F);
+        VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(source, this.model.renderType(TEXTURE_LOCATION), false, entity.isFoil());
+        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
 
-        super.render(entity, idk1, idk2, poseStack, source, idk3);
+        super.render(entity, yRotInterpolationThingy, partialTick, poseStack, source, packedLight);
     }
 
     @Override

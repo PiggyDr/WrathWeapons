@@ -159,7 +159,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 //			BiosWrathWeaponsMod.LOGGER.info("releaseUsing | " + level.isClientSide());
 			BiosWrathWeaponsMod.LOGGER.info(stack);
 			ThrownBallsDelightfulPan pan = new ThrownBallsDelightfulPan(level, player, stack.copy());
-			pan.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3, 0);
+			pan.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 0.8F, 0);
 			level.addFreshEntity(pan);
 			if (!player.getAbilities().instabuild)
 				player.getInventory().removeItem(stack);

@@ -16,10 +16,10 @@ import net.minecraft.world.entity.Entity;
 public class ballsdelightfulpanthrown<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "ballsdelightfulpanthrown"), "main");
-	private final ModelPart Pan;
+	private final ModelPart pan;
 
 	public ballsdelightfulpanthrown(ModelPart root) {
-		this.Pan = root.getChild("Pan");
+		this.pan = root.getChild("Pan");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -32,18 +32,21 @@ public class ballsdelightfulpanthrown<T extends Entity> extends EntityModel<T> {
 		.texOffs(4, 15).addBox(-5.2F, -7.0F, -1.3F, 1.0F, 10.0F, 1.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 15).addBox(3.8F, -7.0F, -1.3F, 1.0F, 10.0F, 1.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 13).addBox(-4.2F, -7.0F, -1.3F, 8.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 11).addBox(-4.2F, 2.0F, -1.3F, 8.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, 0.0F));
+		.texOffs(0, 11).addBox(-4.2F, 2.0F, -1.3F, 8.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
 
 	@Override
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+		//pan.yRot = (headPitch - 90F) / (180F / (float) Math.PI);
+		//pan.xRot = (netHeadYaw + 90F) / (180F / (float) Math.PI);
+		//pan.y -= 0.5F;
+		pan.yRot = (float) (ageInTicks % 10 * Math.PI * 4);
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		Pan.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		pan.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }
