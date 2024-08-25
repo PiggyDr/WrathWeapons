@@ -7,6 +7,7 @@ import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel;
 import net.mcreator.bioswrathweapons.client.model.ballsdelightfulpanthrown;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -26,11 +27,9 @@ public class ThrownBallsDelightfulPanRenderer extends EntityRenderer<ThrownBalls
 
     public void render(ThrownBallsDelightfulPan entity, float yRotInterpolationThingy, float partialTick, PoseStack poseStack, MultiBufferSource source, int packedLight) {
         poseStack.pushPose();
-//        //could probably do this directly in the model but im lazy
+        //could probably do this directly in the model but im lazy
         poseStack.translate(0.0, 0.25, 0.0);
-//
-//        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-//        //rotate to motion
+
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, entity.yRotO, entity.getYRot()) - 90.0F));
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, entity.xRotO, entity.getXRot()) + 90.0F));
         poseStack.mulPose(Axis.YP.rotationDegrees(90F));
@@ -38,10 +37,7 @@ public class ThrownBallsDelightfulPanRenderer extends EntityRenderer<ThrownBalls
                 ((entity.level().getGameTime() % 50) * (360F / 50)) + entity.getInitialYRot(),
                 (((entity.level().getGameTime() + 1 ) % 50) * (360F / 50)) + entity.getInitialYRot());
         poseStack.mulPose(Axis.ZP.rotationDegrees(rot));
-        BiosWrathWeaponsMod.LOGGER.info(rot);
-//        //correct way to throw a frisbee
-//
-//        poseStack.scale(2F, 2F, 2F);
+        //BiosWrathWeaponsMod.LOGGER.info(rot);
         VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(source, this.model.renderType(TEXTURE_LOCATION), false, entity.isFoil());
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();

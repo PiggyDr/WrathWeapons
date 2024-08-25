@@ -1,10 +1,17 @@
 package net.mcreator.bioswrathweapons.entity;
 
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
+import net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -13,12 +20,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import vectorwing.farmersdelight.common.registry.ModSounds;
 
 import java.util.Collection;
 
@@ -64,9 +75,22 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
+
         this.isReturning = true;
         this.setNoPhysics(true);
-        //TODO add sfx
+
+        float pitch = 0.9F + this.level().getRandom().nextFloat() * 0.2F;
+        this.level().playSound(null, getX(), getY(), getZ(), ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 2.0F, pitch);
+
+        if (
+                this.level().isClientSide()
+                && this.getOwner() != null
+                && this.getOwner() instanceof Player owner
+                && owner.distanceToSqr(this) > 4.0
+        ) {
+            BiosWrathWeaponsMod.LOGGER.info("playing client sound");
+            owner.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 0.5F, pitch);
+        }
     }
 
     @Override
@@ -77,6 +101,11 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
             result.getEntity().hurt(damageSource, damage);
         }
         //TODO finish
+    }
+
+    @Override
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return SoundEvents.EMPTY;
     }
 
     private double calculateDamage() {

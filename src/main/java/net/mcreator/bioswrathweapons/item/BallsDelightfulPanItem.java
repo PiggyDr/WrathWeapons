@@ -4,12 +4,18 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -25,15 +31,20 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
+import vectorwing.farmersdelight.common.registry.ModItems;
+import vectorwing.farmersdelight.common.registry.ModSounds;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 @ParametersAreNonnullByDefault
 public class BallsDelightfulPanItem extends SkilletItem {
@@ -175,6 +186,36 @@ public class BallsDelightfulPanItem extends SkilletItem {
 		} else {
 			player.startUsingItem(hand);
 			return InteractionResultHolder.consume(player.getItemInHand(hand));
+		}
+	}
+
+	public static void playSkilletAttackSound(Entity entity, RandomSource random) {
+
+	}
+
+	public static class BDPEvents {
+		public BDPEvents () {
+		}
+
+		@SubscribeEvent
+		public static void playSkilletAttackSound(LivingDamageEvent event) {
+			DamageSource damageSource = event.getSource();
+			Entity attacker = damageSource.getDirectEntity();
+			if (attacker instanceof LivingEntity livingEntity) {
+				if (livingEntity.getItemInHand(InteractionHand.MAIN_HAND).is((Item) BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get())) {
+					float pitch = 0.9F + livingEntity.getRandom().nextFloat() * 0.2F;
+					if (livingEntity instanceof Player player) {
+						float attackPower = player.getAttackStrengthScale(0.0F);
+						if (attackPower > 0.8F) {
+							player.getCommandSenderWorld().playSound((Player)null, player.getX(), player.getY(), player.getZ(), (SoundEvent) ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 1.0F, pitch);
+						} else {
+							player.getCommandSenderWorld().playSound((Player)null, player.getX(), player.getY(), player.getZ(), (SoundEvent)ModSounds.ITEM_SKILLET_ATTACK_WEAK.get(), SoundSource.PLAYERS, 0.8F, 0.9F);
+						}
+					} else {
+						livingEntity.getCommandSenderWorld().playSound((Player)null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), (SoundEvent)ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 1.0F, pitch);
+					}
+				}
+			}
 		}
 	}
 }
