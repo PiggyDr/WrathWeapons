@@ -109,8 +109,10 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
 
     @Override
     protected void onHitEntity(EntityHitResult p_36757_) {
-        super.onHitEntity(p_36757_);
+        if (this.isReturning)
+            return; //there was this weird issue where the game would freeze if a pan tried to hit an entity while returning. too lazy to figure out a proper solution but this one should be as good as any
         BiosWrathWeaponsMod.LOGGER.info("tried to hit entity " + p_36757_.getEntity() + " " + ((LivingEntity)p_36757_.getEntity()).getHealth());
+        super.onHitEntity(p_36757_);
     }
 
     public void startReturn(HitResult result) {
