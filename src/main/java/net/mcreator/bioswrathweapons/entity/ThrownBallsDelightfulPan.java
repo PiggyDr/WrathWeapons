@@ -58,7 +58,6 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         this.entityData.set(ID_FOIL, item.hasFoil());
         this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
         this.entityData.set(ID_BOUNCES, 0);
-        this.setPierceLevel((byte) 5);
     }
 
     @Override
@@ -118,7 +117,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
-        if (entity == this.getOwner()) return; //redundancy (hopefully)
+        if (entity == this.getOwner() || this.level().isClientSide()) return;
 
         float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
         double knockback = getItemAttributeValue(Attributes.ATTACK_KNOCKBACK);
