@@ -120,7 +120,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         if (entity == this.getOwner() || this.level().isClientSide()) return;
 
         float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
-        double knockback = getItemAttributeValue(Attributes.ATTACK_KNOCKBACK);
+        double knockback = (getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75) + 0.3;
         int fire = this.item.getEnchantmentLevel(Enchantments.FIRE_ASPECT) * 4;
         if (entity instanceof LivingEntity lentity) {
             damage += EnchantmentHelper.getDamageBonus(this.item, lentity.getMobType());
@@ -128,14 +128,13 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         }
         if (this.isOnFire())
             fire += 5;
-
         damage *= 0.75F;
-        knockback *= 0.75F;
 
         DamageSource damageSource = this.damageSources().arrow(this, getOwner() == null ? this : getOwner());
         if (entity.hurt(damageSource, damage) && entity.getType() != EntityType.ENDERMAN) {
-            if (entity instanceof LivingEntity lentity) {
+            entity.setSecondsOnFire(Math.max(entity.getRemainingFireTicks(), fire));
 
+            if (entity instanceof LivingEntity lentity) {
                 if (this.getOwner() instanceof LivingEntity livingOwner) {
                     EnchantmentHelper.doPostHurtEffects(lentity, livingOwner);
                     EnchantmentHelper.doPostDamageEffects(lentity, livingOwner);
@@ -192,7 +191,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     }
 
     protected boolean tryPickup(Player player) {
-        BiosWrathWeaponsMod.LOGGER.info("tryPickup: " + player);
+//        BiosWrathWeaponsMod.LOGGER.info("tryPickup: " + player);
         return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
     }
 
@@ -212,7 +211,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
 
     @Override
     public void tick() {
-        BiosWrathWeaponsMod.LOGGER.info(isCritArrow());
+//        BiosWrathWeaponsMod.LOGGER.info(isCritArrow());
         Entity owner = this.getOwner();
         if (this.isReturning && owner != null) {
             Vec3 vec3 = this.getOwner().getEyePosition().subtract(this.position());
