@@ -17,14 +17,19 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.FireAspectEnchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -32,6 +37,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 public class ThrownBallsDelightfulPan extends AbstractArrow {
@@ -81,11 +87,13 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     }
 
     public void incrementBounces() {
-        this.entityData.set(ID_BOUNCES, this.entityData.get(ID_BOUNCES) + 1);
+        BiosWrathWeaponsMod.LOGGER.info("incrementBounces: " + getBounces());
+        this.entityData.set(ID_BOUNCES, getBounces() + 1);
     }
 
     @Override
     protected void onHit(HitResult result) {
+        BiosWrathWeaponsMod.LOGGER.info("onHit: " + result.getClass());
         super.onHit(result);
 
         float pitch = 0.9F + this.random.nextFloat() * 0.2F;
@@ -108,30 +116,63 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult p_36757_) {
-        if (this.isReturning)
-            return; //there was this weird issue where the game would freeze if a pan tried to hit an entity while returning. too lazy to figure out a proper solution but this one should be as good as any
-        BiosWrathWeaponsMod.LOGGER.info("tried to hit entity " + p_36757_.getEntity() + " " + ((LivingEntity)p_36757_.getEntity()).getHealth());
-        super.onHitEntity(p_36757_);
+    protected void onHitEntity(EntityHitResult result) {
+        Entity entity = result.getEntity();
+        if (entity == this.getOwner()) return; //redundancy (hopefully)
+
+        float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
+        double knockback = getItemAttributeValue(Attributes.ATTACK_KNOCKBACK);
+        int fire = this.item.getEnchantmentLevel(Enchantments.FIRE_ASPECT) * 4;
+        if (entity instanceof LivingEntity lentity) {
+            damage += EnchantmentHelper.getDamageBonus(this.item, lentity.getMobType());
+            knockback += this.item.getEnchantmentLevel(Enchantments.KNOCKBACK);
+        }
+        if (this.isOnFire())
+            fire += 5;
+
+        damage *= 0.75F;
+        knockback *= 0.75F;
+
+        DamageSource damageSource = this.damageSources().arrow(this, getOwner() == null ? this : getOwner());
+        if (entity.hurt(damageSource, damage) && entity.getType() != EntityType.ENDERMAN) {
+            if (entity instanceof LivingEntity lentity) {
+
+                if (this.getOwner() instanceof LivingEntity livingOwner) {
+                    EnchantmentHelper.doPostHurtEffects(lentity, livingOwner);
+                    EnchantmentHelper.doPostDamageEffects(lentity, livingOwner);
+                }
+                this.doPostHurtEffects(lentity);
+
+                double kbResistance = Math.max(0.0D, 1.0D - lentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+                Vec3 kbVector = this.getDeltaMovement().normalize().scale(knockback * kbResistance);
+                lentity.knockback(kbVector.x, kbVector.y, kbVector.z);
+            }
+
+            if (this.getOwner() instanceof LivingEntity livingOwner) {
+                livingOwner.setLastHurtMob(entity);
+            }
+        }
     }
 
     public void startReturn(HitResult result) {
+        BiosWrathWeaponsMod.LOGGER.info("startReturn: " + result.getClass());
         this.isReturning = true;
         this.setNoPhysics(true);
 
         if (result instanceof BlockHitResult blockHitResult) {
+            BiosWrathWeaponsMod.LOGGER.info("startReturn>block: " + blockHitResult.getBlockPos());
             switch (blockHitResult.getDirection()) {
                 case UP, DOWN -> this.setDeltaMovement(getDeltaMovement().multiply(
                         random.triangle(1.5, 1),
                         Math.max(random.triangle(1.5, 1), 1) * -1,
                         random.triangle(1.5, 1)
                 ));
-                case NORTH, SOUTH -> this.setDeltaMovement(getDeltaMovement().multiply(1, 1, -1).add(
+                case NORTH, SOUTH -> this.setDeltaMovement(getDeltaMovement().multiply(
                         random.triangle(1.5, 1),
                         random.triangle(1.5, 1),
                         Math.max(random.triangle(1.5, 1), 1) * -1
                 ));
-                case EAST, WEST -> this.setDeltaMovement(getDeltaMovement().multiply(-1, 1, 1).add(
+                case EAST, WEST -> this.setDeltaMovement(getDeltaMovement().multiply(
                         Math.max(random.triangle(1.5, 1), 1) * -1,
                         random.triangle(1.5, 1),
                         random.triangle(1.5, 1)
@@ -146,8 +187,14 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         }
     }
 
-    protected boolean tryPickup(Player p_150196_) {
-        return super.tryPickup(p_150196_) || this.isNoPhysics() && this.ownedBy(p_150196_) && p_150196_.getInventory().add(this.getPickupItem());
+    @Nullable
+    protected EntityHitResult findHitEntity(Vec3 idk1, Vec3 idk2) {
+        return this.isReturning ? null : super.findHitEntity(idk1, idk2);
+    }
+
+    protected boolean tryPickup(Player player) {
+        BiosWrathWeaponsMod.LOGGER.info("tryPickup: " + player);
+        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
     }
 
     @Override
@@ -155,9 +202,9 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         return SoundEvents.EMPTY;
     }
 
-    private double calculateDamage() {
-        Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(Attributes.ATTACK_DAMAGE);
-        AttributeInstance attributeInstance = new AttributeInstance(Attributes.ATTACK_DAMAGE, a -> {});
+    private double getItemAttributeValue(Attribute attribute) {
+        Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(attribute);
+        AttributeInstance attributeInstance = new AttributeInstance(attribute, a -> {});
         for (AttributeModifier modifier : modifiers) {
             attributeInstance.addTransientModifier(modifier);
         }
@@ -166,6 +213,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
 
     @Override
     public void tick() {
+        BiosWrathWeaponsMod.LOGGER.info(isCritArrow());
         Entity owner = this.getOwner();
         if (this.isReturning && owner != null) {
             Vec3 vec3 = this.getOwner().getEyePosition().subtract(this.position());
