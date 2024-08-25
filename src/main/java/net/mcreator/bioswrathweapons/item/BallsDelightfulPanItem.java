@@ -169,10 +169,9 @@ public class BallsDelightfulPanItem extends SkilletItem {
 			super.releaseUsing(stack, level, entity, timeLeft);
 		} else if (this.getUseDuration(stack) - timeLeft >= 10 && entity instanceof Player player && !level.isClientSide()) {
 //			BiosWrathWeaponsMod.LOGGER.info("releaseUsing | " + level.isClientSide());
-			BiosWrathWeaponsMod.LOGGER.info(stack);
+			//BiosWrathWeaponsMod.LOGGER.info(stack);
 			ThrownBallsDelightfulPan pan = new ThrownBallsDelightfulPan(level, player, stack.copy());
-			pan.shootFromRotation(player, player.getXRot() - 0.2F, player.getYRot(), 0, 1.5F, 0);
-			pan.setPos(pan.position().add(0, 0.2, 0));
+			pan.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
 			level.addFreshEntity(pan);
 			if (!player.getAbilities().instabuild)
 				player.getInventory().removeItem(stack);
@@ -187,10 +186,6 @@ public class BallsDelightfulPanItem extends SkilletItem {
 			player.startUsingItem(hand);
 			return InteractionResultHolder.consume(player.getItemInHand(hand));
 		}
-	}
-
-	public static void playSkilletAttackSound(Entity entity, RandomSource random) {
-
 	}
 
 	public static class BDPEvents {

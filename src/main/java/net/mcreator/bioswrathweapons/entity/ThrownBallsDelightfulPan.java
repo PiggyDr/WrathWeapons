@@ -23,6 +23,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -39,6 +40,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     private boolean isReturning;
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> ID_INITIAL_Y_ROT = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> ID_BOUNCES = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.INT);
 
     public ThrownBallsDelightfulPan(EntityType<? extends ThrownBallsDelightfulPan> type, Level level) {
         super(type, level);
@@ -49,7 +51,8 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         this.item = itemStack;
         this.entityData.set(ID_FOIL, item.hasFoil());
         this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
-//        BiosWrathWeaponsMod.LOGGER.info(item + " | " + level().isClientSide());
+        this.entityData.set(ID_BOUNCES, 0);
+        this.setPierceLevel((byte) 5);
     }
 
     @Override
@@ -57,6 +60,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         super.defineSynchedData();
         this.entityData.define(ID_FOIL, false);
         this.entityData.define(ID_INITIAL_Y_ROT, 0F);
+        this.entityData.define(ID_BOUNCES, 0);
     }
 
     @Override
@@ -72,35 +76,76 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         return this.entityData.get(ID_INITIAL_Y_ROT);
     }
 
+    public int getBounces() {
+        return this.entityData.get(ID_BOUNCES);
+    }
+
+    public void incrementBounces() {
+        this.entityData.set(ID_BOUNCES, this.entityData.get(ID_BOUNCES) + 1);
+    }
+
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
 
-        this.isReturning = true;
-        this.setNoPhysics(true);
-
-        float pitch = 0.9F + this.level().getRandom().nextFloat() * 0.2F;
+        float pitch = 0.9F + this.random.nextFloat() * 0.2F;
         this.level().playSound(null, getX(), getY(), getZ(), ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 2.0F, pitch);
-
         if (
                 this.level().isClientSide()
                 && this.getOwner() != null
                 && this.getOwner() instanceof Player owner
                 && owner.distanceToSqr(this) > 4.0
         ) {
-            BiosWrathWeaponsMod.LOGGER.info("playing client sound");
             owner.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 0.5F, pitch);
         }
+
+        if (true) {
+            this.startReturn(result);
+        } else {
+            //TODO finish
+        }
+        this.incrementBounces();
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult result) {
-        if (!this.level().isClientSide()) {
-            DamageSource damageSource = this.damageSources().arrow(this, result.getEntity());
-            float damage = (float) this.calculateDamage();
-            result.getEntity().hurt(damageSource, damage);
+    protected void onHitEntity(EntityHitResult p_36757_) {
+        super.onHitEntity(p_36757_);
+        BiosWrathWeaponsMod.LOGGER.info("tried to hit entity " + p_36757_.getEntity() + " " + ((LivingEntity)p_36757_.getEntity()).getHealth());
+    }
+
+    public void startReturn(HitResult result) {
+        this.isReturning = true;
+        this.setNoPhysics(true);
+
+        if (result instanceof BlockHitResult blockHitResult) {
+            switch (blockHitResult.getDirection()) {
+                case UP, DOWN -> this.setDeltaMovement(getDeltaMovement().multiply(
+                        random.triangle(1.5, 1),
+                        Math.max(random.triangle(1.5, 1), 1) * -1,
+                        random.triangle(1.5, 1)
+                ));
+                case NORTH, SOUTH -> this.setDeltaMovement(getDeltaMovement().multiply(1, 1, -1).add(
+                        random.triangle(1.5, 1),
+                        random.triangle(1.5, 1),
+                        Math.max(random.triangle(1.5, 1), 1) * -1
+                ));
+                case EAST, WEST -> this.setDeltaMovement(getDeltaMovement().multiply(-1, 1, 1).add(
+                        Math.max(random.triangle(1.5, 1), 1) * -1,
+                        random.triangle(1.5, 1),
+                        random.triangle(1.5, 1)
+                ));
+            }
+        } else {
+            this.setDeltaMovement(getDeltaMovement().multiply(
+                    -random.triangle(1.5, 1),
+                    -random.triangle(1.5, 1),
+                    -random.triangle(1.5, 1)
+            ));
         }
-        //TODO finish
+    }
+
+    protected boolean tryPickup(Player p_150196_) {
+        return super.tryPickup(p_150196_) || this.isNoPhysics() && this.ownedBy(p_150196_) && p_150196_.getInventory().add(this.getPickupItem());
     }
 
     @Override
@@ -109,14 +154,11 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     }
 
     private double calculateDamage() {
-//        return 0;
-//        BiosWrathWeaponsMod.LOGGER.info("calculateDamage: " + level().isClientSide());
         Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(Attributes.ATTACK_DAMAGE);
         AttributeInstance attributeInstance = new AttributeInstance(Attributes.ATTACK_DAMAGE, a -> {});
         for (AttributeModifier modifier : modifiers) {
             attributeInstance.addTransientModifier(modifier);
         }
-//        BiosWrathWeaponsMod.LOGGER.info("calculateDmasaage: compelte");
         return attributeInstance.getValue();
     }
 
@@ -127,7 +169,6 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
             Vec3 vec3 = this.getOwner().getEyePosition().subtract(this.position());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(0.18)));
         }
-//        BiosWrathWeaponsMod.LOGGER.info(item + " | " + level().isClientSide());
         super.tick();
     }
 
