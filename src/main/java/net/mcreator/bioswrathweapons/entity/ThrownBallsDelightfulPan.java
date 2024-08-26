@@ -48,7 +48,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
 
     private ItemStack item;
     private boolean isReturning;
-    private List<Entity> hitEntities = new ArrayList<>();
+    private final List<Entity> hitEntities = new ArrayList<>();
     private long lastHitTime = -1;
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> ID_INITIAL_Y_ROT = SynchedEntityData.defineId(ThrownBallsDelightfulPan.class, EntityDataSerializers.FLOAT);
@@ -59,7 +59,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
     }
 
     public ThrownBallsDelightfulPan(Level level, LivingEntity owner, ItemStack itemStack) {
-        super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, owner.getX(), owner.getY(), owner.getZ(), level);
+        super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, 0, 0, 0, level);
         this.item = itemStack;
         this.entityData.set(ID_FOIL, item.hasFoil());
         this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
