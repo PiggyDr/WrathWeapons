@@ -2,28 +2,34 @@ package net.mcreator.bioswrathweapons.entity;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundTakeItemEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
@@ -36,11 +42,9 @@ import org.joml.Vector3f;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public class ThrownBallsDelightfulPan extends AbstractArrow {
+public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
 
     private ItemStack item;
     private boolean isReturning;
@@ -55,7 +59,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     }
 
     public ThrownBallsDelightfulPan(Level level, LivingEntity owner, ItemStack itemStack) {
-        super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, level);
+        super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, owner.getX(), owner.getY(), owner.getZ(), level);
         this.item = itemStack;
         this.entityData.set(ID_FOIL, item.hasFoil());
         this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
@@ -68,11 +72,6 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         this.entityData.define(ID_FOIL, false);
         this.entityData.define(ID_INITIAL_Y_ROT, 0F);
         this.entityData.define(ID_BOUNCES, 0);
-    }
-
-    @Override
-    protected ItemStack getPickupItem() {
-        return item.copy();
     }
 
     public boolean isFoil() {
@@ -97,17 +96,6 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         BiosWrathWeaponsMod.LOGGER.info("onHit: " + result.getClass());
         super.onHit(result);
 
-        float pitch = 0.9F + this.random.nextFloat() * 0.2F;
-        this.level().playSound(null, getX(), getY(), getZ(), ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 2.0F, pitch);
-        if (
-                this.level().isClientSide()
-                && this.getOwner() != null
-                && this.getOwner() instanceof Player owner
-                && owner.distanceToSqr(this) > 4.0
-        ) {
-            owner.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 0.5F, pitch);
-        }
-
         if (this.getBounces() > 4) {
             this.startReturn(result);
         }
@@ -128,45 +116,73 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
-        if (entity == this.getOwner() || this.level().isClientSide()) return;
+        if (this.level().isClientSide()) return;
 
-        float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
-        double knockback = (getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75) + 0.3;
-        int fire = this.item.getEnchantmentLevel(Enchantments.FIRE_ASPECT) * 4;
-        if (entity instanceof LivingEntity lentity) {
-            damage += EnchantmentHelper.getDamageBonus(this.item, lentity.getMobType());
-            knockback += this.item.getEnchantmentLevel(Enchantments.KNOCKBACK);
-        }
-        if (this.isOnFire())
-            fire += 5;
-        damage *= 0.85F;
+        if (this.ownedBy(entity)) {
+            this.level().playSound(null, this, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-        DamageSource damageSource = this.damageSources().arrow(this, getOwner() == null ? this : getOwner());
-        if (entity.hurt(damageSource, damage) && entity.getType() != EntityType.ENDERMAN) {
-            entity.setSecondsOnFire(Math.max(entity.getRemainingFireTicks(), fire));
+            if (entity instanceof Player player && player.getInventory().canPlaceItem(1, this.item) && !(player.getAbilities().instabuild && player.getInventory().hasAnyOf(Set.of(BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get())))) {
+                player.getInventory().add(this.item);
+            } else {
+                ItemEntity itemEntity = new ItemEntity(this.level(), getX(), getY(), getZ(), this.item);
+                this.level().addFreshEntity(itemEntity);
+            }
 
+            this.discard();
+        } else {
+
+            float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
+            double knockback = (getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75) + 0.3;
+            int fire = this.item.getEnchantmentLevel(Enchantments.FIRE_ASPECT) * 4;
             if (entity instanceof LivingEntity lentity) {
-                if (this.getOwner() instanceof LivingEntity livingOwner) {
-                    EnchantmentHelper.doPostHurtEffects(lentity, livingOwner);
-                    EnchantmentHelper.doPostDamageEffects(lentity, livingOwner);
+                damage += EnchantmentHelper.getDamageBonus(this.item, lentity.getMobType());
+                knockback += this.item.getEnchantmentLevel(Enchantments.KNOCKBACK);
+            }
+            if (this.isOnFire())
+                fire += 5;
+            damage *= 0.85F;
+
+            DamageSource damageSource = this.damageSources().trident(this, getOwner() == null ? this : getOwner());
+            if (entity.hurt(damageSource, damage) && entity.getType() != EntityType.ENDERMAN) {
+                entity.setSecondsOnFire(Math.max(entity.getRemainingFireTicks(), fire));
+
+                if (entity instanceof LivingEntity lentity) {
+                    if (this.getOwner() instanceof LivingEntity livingOwner) {
+                        EnchantmentHelper.doPostHurtEffects(lentity, livingOwner);
+                        EnchantmentHelper.doPostDamageEffects(lentity, livingOwner);
+                    }
+
+                    double kbResistance = Math.max(0.0D, 1.0D - lentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+                    Vec3 kbVector = this.getDeltaMovement().normalize().scale(knockback * kbResistance);
+                    lentity.knockback(kbVector.x, kbVector.y, kbVector.z);
                 }
-                this.doPostHurtEffects(lentity);
 
-                double kbResistance = Math.max(0.0D, 1.0D - lentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-                Vec3 kbVector = this.getDeltaMovement().normalize().scale(knockback * kbResistance);
-                lentity.knockback(kbVector.x, kbVector.y, kbVector.z);
+                if (this.getOwner() instanceof LivingEntity livingOwner) {
+                    livingOwner.setLastHurtMob(entity);
+                }
             }
 
-            if (this.getOwner() instanceof LivingEntity livingOwner) {
-                livingOwner.setLastHurtMob(entity);
-            }
+            this.hitEntities.add(entity);
         }
-
-        this.hitEntities.add(entity);
     }
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        this.playHitSound();
+    }
+
+    private void playHitSound() {
+        float pitch = 0.9F + this.random.nextFloat() * 0.2F;
+        this.level().playSound(null, getX(), getY(), getZ(), ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 2.0F, pitch);
+        if (
+                this.level().isClientSide()
+                        && this.getOwner() != null
+                        && this.getOwner() instanceof Player owner
+                        && owner.distanceToSqr(this) > 4.0
+        ) {
+            owner.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 0.5F, pitch);
+        }
     }
 
     public void bounceToEntity(HitResult result, Entity target) {
@@ -183,7 +199,7 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
 
     public void startReturn(@Nullable HitResult result) {
         this.isReturning = true;
-        this.setNoPhysics(true);
+        this.noPhysics = true;
         if (this.level().isClientSide())
             this.getOwner().playSound(SoundEvents.TRIDENT_RETURN);
 
@@ -215,23 +231,6 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         }
     }
 
-    @Nullable
-    protected EntityHitResult findHitEntity(Vec3 idk1, Vec3 idk2) {
-        if (this.isReturning) return null;
-        EntityHitResult result = super.findHitEntity(idk1, idk2);
-        if (result == null || this.hitEntities.contains(result.getEntity())) return null;
-        return result;
-    }
-
-    protected boolean tryPickup(Player player) {
-        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.EMPTY;
-    }
-
     private double getItemAttributeValue(Attribute attribute) {
         Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(attribute);
         AttributeInstance attributeInstance = new AttributeInstance(attribute, a -> {});
@@ -251,7 +250,6 @@ public class ThrownBallsDelightfulPan extends AbstractArrow {
         if (!this.isReturning && this.lastHitTime != -1 && this.level().getGameTime() - this.lastHitTime > 50)
             this.startReturn(null);
         super.tick();
-        this.inGround = false; //stoppit abstractarrow >:( the pan is NOT stuck in the ground
     }
 
     @Override
