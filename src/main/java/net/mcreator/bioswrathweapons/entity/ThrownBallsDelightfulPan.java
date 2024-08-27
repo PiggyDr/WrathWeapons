@@ -3,53 +3,35 @@ package net.mcreator.bioswrathweapons.entity;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
-import net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundTakeItemEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SnowballItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.FireAspectEnchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.joml.Vector3f;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
+public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //probably shouldve used one of the thrown projectile classes
 
     private ItemStack item;
     private boolean isReturning;
@@ -113,13 +95,13 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
         }
 
         AABB searchBox = new AABB(this.position().add(-8, -5, -8), this.position().add(8, 5, 8));
-        List<ArmorStand> potentialTargets = this.level().getEntitiesOfClass(ArmorStand.class, searchBox);
-        potentialTargets.removeAll(this.hitEntities.stream().filter(e -> e instanceof ArmorStand).toList());
+        List<Mob> potentialTargets = this.level().getEntitiesOfClass(Mob.class, searchBox);
+        potentialTargets.removeAll(this.hitEntities.stream().filter(e -> e instanceof Mob).toList());
         if (potentialTargets.isEmpty()) {
             BiosWrathWeaponsMod.LOGGER.info("startReturn [no targets]");
             this.startReturn(result);
         } else {
-            this.bounceToEntity(result, potentialTargets.stream().max((e1, e2) -> (int) (position().distanceTo(e1.position()) - position().distanceTo(e2.position()))).get());
+            this.bounceToEntity(potentialTargets.stream().max((e1, e2) -> (int) (position().distanceTo(e1.position()) - position().distanceTo(e2.position()))).get());
         }
 
         this.incrementBounces();
@@ -203,18 +185,11 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
         }
     }
 
-    public void bounceToEntity(HitResult result, Entity target) {
-        Vec3 push = target.position().subtract(this.position()).normalize();
-        double scalar = 0.25;// / (Mth.sqrt((float) push.length()) * 4);
-        push = push.multiply(0.5, 0.5, 0.5);
-        if (result instanceof BlockHitResult blockHitResult) {
-            Vec3i normal = blockHitResult.getDirection().getOpposite().getNormal();
-            BiosWrathWeaponsMod.LOGGER.info(blockHitResult.getDirection());
-            BiosWrathWeaponsMod.LOGGER.info(normal);
-            push.multiply(-normal.getX(), -normal.getY(), -normal.getZ());
-            //this.move(MoverType.SELF, new Vec3(normal.getX() * 1, normal.getY() * 1, normal.getZ() * 1));
-        }
-        this.setDeltaMovement(push);
+    public void bounceToEntity(Entity target) {
+        double x = target.getX() - this.getX();
+        double y = target.getY(0.3333333333333333D) - this.getY();
+        double z = target.getZ() - this.getZ();
+        this.shoot(x, y + Math.sqrt(x * x + z * z) * 0.35, z, 0.8F, 0.1F);
     }
 
     public void startReturn(@Nullable HitResult result) {
@@ -260,8 +235,6 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
     protected float getInertia() {
         return 0.99F;
     }
-
-
 
     private double getItemAttributeValue(Attribute attribute) {
         Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(attribute);
