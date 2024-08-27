@@ -6,6 +6,7 @@ import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundTakeItemEntityPacket;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
@@ -33,11 +35,14 @@ import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SnowballItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.FireAspectEnchantment;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3f;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
@@ -60,6 +65,8 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
 
     public ThrownBallsDelightfulPan(Level level, LivingEntity owner, ItemStack itemStack) {
         super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, 0, 0, 0, level);
+        this.moveTo(this.position().add(0, owner.getEyeHeight(), 0));
+        this.reapplyPosition();
         this.item = itemStack;
         this.lastHitTime = -1;//level.getGameTime() + 200;
         this.entityData.set(ID_FOIL, item.hasFoil());
@@ -96,15 +103,18 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
     protected void onHit(HitResult result) {
         BiosWrathWeaponsMod.LOGGER.info("onHit: " + result.getClass());
         super.onHit(result);
+        if (this.noPhysics) return;
+        this.noPhysics = true;
+        this.playHitSound();
 
         if (this.getBounces() > 4) {
             BiosWrathWeaponsMod.LOGGER.info("startReturn [maxed bounces]: " + this.getBounces());
             this.startReturn(result);
         }
 
-        AABB searchBox = new AABB(this.position().add(-5, -5, -5), this.position().add(5, 5, 5));
-        List<Mob> potentialTargets = this.level().getEntitiesOfClass(Mob.class, searchBox);
-        potentialTargets.removeAll(this.hitEntities.stream().filter(e -> e instanceof Mob).toList());
+        AABB searchBox = new AABB(this.position().add(-8, -5, -8), this.position().add(8, 5, 8));
+        List<ArmorStand> potentialTargets = this.level().getEntitiesOfClass(ArmorStand.class, searchBox);
+        potentialTargets.removeAll(this.hitEntities.stream().filter(e -> e instanceof ArmorStand).toList());
         if (potentialTargets.isEmpty()) {
             BiosWrathWeaponsMod.LOGGER.info("startReturn [no targets]");
             this.startReturn(result);
@@ -123,7 +133,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
 
         if (this.ownedBy(entity)) {
             if (this.isReturning) {
-                this.level().playSound(null, this, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
 
                 if (entity instanceof Player player && player.getInventory().canPlaceItem(1, this.item)) {
                     if (!(player.getAbilities().instabuild && player.getInventory().hasAnyOf(Set.of(BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get()))))
@@ -176,8 +186,8 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
-        this.playHitSound();
+        if (!this.noPhysics)
+            super.onHitBlock(result);
     }
 
     private void playHitSound() {
@@ -196,17 +206,20 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
     public void bounceToEntity(HitResult result, Entity target) {
         Vec3 push = target.position().subtract(this.position()).normalize();
         double scalar = 0.25;// / (Mth.sqrt((float) push.length()) * 4);
-        push = push.multiply(0.25, 0.25, 0.25);
+        push = push.multiply(0.5, 0.5, 0.5);
         if (result instanceof BlockHitResult blockHitResult) {
             Vec3i normal = blockHitResult.getDirection().getOpposite().getNormal();
-            push.add(normal.getX() * 0.1, normal.getY() * 0.1, normal.getZ() * 0.1);
+            BiosWrathWeaponsMod.LOGGER.info(blockHitResult.getDirection());
+            BiosWrathWeaponsMod.LOGGER.info(normal);
+            push.multiply(-normal.getX(), -normal.getY(), -normal.getZ());
+            //this.move(MoverType.SELF, new Vec3(normal.getX() * 1, normal.getY() * 1, normal.getZ() * 1));
         }
         this.setDeltaMovement(push);
     }
 
     public void startReturn(@Nullable HitResult result) {
+//        BiosWrathWeaponsMod.LOGGER.info("startReturn");
         this.isReturning = true;
-        this.noPhysics = true;
         if (this.level().isClientSide())
             this.getOwner().playSound(SoundEvents.TRIDENT_RETURN);
 
@@ -243,6 +256,13 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
         return false;
     }
 
+    @Override
+    protected float getInertia() {
+        return 0.99F;
+    }
+
+
+
     private double getItemAttributeValue(Attribute attribute) {
         Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(attribute);
         AttributeInstance attributeInstance = new AttributeInstance(attribute, a -> {});
@@ -259,12 +279,30 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
             Vec3 vec3 = this.getOwner().getEyePosition().subtract(this.position());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(0.18)));
         }
-        if (!this.isReturning && this.lastHitTime != -1 && this.level().getGameTime() - this.lastHitTime > 50) {
-            BiosWrathWeaponsMod.LOGGER.info("tick>startReturn " + this.lastHitTime);
-            this.startReturn(null);
+        if (!this.isReturning) {
+            if (!this.inBlock()) {
+                this.noPhysics = false;
+            }
+
+            if (this.lastHitTime != -1 && this.level().getGameTime() - this.lastHitTime > 50) {
+                //BiosWrathWeaponsMod.LOGGER.info("tick>startReturn " + this.lastHitTime);
+                this.startReturn(null);
+            }
         }
         super.tick();
         this.setDeltaMovement(this.getDeltaMovement().add(0, -0.05F, 0));
+    }
+
+    private boolean inBlock() {
+        BlockPos pos = this.blockPosition();
+        BlockState blockState = this.level().getBlockState(pos);
+        if (!blockState.isAir()) {
+            VoxelShape voxelshape = blockState.getCollisionShape(this.level(), pos);
+            if (!voxelshape.isEmpty()) {
+                return voxelshape.toAabbs().stream().anyMatch(aabb -> aabb.move(pos).contains(this.position()));
+            }
+        }
+        return false;
     }
 
     @Override
