@@ -61,6 +61,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
     public ThrownBallsDelightfulPan(Level level, LivingEntity owner, ItemStack itemStack) {
         super(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), owner, 0, 0, 0, level);
         this.item = itemStack;
+        this.lastHitTime = -1;//level.getGameTime() + 200;
         this.entityData.set(ID_FOIL, item.hasFoil());
         this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
         this.entityData.set(ID_BOUNCES, 0);
@@ -97,6 +98,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
         super.onHit(result);
 
         if (this.getBounces() > 4) {
+            BiosWrathWeaponsMod.LOGGER.info("startReturn [maxed bounces]: " + this.getBounces());
             this.startReturn(result);
         }
 
@@ -104,6 +106,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
         List<Mob> potentialTargets = this.level().getEntitiesOfClass(Mob.class, searchBox);
         potentialTargets.removeAll(this.hitEntities.stream().filter(e -> e instanceof Mob).toList());
         if (potentialTargets.isEmpty()) {
+            BiosWrathWeaponsMod.LOGGER.info("startReturn [no targets]");
             this.startReturn(result);
         } else {
             this.bounceToEntity(result, potentialTargets.stream().max((e1, e2) -> (int) (position().distanceTo(e1.position()) - position().distanceTo(e2.position()))).get());
@@ -119,16 +122,21 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
         if (this.level().isClientSide()) return;
 
         if (this.ownedBy(entity)) {
-            this.level().playSound(null, this, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
+            if (this.isReturning) {
+                this.level().playSound(null, this, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            if (entity instanceof Player player && player.getInventory().canPlaceItem(1, this.item) && !(player.getAbilities().instabuild && player.getInventory().hasAnyOf(Set.of(BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get())))) {
-                player.getInventory().add(this.item);
+                if (entity instanceof Player player && player.getInventory().canPlaceItem(1, this.item)) {
+                    if (!(player.getAbilities().instabuild && player.getInventory().hasAnyOf(Set.of(BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get()))))
+                        player.getInventory().add(this.item);
+                } else {
+                    ItemEntity itemEntity = new ItemEntity(this.level(), getX(), getY(), getZ(), this.item);
+                    this.level().addFreshEntity(itemEntity);
+                }
+
+                this.discard();
             } else {
-                ItemEntity itemEntity = new ItemEntity(this.level(), getX(), getY(), getZ(), this.item);
-                this.level().addFreshEntity(itemEntity);
+                return;
             }
-
-            this.discard();
         } else {
 
             float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -194,7 +202,6 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
             push.add(normal.getX() * 0.1, normal.getY() * 0.1, normal.getZ() * 0.1);
         }
         this.setDeltaMovement(push);
-//        startReturn(result);
     }
 
     public void startReturn(@Nullable HitResult result) {
@@ -231,6 +238,11 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
         }
     }
 
+    @Override
+    protected boolean shouldBurn() {
+        return false;
+    }
+
     private double getItemAttributeValue(Attribute attribute) {
         Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(attribute);
         AttributeInstance attributeInstance = new AttributeInstance(attribute, a -> {});
@@ -247,9 +259,12 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile {
             Vec3 vec3 = this.getOwner().getEyePosition().subtract(this.position());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(0.18)));
         }
-        if (!this.isReturning && this.lastHitTime != -1 && this.level().getGameTime() - this.lastHitTime > 50)
+        if (!this.isReturning && this.lastHitTime != -1 && this.level().getGameTime() - this.lastHitTime > 50) {
+            BiosWrathWeaponsMod.LOGGER.info("tick>startReturn " + this.lastHitTime);
             this.startReturn(null);
+        }
         super.tick();
+        this.setDeltaMovement(this.getDeltaMovement().add(0, -0.05F, 0));
     }
 
     @Override
