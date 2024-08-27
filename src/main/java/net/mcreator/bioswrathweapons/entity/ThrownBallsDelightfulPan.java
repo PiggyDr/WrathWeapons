@@ -1,6 +1,7 @@
 package net.mcreator.bioswrathweapons.entity;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.core.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -115,7 +117,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
 
         if (this.ownedBy(entity)) {
             if (this.isReturning) {
-                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F); //FIXME might not play?
 
                 if (entity instanceof Player player && player.getInventory().canPlaceItem(1, this.item)) {
                     if (!(player.getAbilities().instabuild && player.getInventory().hasAnyOf(Set.of(BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get()))))
@@ -155,6 +157,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
                     double kbResistance = Math.max(0.0D, 1.0D - lentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
                     Vec3 kbVector = this.getDeltaMovement().normalize().scale(knockback * kbResistance);
                     lentity.knockback(kbVector.x, kbVector.y, kbVector.z);
+                    lentity.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 30));
                 }
 
                 if (this.getOwner() instanceof LivingEntity livingOwner) {

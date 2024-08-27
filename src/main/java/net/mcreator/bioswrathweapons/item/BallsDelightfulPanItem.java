@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
@@ -15,6 +16,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -100,10 +102,11 @@ public class BallsDelightfulPanItem extends SkilletItem {
 		return !player.isCreative();
 	}
 
-	public boolean hurtEnemy(ItemStack p_43278_, LivingEntity p_43279_, LivingEntity p_43280_) {
-		p_43278_.hurtAndBreak(1, p_43280_, (p_43296_) -> {
+	public boolean hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker) {
+		itemStack.hurtAndBreak(1, target, (p_43296_) -> {
 			p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 		});
+		attacker.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 600));
 		return true;
 	}
 

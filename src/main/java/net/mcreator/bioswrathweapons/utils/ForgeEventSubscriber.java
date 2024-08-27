@@ -1,5 +1,6 @@
 package net.mcreator.bioswrathweapons.utils;
 
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
 import net.mcreator.bioswrathweapons.network.PacketHandler;
@@ -8,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,4 +39,10 @@ public class ForgeEventSubscriber {
         }
     }
 
+    @SubscribeEvent
+    public static void onDamage(LivingDamageEvent event) {
+        if (event.getEntity().hasEffect(BiosWrathWeaponsMobEffects.BUTTERED.get())) {
+            event.setAmount(event.getAmount()*1.25F);
+        }
+    }
 }
