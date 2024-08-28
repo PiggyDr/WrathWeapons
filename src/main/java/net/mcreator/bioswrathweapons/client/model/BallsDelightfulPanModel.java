@@ -31,8 +31,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-/**
- * copypasted from farmersdelight SkilletModel (changed some details about the item position and the model id)
+/*
+  copypasted from farmersdelight SkilletModel (changed some details about the item position and the model id)
  */
 
 @SuppressWarnings("deprecation")

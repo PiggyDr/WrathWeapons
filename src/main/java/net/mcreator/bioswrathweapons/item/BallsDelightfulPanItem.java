@@ -2,11 +2,15 @@ package net.mcreator.bioswrathweapons.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.TridentModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,6 +23,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -32,6 +37,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,6 +53,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault
 public class BallsDelightfulPanItem extends SkilletItem {
@@ -157,23 +164,38 @@ public class BallsDelightfulPanItem extends SkilletItem {
 	}
 
 	@Override
-	public UseAnim getUseAnimation(ItemStack stack) {
-		return stack.getOrCreateTag().contains("Cooking") ? super.getUseAnimation(stack) : UseAnim.BLOCK;
+	public int getUseDuration(ItemStack stack) {
+		return stack.getOrCreateTag().contains("Cooking") ? super.getUseDuration(stack) : 72000;
 	}
 
 	@Override
-	public int getUseDuration(ItemStack stack) {
-		return stack.getOrCreateTag().contains("Cooking") ? super.getUseDuration(stack) : 72000;
+	public UseAnim getUseAnimation(ItemStack stack) {
+		return stack.getOrCreateTag().contains("Cooking") ? super.getUseAnimation(stack) : UseAnim.CUSTOM;
+	}
+
+	@Override
+	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+
+		consumer.accept(new IClientItemExtensions() {
+			@Override
+			public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
+				int i = arm == HumanoidArm.RIGHT ? 1 : -1;
+//				poseStack.translate(i * 0.56F, -0.52F, -0.72F);
+				if (player.getUseItem() == itemInHand && player.isUsingItem() && !itemInHand.getOrCreateTag().contains("Cooking")) {
+					poseStack.translate(0, -1.2, -0.8);
+					poseStack.mulPose(Axis.ZP.rotationDegrees(90F*i));
+				}
+				return false;
+			}
+		});
 	}
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
 		if (stack.getOrCreateTag().contains("Cooking")) {
 			super.releaseUsing(stack, level, entity, timeLeft);
-		} else if (this.getUseDuration(stack) - timeLeft >= 10 && entity instanceof Player player && !level.isClientSide()) {
-//			BiosWrathWeaponsMod.LOGGER.info("releaseUsing | " + level.isClientSide());
-			//BiosWrathWeaponsMod.LOGGER.info(stack);
-			ThrownBallsDelightfulPan pan = new ThrownBallsDelightfulPan(level, player, stack.copy());
+		} else if (this.getUseDuration(stack) - timeLeft >= 5 && entity instanceof Player player && !level.isClientSide()) {
+            ThrownBallsDelightfulPan pan = new ThrownBallsDelightfulPan(level, player, stack.copy());
 			pan.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1.5F, 0.1F);
 			level.addFreshEntity(pan);
 			if (!player.getAbilities().instabuild)
@@ -189,6 +211,12 @@ public class BallsDelightfulPanItem extends SkilletItem {
 			player.startUsingItem(hand);
 			return InteractionResultHolder.consume(player.getItemInHand(hand));
 		}
+	}
+
+	@Override
+	public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int count) {
+		if (stack.getOrCreateTag().contains("Cooking"))
+			super.onUseTick(level, entity, stack, count);
 	}
 
 	public static class BDPEvents {
