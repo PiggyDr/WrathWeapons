@@ -15,7 +15,9 @@ import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -175,14 +177,26 @@ public class BallsDelightfulPanItem extends SkilletItem {
 
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-
 		consumer.accept(new IClientItemExtensions() {
 			@Override
 			public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-				int i = arm == HumanoidArm.RIGHT ? 1 : -1;
-//				poseStack.translate(i * 0.56F, -0.52F, -0.72F);
 				if (player.getUseItem() == itemInHand && player.isUsingItem() && !itemInHand.getOrCreateTag().contains("Cooking")) {
-					poseStack.translate(0, -1.2, -0.8);
+					int i = arm == HumanoidArm.RIGHT ? 1 : -1;
+					float useProgress = Mth.lerp(
+							partialTick,
+							Math.max(0, player.getUseItemRemainingTicks() - itemInHand.getUseDuration() + 15),
+							Math.max(0, player.getUseItemRemainingTicks() - itemInHand.getUseDuration() + 14)
+					)/15;
+					useProgress = 1 - (useProgress * useProgress);
+					poseStack.translate(
+							0.25*i,
+							-1.18 + equipProcess*-0.3 + (useProgress > 0 ? Math.sin(player.level().getGameTime()) * 0.005 : 0),
+							-1.2
+					);
+					if (useProgress > 0)
+						poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(useProgress, -30F*i, 45F*i)));
+					else
+						poseStack.mulPose(Axis.YP.rotationDegrees(-30F*i));
 					poseStack.mulPose(Axis.ZP.rotationDegrees(90F*i));
 				}
 				return false;
@@ -200,6 +214,8 @@ public class BallsDelightfulPanItem extends SkilletItem {
 			level.addFreshEntity(pan);
 			if (!player.getAbilities().instabuild)
 				player.getInventory().removeItem(stack);
+			if (!player.level().isClientSide())
+				player.level().playSound(null, player.getX(), player.getEyeY(), player.getZ(), SoundEvents.SPLASH_POTION_THROW, SoundSource.PLAYERS, 1.0F, 0.4F);
 		}
 	}
 
