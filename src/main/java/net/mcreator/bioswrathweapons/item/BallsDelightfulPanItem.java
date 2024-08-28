@@ -9,6 +9,7 @@ import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
@@ -62,6 +63,50 @@ public class BallsDelightfulPanItem extends SkilletItem {
 	private final Tier tier;
 	private final float attackDamage;
 	private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+//	private static final HumanoidModel.ArmPose THROW_POSE = HumanoidModel.ArmPose.create("THROW_PAN", false, (model, entity, arm) -> {
+//		if (arm == HumanoidArm.RIGHT) {
+//			model.rightArm.zRot = (float) Math.PI / 3;
+//			model.rightArm.yRot = (float) Math.PI / 2;
+//		} else {
+//			model.leftArm.zRot = (float) Math.PI / 3;
+//			model.leftArm.yRot = (float) Math.PI / 2;
+//		}
+//	});
+	private static final IClientItemExtensions EXTENSION = new IClientItemExtensions() {
+		@Override
+		public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
+			if (player.getUseItem() == itemInHand && player.isUsingItem() && !itemInHand.getOrCreateTag().contains("Cooking")) {
+				int i = arm == HumanoidArm.RIGHT ? 1 : -1;
+				float useProgress = Mth.lerp(
+						partialTick,
+						Math.max(0, player.getUseItemRemainingTicks() - itemInHand.getUseDuration() + 15),
+						Math.max(0, player.getUseItemRemainingTicks() - itemInHand.getUseDuration() + 14)
+				)/15;
+				useProgress = 1 - (useProgress * useProgress);
+				poseStack.translate(
+						0.25*i,
+						-1.18 + equipProcess * -0.3 + (useProgress > 0 ? Math.sin(player.level().getGameTime()) * 0.005 : 0),
+						-1.2
+				);
+				if (useProgress > 0)
+					poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(useProgress, -30F*i, 45F*i)));
+				else
+					poseStack.mulPose(Axis.YP.rotationDegrees(-30F*i));
+				poseStack.mulPose(Axis.ZP.rotationDegrees(90F*i));
+			}
+			return false;
+		}
+
+		@Override
+		public HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
+			if (!itemStack.isEmpty()) {
+				if (entityLiving.getUsedItemHand() == hand && entityLiving.getUseItemRemainingTicks() > 0) {
+					return HumanoidModel.ArmPose.BLOCK;
+				}
+			}
+			return HumanoidModel.ArmPose.EMPTY;
+		}
+	};
 
 	public BallsDelightfulPanItem(Block block) {
 		super(block, new Item.Properties().stacksTo(1).fireResistant().defaultDurability(0));
@@ -133,10 +178,6 @@ public class BallsDelightfulPanItem extends SkilletItem {
 		return p_43274_ == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(p_43274_);
 	}
 
-	public Tier getTier() {
-		return this.tier;
-	}
-
 	public int getEnchantmentValue() {
 		return this.tier.getEnchantmentValue();
 	}
@@ -177,31 +218,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-		consumer.accept(new IClientItemExtensions() {
-			@Override
-			public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-				if (player.getUseItem() == itemInHand && player.isUsingItem() && !itemInHand.getOrCreateTag().contains("Cooking")) {
-					int i = arm == HumanoidArm.RIGHT ? 1 : -1;
-					float useProgress = Mth.lerp(
-							partialTick,
-							Math.max(0, player.getUseItemRemainingTicks() - itemInHand.getUseDuration() + 15),
-							Math.max(0, player.getUseItemRemainingTicks() - itemInHand.getUseDuration() + 14)
-					)/15;
-					useProgress = 1 - (useProgress * useProgress);
-					poseStack.translate(
-							0.25*i,
-							-1.18 + equipProcess*-0.3 + (useProgress > 0 ? Math.sin(player.level().getGameTime()) * 0.005 : 0),
-							-1.2
-					);
-					if (useProgress > 0)
-						poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(useProgress, -30F*i, 45F*i)));
-					else
-						poseStack.mulPose(Axis.YP.rotationDegrees(-30F*i));
-					poseStack.mulPose(Axis.ZP.rotationDegrees(90F*i));
-				}
-				return false;
-			}
-		});
+		consumer.accept(EXTENSION);
 	}
 
 	@Override
