@@ -1,7 +1,6 @@
 package net.mcreator.bioswrathweapons.entity;
 
-import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.core.BlockPos;
@@ -79,20 +78,17 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
     }
 
     public void incrementBounces() {
-        BiosWrathWeaponsMod.LOGGER.info("incrementBounces: " + getBounces());
         this.entityData.set(ID_BOUNCES, getBounces() + 1);
     }
 
     @Override
     protected void onHit(HitResult result) {
-        BiosWrathWeaponsMod.LOGGER.info("onHit: " + result.getClass());
         super.onHit(result);
         if (this.noPhysics) return;
         this.noPhysics = true;
         this.playHitSound();
 
         if (this.getBounces() > 4) {
-            BiosWrathWeaponsMod.LOGGER.info("startReturn [maxed bounces]: " + this.getBounces());
             this.startReturn(result);
         }
 
@@ -100,7 +96,6 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
         List<Mob> potentialTargets = this.level().getEntitiesOfClass(Mob.class, searchBox);
         potentialTargets.removeAll(this.hitEntities.stream().filter(e -> e instanceof Mob).toList());
         if (potentialTargets.isEmpty()) {
-            BiosWrathWeaponsMod.LOGGER.info("startReturn [no targets]");
             this.startReturn(result);
         } else {
             this.bounceToEntity(potentialTargets.stream().max((e1, e2) -> (int) (position().distanceTo(e1.position()) - position().distanceTo(e2.position()))).get());
@@ -157,7 +152,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
                     double kbResistance = Math.max(0.0D, 1.0D - lentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
                     Vec3 kbVector = this.getDeltaMovement().normalize().scale(knockback * kbResistance);
                     lentity.knockback(kbVector.x, kbVector.y, kbVector.z);
-                    lentity.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 600));
+                    lentity.addEffect(new MobEffectInstance(BiosWrathWeaponsModMobEffects.BUTTERED.get(), 600));
                 }
 
                 if (this.getOwner() instanceof LivingEntity livingOwner) {
@@ -177,15 +172,6 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
 
     private void playHitSound() {
         float pitch = 0.9F + this.random.nextFloat() * 0.2F;
-//        this.level().playSound(null, getX(), getY(), getZ(), ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 2.0F, pitch);
-//        if (
-//                this.level().isClientSide()
-//                        && this.getOwner() != null
-//                        && this.getOwner() instanceof Player owner
-//                        && owner.distanceToSqr(this) > 4.0
-//        ) {
-//            //owner.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 0.5F, pitch);
-//        }
         if (this.getOwner() instanceof Player player) {
             player.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 2.0F, pitch);
         } else {
@@ -201,13 +187,11 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
     }
 
     public void startReturn(@Nullable HitResult result) {
-//        BiosWrathWeaponsMod.LOGGER.info("startReturn");
         this.isReturning = true;
         if (this.level().isClientSide())
             this.getOwner().playSound(SoundEvents.TRIDENT_RETURN);
 
         if (result instanceof BlockHitResult blockHitResult) {
-            BiosWrathWeaponsMod.LOGGER.info("startReturn>block: " + blockHitResult.getBlockPos());
             switch (blockHitResult.getDirection()) {
                 case UP, DOWN -> this.setDeltaMovement(getDeltaMovement().multiply(
                         random.triangle(1.5, 1),
@@ -266,7 +250,6 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
             }
 
             if (this.lastHitTime != -1 && this.level().getGameTime() - this.lastHitTime > 50) {
-                //BiosWrathWeaponsMod.LOGGER.info("tick>startReturn " + this.lastHitTime);
                 this.startReturn(null);
             }
         }

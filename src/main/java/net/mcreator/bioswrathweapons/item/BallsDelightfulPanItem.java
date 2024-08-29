@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
@@ -53,15 +53,6 @@ public class BallsDelightfulPanItem extends SkilletItem {
 	private final Tier tier;
 	private final float attackDamage;
 	private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-//	private static final HumanoidModel.ArmPose THROW_POSE = HumanoidModel.ArmPose.create("THROW_PAN", false, (model, entity, arm) -> {
-//		if (arm == HumanoidArm.RIGHT) {
-//			model.rightArm.zRot = (float) Math.PI / 3;
-//			model.rightArm.yRot = (float) Math.PI / 2;
-//		} else {
-//			model.leftArm.zRot = (float) Math.PI / 3;
-//			model.leftArm.yRot = (float) Math.PI / 2;
-//		}
-//	});
 	private static final IClientItemExtensions EXTENSION = new IClientItemExtensions() {
 		@Override
 		public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
@@ -153,7 +144,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 		itemStack.hurtAndBreak(1, target, (p_43296_) -> {
 			p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 		});
-		target.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 600));
+		target.addEffect(new MobEffectInstance(BiosWrathWeaponsModMobEffects.BUTTERED.get(), 600));
 		return true;
 	}
 

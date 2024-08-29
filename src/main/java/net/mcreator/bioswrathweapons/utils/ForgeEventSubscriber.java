@@ -1,6 +1,6 @@
 package net.mcreator.bioswrathweapons.utils;
 
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
 import net.mcreator.bioswrathweapons.network.PacketHandler;
@@ -41,7 +41,7 @@ public class ForgeEventSubscriber {
 
     @SubscribeEvent
     public static void onDamage(LivingDamageEvent event) {
-        if (event.getEntity().hasEffect(BiosWrathWeaponsMobEffects.BUTTERED.get())) {
+        if (event.getEntity().hasEffect(BiosWrathWeaponsModMobEffects.BUTTERED.get())) {
             event.setAmount(event.getAmount()*1.25F);
         }
     }

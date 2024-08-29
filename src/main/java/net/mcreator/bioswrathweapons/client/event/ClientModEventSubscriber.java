@@ -7,13 +7,19 @@ import net.mcreator.bioswrathweapons.client.renderer.BallsDelightfulPanRenderer;
 import net.mcreator.bioswrathweapons.client.renderer.ThrownBallsDelightfulPanRenderer;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.mcreator.bioswrathweapons.network.PacketHandler;
+import net.mcreator.bioswrathweapons.network.ServerboundKatanaAttackPacket;
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -21,7 +27,7 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class BiosWrathWeaponModClientEventSubscriber {
+public class ClientModEventSubscriber {
 
     @SubscribeEvent
     public static void onModelBake(ModelEvent.ModifyBakingResult event) { //copied from the farmersdelight event subscriber that does the same thing
@@ -43,6 +49,7 @@ public class BiosWrathWeaponModClientEventSubscriber {
         event.registerBlockEntityRenderer(BiosWrathWeaponsModBlockEntityTypes.BALLS_DELIGHTFUL_PAN.get(), BallsDelightfulPanRenderer::new);
 
         event.registerEntityRenderer(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), ThrownBallsDelightfulPanRenderer::new);
+        event.registerEntityRenderer(BiosWrathWeaponsModEntities.ENDER_KATANA_PROJECTILE.get(), NoopRenderer::new);
     }
 
     @SubscribeEvent

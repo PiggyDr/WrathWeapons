@@ -1,11 +1,10 @@
 
 package net.mcreator.bioswrathweapons.item;
 
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
+import net.mcreator.bioswrathweapons.entity.EnderKatanaProjectile;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import software.bernie.geckolib.core.object.PlayState;
@@ -138,10 +137,21 @@ public class EnderKatanaItem extends Item implements GeoItem {
 		list.add(Component.literal("\u00A75Echoes of the Void watch you."));
 	}
 
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-		player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.ENDER_KATANA.get(), 4000);
-		player.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.WATER_RESISTANCE.get(), 3000));
-		return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), !level.isClientSide());
+//	@Override
+//	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+//        if (!level.isClientSide()) {
+//			EnderKatanaProjectile projectile = new EnderKatanaProjectile(player, 0, 0, 0, level);
+//			projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 0);
+//			level.addFreshEntity(projectile);
+//		}
+//		return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), !level.isClientSide());
+//	}
+
+	public static void shootProjectile(Player player) {
+		player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.ENDER_KATANA.get(), 40);
+		EnderKatanaProjectile projectile = new EnderKatanaProjectile(player, 0, 0, 0, player.level());
+		projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 0);
+		projectile.setPos(player.getX(), player.getEyeY(), player.getZ());
+		player.level().addFreshEntity(projectile);
 	}
 }

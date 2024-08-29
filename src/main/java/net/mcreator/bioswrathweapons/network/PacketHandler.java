@@ -18,25 +18,24 @@ public class PacketHandler {
     );
 
     public static void register() {
-//        INSTANCE.messageBuilder(ClientboundIndomitableEssencePacket.class, 58)
-//                .encoder(ClientboundIndomitableEssencePacket::write)
-//                .decoder(ClientboundIndomitableEssencePacket::new)
-//                .noResponse()
-//                .consumerMainThread((packet, ctx) -> {
-//                    ClientUtils.displayActivation();
-//                    BiosWrathWeaponsMod.LOGGER.info("client recieved ie packrt");
-//                    Minecraft.getInstance().gameRenderer.displayItemActivation(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get().getDefaultInstance());
-//                    ctx.get().setPacketHandled(true);
-//                })
-//                .add();
-        INSTANCE.registerMessage(1,
+        byte packetId = 0;
+        INSTANCE.registerMessage(packetId++,
                 ClientboundIndomitableEssencePacket.class,
                 ClientboundIndomitableEssencePacket::write,
                 ClientboundIndomitableEssencePacket::new,
                 ClientboundIndomitableEssencePacket::handle);
+        INSTANCE.registerMessage(packetId++,
+                ServerboundKatanaAttackPacket.class,
+                ServerboundKatanaAttackPacket::write,
+                ServerboundKatanaAttackPacket::new,
+                ServerboundKatanaAttackPacket::handle);
     }
 
     public static void sendToPlayer(Object msg, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msg);
+    }
+
+    public static void sendToServer(Object msg) {
+        INSTANCE.sendToServer(msg);
     }
 }
