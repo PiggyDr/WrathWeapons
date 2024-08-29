@@ -157,7 +157,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
                     double kbResistance = Math.max(0.0D, 1.0D - lentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
                     Vec3 kbVector = this.getDeltaMovement().normalize().scale(knockback * kbResistance);
                     lentity.knockback(kbVector.x, kbVector.y, kbVector.z);
-                    lentity.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 30));
+                    lentity.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 600));
                 }
 
                 if (this.getOwner() instanceof LivingEntity livingOwner) {

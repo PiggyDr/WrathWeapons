@@ -12,6 +12,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BiosWrathWeaponsMobEffects {
     public static DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, BiosWrathWeaponsMod.MODID);
-    public static RegistryObject<MobEffect> WATER_RESISTANCE = REGISTRY.register("water_resistance", () -> new WaterResistanceEffect(MobEffectCategory.BENEFICIAL, 0));
-    public static RegistryObject<MobEffect> BUTTERED = REGISTRY.register("buttered", () -> new ButteredEffect(MobEffectCategory.BENEFICIAL, 0)); //TODO add actual colors
+    public static RegistryObject<MobEffect> WATER_RESISTANCE = REGISTRY.register("water_resistance", () -> new WaterResistanceEffect(MobEffectCategory.BENEFICIAL, 0)); //TODO add actual color
+    public static RegistryObject<MobEffect> BUTTERED = REGISTRY.register("buttered", () -> new ButteredEffect(MobEffectCategory.HARMFUL, 0xEBDF78));
 }

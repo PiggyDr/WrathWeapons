@@ -4,22 +4,17 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,22 +27,18 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.item.SkilletItem;
-import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
@@ -55,7 +46,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault
@@ -99,10 +89,13 @@ public class BallsDelightfulPanItem extends SkilletItem {
 
 		@Override
 		public HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
-			if (!itemStack.isEmpty()) {
-				if (entityLiving.getUsedItemHand() == hand && entityLiving.getUseItemRemainingTicks() > 0) {
-					return HumanoidModel.ArmPose.BLOCK;
-				}
+			if (
+					!itemStack.isEmpty()
+							&& entityLiving.getUsedItemHand() == hand
+							&& entityLiving.getUseItemRemainingTicks() > 0
+							&& !itemStack.getOrCreateTag().contains("Cooking")
+			) {
+				return HumanoidModel.ArmPose.BLOCK;
 			}
 			return HumanoidModel.ArmPose.EMPTY;
 		}
@@ -160,7 +153,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 		itemStack.hurtAndBreak(1, target, (p_43296_) -> {
 			p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 		});
-		attacker.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 600));
+		target.addEffect(new MobEffectInstance(BiosWrathWeaponsMobEffects.BUTTERED.get(), 600));
 		return true;
 	}
 
@@ -252,6 +245,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 			super.onUseTick(level, entity, stack, count);
 	}
 
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 	public static class BDPEvents {
 		public BDPEvents () {
 		}

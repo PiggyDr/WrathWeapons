@@ -169,6 +169,7 @@ dependencies {
     implementation fg.deobf("curse.maven:sculk-horde-501766:5627066")
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}"))
+    implementation fg.deobf("curse.maven:tslatentitystatus-tes-830420:5271600")
 //    implementation fg.deobf("curse.maven:origins-forge-474438:5311982")
 //    implementation fg.deobf("curse.maven:caelus-308989:4581481")
 
