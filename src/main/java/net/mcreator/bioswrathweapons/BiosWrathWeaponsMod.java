@@ -51,6 +51,7 @@ public class BiosWrathWeaponsMod {
 		BiosWrathWeaponsModBlockEntityTypes.REGISTRY.register(bus);
 		BiosWrathWeaponsModMobEffects.REGISTRY.register(bus);
 		BiosWrathWeaponsModEntities.REGISTRY.register(bus);
+		BiosWrathWeaponsModSounds.REGISTRY.register(bus);
 		// End of user code block mod init
 	}
 

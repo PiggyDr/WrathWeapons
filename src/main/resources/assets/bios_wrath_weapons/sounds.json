@@ -1,0 +1,7 @@
+{
+  "generic.bww_placeholder": {
+    "subtitle": "subtitle.generic.bww_placeholder",
+    "sounds": [ "bios_wrath_weapons:placeholder" ],
+    "volume": 5
+  }
+}

@@ -1,5 +1,6 @@
 package net.mcreator.bioswrathweapons.network;
 
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.EnderKatanaProjectile;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.item.EnderKatanaItem;
