@@ -1,5 +1,6 @@
 package net.mcreator.bioswrathweapons.entity;
 
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.minecraft.core.particles.ParticleOptions;
@@ -78,6 +79,7 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
+        this.playSound();
         if (!this.level().isClientSide()) {
             Entity entity = result.getEntity();
             doFancyMagicAttack(entity);
@@ -87,7 +89,6 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
                     new Vec3(pos.x()+12, pos.y()+6, pos.z()+12)
             );
             chainAttack(searchBox, 2, entity instanceof Monster monster ? monster : null);
-            this.playSound();
             this.discard();
         }
     }
@@ -120,10 +121,13 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
     }
 
     private void playSound() {
+        BiosWrathWeaponsMod.LOGGER.info("playSound");
         if (this.getOwner() instanceof Player player) {
-            player.playSound(BiosWrathWeaponsModSounds.KATANA_PROJECTILE_ACTIVATE.get(), 2F, 1F);
+            BiosWrathWeaponsMod.LOGGER.info("playing to player");
+            player.playSound(BiosWrathWeaponsModSounds.PLACEHOLDER.get(), 2F, 1F);
         } else {
-            this.level().playSound(null, getX(), getY(), getZ(), BiosWrathWeaponsModSounds.KATANA_PROJECTILE_ACTIVATE.get(), SoundSource.PLAYERS, 2F, 1F);
+            BiosWrathWeaponsMod.LOGGER.info("playing to world");
+            this.level().playSound(null, getX(), getY(), getZ(), BiosWrathWeaponsModSounds.PLACEHOLDER.get(), SoundSource.PLAYERS, 2F, 1F);
         }
     }
 
