@@ -172,7 +172,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
 
     private void playHitSound() {
         float pitch = 0.9F + this.random.nextFloat() * 0.2F;
-        if (this.getOwner() instanceof Player player) {
+        if (this.getOwner() instanceof Player player && this.level().isClientSide()) {
             player.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 2.0F, pitch);
         } else {
             this.level().playSound(null, getX(), getY(), getZ(), ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 2.0F, pitch);

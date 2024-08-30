@@ -2,6 +2,7 @@ package net.mcreator.bioswrathweapons.entity;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,6 +22,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -79,27 +82,32 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
+        BiosWrathWeaponsMod.LOGGER.info("onhitendftgyyu");
         this.playSound();
         if (!this.level().isClientSide()) {
             Entity entity = result.getEntity();
             doFancyMagicAttack(entity);
-            Vec3 pos = entity.position();
-            AABB searchBox = new AABB(
-                    new Vec3(pos.x()-12, pos.y()-12, pos.z()-12),
-                    new Vec3(pos.x()+12, pos.y()+6, pos.z()+12)
-            );
-            chainAttack(searchBox, 2, entity instanceof Monster monster ? monster : null);
+            chainAttack(entity.position(), this.random.nextInt(2, 6), entity instanceof Monster monster ? new ArrayList<>(List.of(monster)) : null);
             this.discard();
         }
     }
 
-    private void chainAttack(AABB searchBox, int targetCount, @Nullable Monster disallowed) {
-        List<Monster> potentialTargets = level().getEntitiesOfClass(Monster.class, searchBox);
-        if (disallowed != null) potentialTargets.removeAll(Set.of(disallowed));
-        potentialTargets.sort((m1,m2) -> (int) (this.position().distanceToSqr(m1.position()) - this.position().distanceToSqr(m2.position())));
+    private void chainAttack(Vec3 center, int targetCount, List<Monster> disallowed) {
+        AABB searchBox = new AABB(
+                center.add(-12, -6, -12),
+                center.add(12, 6, 12)
+        );
+        List<Monster> potentialTargets = this.level().getEntitiesOfClass(Monster.class, searchBox);
+        potentialTargets.removeAll(disallowed);
+        potentialTargets.sort((m1,m2) -> (int) ((int) this.position().distanceToSqr(m1.position()) - this.position().distanceToSqr(m2.position())));
         for (Monster target : potentialTargets) {
-            if (doFancyMagicAttack(target)) --targetCount;
-            if (targetCount == 0) return;
+            if (doFancyMagicAttack(target)) {
+                if (targetCount != 1) {
+                    this.chainAttack(target.position(), targetCount - 1, disallowed);
+                    disallowed.add(target);
+                }
+                return;
+            }
         }
     }
 
@@ -121,14 +129,8 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
     }
 
     private void playSound() {
-        BiosWrathWeaponsMod.LOGGER.info("playSound");
-        if (this.getOwner() instanceof Player player) {
-            BiosWrathWeaponsMod.LOGGER.info("playing to player");
-            player.playSound(BiosWrathWeaponsModSounds.PLACEHOLDER.get(), 2F, 1F);
-        } else {
-            BiosWrathWeaponsMod.LOGGER.info("playing to world");
-            this.level().playSound(null, getX(), getY(), getZ(), BiosWrathWeaponsModSounds.PLACEHOLDER.get(), SoundSource.PLAYERS, 2F, 1F);
-        }
+        BiosWrathWeaponsMod.LOGGER.info("playing to world");
+        this.level().playSound(null, getX(), getY(), getZ(), BiosWrathWeaponsModSounds.PLACEHOLDER.get(), SoundSource.PLAYERS, 2F, 1F);
     }
 
     @Override
