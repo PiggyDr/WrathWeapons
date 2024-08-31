@@ -110,7 +110,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
         Entity entity = result.getEntity();
         if (this.level().isClientSide()) return;
 
-        if (this.ownedBy(entity)) {
+        if (this.ownedBy(entity)) { //try to pick up pan
             if (this.isReturning) {
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F); //FIXME might not play?
 
@@ -126,7 +126,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
             } else {
                 return;
             }
-        } else {
+        } else { //try to hurt entity
 
             float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
             double knockback = (getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75) + 0.3;

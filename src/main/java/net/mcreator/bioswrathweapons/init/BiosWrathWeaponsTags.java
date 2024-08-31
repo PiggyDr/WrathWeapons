@@ -1,11 +1,11 @@
 package net.mcreator.bioswrathweapons.init;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.item.Item;
 
 public class BiosWrathWeaponsTags {
-    public static TagKey<DamageType> IS_WATER = TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(BiosWrathWeaponsMod.MODID, "is_water"));
+    public static final TagKey<Item> SENDS_ATTACK_PACKET = ItemTags.create(new ResourceLocation(BiosWrathWeaponsMod.MODID, "sends_attack_packet"));
 }

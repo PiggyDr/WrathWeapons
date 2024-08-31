@@ -25,10 +25,10 @@ public class PacketHandler {
                 ClientboundIndomitableEssencePacket::new,
                 ClientboundIndomitableEssencePacket::handle);
         INSTANCE.registerMessage(packetId++,
-                ServerboundKatanaAttackPacket.class,
-                ServerboundKatanaAttackPacket::write,
-                ServerboundKatanaAttackPacket::new,
-                ServerboundKatanaAttackPacket::handle);
+                ServerboundEmptyAttackPacket.class,
+                ServerboundEmptyAttackPacket::write,
+                ServerboundEmptyAttackPacket::new,
+                ServerboundEmptyAttackPacket::handle);
     }
 
     public static void sendToPlayer(Object msg, ServerPlayer player) {

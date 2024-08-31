@@ -1,6 +1,7 @@
 
 package net.mcreator.bioswrathweapons.item;
 
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.EnderKatanaProjectile;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.world.InteractionHand;
@@ -148,7 +149,7 @@ public class EnderKatanaItem extends Item implements GeoItem {
 //	}
 
 	public static void shootProjectile(Player player) {
-		player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.ENDER_KATANA.get(), 40);
+		BiosWrathWeaponsMod.LOGGER.debug("shjootprojectikel ");
 		EnderKatanaProjectile projectile = new EnderKatanaProjectile(player, 0, 0, 0, player.level());
 		projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 0);
 		projectile.setPos(player.getX(), player.getEyeY(), player.getZ());
