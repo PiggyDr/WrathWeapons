@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +25,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix3f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,10 +86,22 @@ public class DwarvenLegacyItem extends PickaxeItem {
 	@Override
 	public boolean mineBlock(ItemStack itemStack, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
 		if (super.mineBlock(itemStack, level, state, pos, entity)) {
-			if (entity instanceof ServerPlayer player) {
-
-			} else {
-
+			if (!level.isClientSide()) {
+				Vec3 offset = pos.getCenter().subtract(entity.getEyePosition());
+				Vec3i[] axes = EnumSet.complementOf(
+						EnumSet.of(Direction.getNearest(offset.x, offset.y, offset.z).getAxis()))
+						.stream()
+						.map(axis -> Direction.get(Direction.AxisDirection.POSITIVE, axis).getNormal())
+						.toArray(Vec3i[]::new);
+				for (int i=-1; i<2; i++) {
+					for (int j =-1; j<2; j++) {
+						if (i == 0 && j == 0)
+							continue;
+						BlockPos toDestroy = pos.offset(axes[0].multiply(i).offset(axes[1].multiply(j)));
+						if (this.isCorrectToolForDrops(itemStack, level.getBlockState(toDestroy)))
+							level.destroyBlock(toDestroy, true, entity);
+					}
+				}
 			}
 			return true;
 		}
