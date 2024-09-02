@@ -2,8 +2,10 @@ package net.mcreator.bioswrathweapons.client.event;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel;
+import net.mcreator.bioswrathweapons.client.model.SirensTridentModel;
 import net.mcreator.bioswrathweapons.client.model.ballsdelightfulpanthrown;
 import net.mcreator.bioswrathweapons.client.renderer.BallsDelightfulPanRenderer;
+import net.mcreator.bioswrathweapons.client.renderer.SirensTridentRenderer;
 import net.mcreator.bioswrathweapons.client.renderer.ThrownBallsDelightfulPanRenderer;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
@@ -45,10 +47,12 @@ public class ClientModEventSubscriber {
 
         event.registerEntityRenderer(BiosWrathWeaponsModEntities.THROWN_BDPAN.get(), ThrownBallsDelightfulPanRenderer::new);
         event.registerEntityRenderer(BiosWrathWeaponsModEntities.ENDER_KATANA_PROJECTILE.get(), NoopRenderer::new);
+        event.registerEntityRenderer(BiosWrathWeaponsModEntities.SIRENS_TRIDENT.get(), SirensTridentRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ballsdelightfulpanthrown.LAYER_LOCATION, ballsdelightfulpanthrown::createBodyLayer);
+        event.registerLayerDefinition(SirensTridentModel.LAYER_LOCATION, SirensTridentModel::createBodyLayer);
     }
 }
