@@ -51,7 +51,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
         this.moveTo(this.position().add(0, owner.getEyeHeight(), 0));
         this.reapplyPosition();
         this.item = itemStack;
-        this.lastHitTime = -1;//level.getGameTime() + 200;
+        this.lastHitTime = -1;//level.getGameTime() + 200; TODO remiplementdsda
         this.entityData.set(ID_FOIL, item.hasFoil());
         this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
         this.entityData.set(ID_BOUNCES, 0);
@@ -123,11 +123,8 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
                 }
 
                 this.discard();
-            } else {
-                return;
             }
         } else { //try to hurt entity
-
             float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
             double knockback = (getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75) + 0.3;
             int fire = this.item.getEnchantmentLevel(Enchantments.FIRE_ASPECT) * 4;
@@ -141,12 +138,13 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
 
             DamageSource damageSource = this.damageSources().trident(this, getOwner() == null ? this : getOwner());
             if (entity.hurt(damageSource, damage) && entity.getType() != EntityType.ENDERMAN) {
-                entity.setSecondsOnFire(Math.max(entity.getRemainingFireTicks(), fire));
+                entity.setSecondsOnFire(fire);
 
                 if (entity instanceof LivingEntity lentity) {
                     if (this.getOwner() instanceof LivingEntity livingOwner) {
                         EnchantmentHelper.doPostHurtEffects(lentity, livingOwner);
                         EnchantmentHelper.doPostDamageEffects(lentity, livingOwner);
+                        lentity.setLastHurtByMob(livingOwner);
                     }
 
                     double kbResistance = Math.max(0.0D, 1.0D - lentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
@@ -241,8 +239,8 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
     public void tick() {
         Entity owner = this.getOwner();
         if (this.isReturning && owner != null) {
-            Vec3 vec3 = this.getOwner().getEyePosition().subtract(this.position());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(0.18)));
+            Vec3 direction = owner.getEyePosition().subtract(this.position());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(direction.normalize().scale(0.18)));
         }
         if (!this.isReturning) {
             if (!this.inBlock()) {
