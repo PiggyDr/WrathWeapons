@@ -79,12 +79,11 @@ public class ThrownSirensTrident extends AbstractArrow {
         if (this.level().isClientSide()) return;
 
         float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
-        double knockback = (getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75) + 0.3;
+        double knockback = getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75 + 0.3;
         if (entity instanceof LivingEntity lentity) {
             damage += EnchantmentHelper.getDamageBonus(this.item, lentity.getMobType());
             knockback += this.item.getEnchantmentLevel(Enchantments.KNOCKBACK);
         }
-        damage *= 0.85F;
 
         DamageSource damageSource = this.damageSources().trident(this, getOwner() == null ? this : getOwner());
         if (entity.hurt(damageSource, damage) && entity.getType() != EntityType.ENDERMAN) {
