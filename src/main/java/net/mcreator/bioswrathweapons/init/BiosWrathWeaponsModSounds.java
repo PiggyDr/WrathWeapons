@@ -11,4 +11,5 @@ public class BiosWrathWeaponsModSounds {
     public static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, BiosWrathWeaponsMod.MODID);
     public static final RegistryObject<SoundEvent> PLACEHOLDER = REGISTRY.register("generic.bww_placeholder", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(BiosWrathWeaponsMod.MODID, "generic.bww_placeholder")));
     public static final RegistryObject<SoundEvent> KATANA_PROJECTILE_ACTIVATE = PLACEHOLDER;
+    public static final RegistryObject<SoundEvent> INDOMITABLE_ESSENCE_ACTIVATE = REGISTRY.register("indomitable_essence", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(BiosWrathWeaponsMod.MODID, "item.indomitable_essence.activate")));
 }

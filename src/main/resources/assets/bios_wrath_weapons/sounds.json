@@ -3,5 +3,10 @@
     "subtitle": "subtitle.generic.bww_placeholder",
     "sounds": [ "bios_wrath_weapons:placeholder" ],
     "volume": 5
+  },
+  "item.indomitable_essence.activate": {
+    "subtitle": "subtitle.item.indomitable_essence.activate",
+    "sounds": [ "bios_wrath_weapons:indomitable_essence_activate" ],
+    "volume": 5
   }
 }

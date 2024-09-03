@@ -30,7 +30,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> SIRENS_TRIDENT = REGISTRY.register("sirens_trident", SirensTridentItem::new);
     // Start of user code block custom items
 	public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", () -> new EnderEssenceItem());
-	public static final RegistryObject<Item> INDOMITABLE_ESSENCE = REGISTRY.register("indomitable_essence", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))); //TODO add armor and sound
+	public static final RegistryObject<Item> INDOMITABLE_ESSENCE = REGISTRY.register("indomitable_essence", () -> new IndomitableEssenceItem());
 	public static final RegistryObject<Item> DWARVEN_ESSENCE = REGISTRY.register("dwarven_essence", () -> new DwarvenEssenceItem());
 	// End of user code block custom items
 }

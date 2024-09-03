@@ -1,7 +1,9 @@
 package net.mcreator.bioswrathweapons.utils;
 
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
 import net.mcreator.bioswrathweapons.network.PacketHandler;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,7 +36,7 @@ public class ForgeEventSubscriber {
             player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
             event.setCanceled(true);
 
-            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, player.getSoundSource(), 1.0F, 1.0F);
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), BiosWrathWeaponsModSounds.INDOMITABLE_ESSENCE_ACTIVATE.get(), player.getSoundSource(), 1.0F, 1.0F);
             PacketHandler.sendToPlayer(new ClientboundIndomitableEssencePacket(), (ServerPlayer) player);
         }
     }

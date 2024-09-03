@@ -51,7 +51,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
         this.moveTo(this.position().add(0, owner.getEyeHeight(), 0));
         this.reapplyPosition();
         this.item = itemStack;
-        this.lastHitTime = -1;//level.getGameTime() + 200; TODO remiplementdsda
+        this.lastHitTime = level.getGameTime() + 200;
         this.entityData.set(ID_FOIL, item.hasFoil());
         this.entityData.set(ID_INITIAL_Y_ROT, owner.getYRot());
         this.entityData.set(ID_BOUNCES, 0);
@@ -84,7 +84,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        if (this.noPhysics) return;
+        if (this.noPhysics || this.isRemoved()) return;
         this.noPhysics = true;
         this.playHitSound();
 
@@ -171,7 +171,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
     private void playHitSound() {
         float pitch = 0.9F + this.random.nextFloat() * 0.2F;
         if (this.getOwner() instanceof Player player && this.level().isClientSide()) {
-            player.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 2.0F, pitch);
+            player.playSound(ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), 0.5F, pitch);
         } else {
             this.level().playSound(null, getX(), getY(), getZ(), ModSounds.ITEM_SKILLET_ATTACK_STRONG.get(), SoundSource.PLAYERS, 2.0F, pitch);
         }
@@ -186,8 +186,11 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
 
     public void startReturn(@Nullable HitResult result) {
         this.isReturning = true;
-        if (this.level().isClientSide())
-            this.getOwner().playSound(SoundEvents.TRIDENT_RETURN);
+        if (this.getOwner() instanceof Player player && this.level().isClientSide()) {
+            player.playSound(SoundEvents.TRIDENT_RETURN);
+        } else {
+            this.level().playSound(null, getX(), getY(), getZ(), SoundEvents.TRIDENT_RETURN, SoundSource.PLAYERS, 1.0F, 1.0F);
+        }
 
         if (result instanceof BlockHitResult blockHitResult) {
             switch (blockHitResult.getDirection()) {
