@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -56,7 +57,7 @@ public class ThrownSirensTrident extends AbstractArrow {
 
     @Override
     protected ItemStack getPickupItem() {
-        return item;
+        return item.copy();
     }
 
     @Override
@@ -129,6 +130,10 @@ public class ThrownSirensTrident extends AbstractArrow {
         return this.isReturning ? null : super.findHitEntity(idk1, idk2);
     }
 
+    protected boolean tryPickup(Player player) {
+        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
+    }
+
     protected SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.TRIDENT_HIT_GROUND;
     }
@@ -146,6 +151,11 @@ public class ThrownSirensTrident extends AbstractArrow {
             attributeInstance.addTransientModifier(modifier);
         }
         return attributeInstance.getValue();
+    }
+
+    @Override
+    protected float getWaterInertia() {
+        return 0F;
     }
 
     @Override
