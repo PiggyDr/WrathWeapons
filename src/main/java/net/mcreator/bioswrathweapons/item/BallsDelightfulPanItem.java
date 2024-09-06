@@ -170,7 +170,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 		return this.tier.getRepairIngredient().test(p_43312_) || super.isValidRepairItem(p_43311_, p_43312_);
 	}
 
-	private static boolean isPlayerNearHeatSource(Player player, LevelReader level) { //TODO use reflection instead? idk
+	private static boolean isPlayerNearHeatSource(Player player, LevelReader level) {
 		if (player.isOnFire()) {
 			return true;
 		} else {

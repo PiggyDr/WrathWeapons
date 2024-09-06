@@ -172,6 +172,9 @@ dependencies {
     implementation fg.deobf("curse.maven:tslatentitystatus-tes-830420:5271600")
 //    implementation fg.deobf("curse.maven:origins-forge-474438:5311982")
 //    implementation fg.deobf("curse.maven:caelus-308989:4581481")
+    implementation fg.deobf("curse.maven:lionfish-api-1001614:5363774")
+    implementation fg.deobf("curse.maven:lendercataclysm-551586:5474791")
+
 
     //implementation fg.deobf("libs:curios-forge:5.9.1+1.20.1")
 }

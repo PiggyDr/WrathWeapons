@@ -16,7 +16,7 @@ import net.minecraft.world.item.Item;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 
 public class BiosWrathWeaponsModItems {
-	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, BiosWrathWeaponsMod.MODID);
+	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, BiosWrathWeaponsMod.MODID); //TODO make properties more consistent
 	public static final RegistryObject<Item> UNHOOLY_HAMMER_TIME = REGISTRY.register("unhooly_hammer_time", () -> new UnhoolyHammerTimeItem());
 	public static final RegistryObject<Item> PURIST_SWORD = REGISTRY.register("purist_sword", () -> new PuristSwordItem());
 	public static final RegistryObject<Item> SCULK_CLEAVER = REGISTRY.register("sculk_cleaver", () -> new SculkCleaverItem());
@@ -28,6 +28,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> BLADEOFTHE_PIXIE = REGISTRY.register("bladeofthe_pixie", () -> new BladeofthePixieItem());
 	public static final RegistryObject<Item> GODS_TOOL = REGISTRY.register("gods_tool", () -> new GodsToolItem());
 	public static final RegistryObject<Item> SIRENS_TRIDENT = REGISTRY.register("sirens_trident", SirensTridentItem::new);
+	public static final RegistryObject<Item> REAPERS_STRIDE = REGISTRY.register("reapers_stride", ReapersStrideItem::new);
     // Start of user code block custom items
 	public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", () -> new EnderEssenceItem());
 	public static final RegistryObject<Item> INDOMITABLE_ESSENCE = REGISTRY.register("indomitable_essence", () -> new IndomitableEssenceItem());

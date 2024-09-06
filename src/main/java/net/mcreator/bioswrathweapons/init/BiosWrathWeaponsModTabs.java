@@ -33,6 +33,7 @@ public class BiosWrathWeaponsModTabs {
 				tabData.accept(BiosWrathWeaponsModItems.UNHOOLY_HAMMER_TIME.get());
 				tabData.accept(BiosWrathWeaponsModItems.ENDER_KATANA.get());
 				tabData.accept(BiosWrathWeaponsModItems.SIRENS_TRIDENT.get());
+				tabData.accept(BiosWrathWeaponsModItems.REAPERS_STRIDE.get());
 
 				tabData.accept(BiosWrathWeaponsModItems.ENDER_ESSENCE.get());
 				tabData.accept(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get());

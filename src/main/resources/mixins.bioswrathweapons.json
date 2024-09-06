@@ -4,7 +4,8 @@
   "refmap": "mixins.bioswrathweapons.refmap.json",
   "package": "net.mcreator.bioswrathweapons.mixin",
   "mixins": [
-    "EndermanMixin"
+    "EndermanMixin",
+    "LivingEntityMixin"
   ],
   "client": [],
   "server": [],
