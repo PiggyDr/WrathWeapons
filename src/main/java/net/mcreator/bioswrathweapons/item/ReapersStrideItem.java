@@ -1,13 +1,25 @@
 package net.mcreator.bioswrathweapons.item;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.ClientProxy;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.items.Meat_Shredder;
-import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModDamageTypes;
+import net.mcreator.bioswrathweapons.utils.ReapersStrideSound;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -20,6 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReapersStrideItem extends Meat_Shredder {
+
     public ReapersStrideItem() {
         super(new Item.Properties().stacksTo(1).fireResistant());
     }
@@ -34,16 +47,14 @@ public class ReapersStrideItem extends Meat_Shredder {
         float var9 = 1.0F;
         List<Entity> possibleList = level.getEntities(living, living.getBoundingBox().expandTowards(lookVec.x() * range, lookVec.y() * range, lookVec.z() * range).inflate((double)var9, (double)var9, (double)var9));
         boolean flag = false;
-        if (level.isClientSide()) {
-
-        }
+        BiosWrathWeaponsMod.PROXY.playTickableSound(living);
         Iterator var13 = possibleList.iterator();
 
         while(var13.hasNext()) {
             Entity entity = (Entity)var13.next();
             if (entity instanceof LivingEntity) {
                 float borderSize = 0.5F;
-                AABB collisionBB = entity.getBoundingBox().inflate((double)borderSize, (double)borderSize, (double)borderSize);
+                AABB collisionBB = entity.getBoundingBox().inflate(borderSize, borderSize, borderSize);
                 Optional<Vec3> interceptPos = collisionBB.clip(srcVec, destVec);
                 if (collisionBB.contains(srcVec)) {
                     flag = true;
@@ -52,7 +63,7 @@ public class ReapersStrideItem extends Meat_Shredder {
                 }
 
                 if (flag) {
-                    if (entity.hurt(BiosWrathWeaponsModDamageTypes.reapersStride(living), (float)living.getAttributeValue(Attributes.ATTACK_DAMAGE) / 8.5F)) {
+                    if (entity.hurt(BiosWrathWeaponsModDamageTypes.reapersStride(living), (float)living.getAttributeValue(Attributes.ATTACK_DAMAGE) / 8.5F + 0.5F)) {
                         int j = EnchantmentHelper.getFireAspect(living);
                         if (j > 0 && !entity.isOnFire()) {
                             entity.setSecondsOnFire(j * 4);
@@ -62,7 +73,7 @@ public class ReapersStrideItem extends Meat_Shredder {
                     double d0 = (double)(level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().x;
                     double d1 = (double)(level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().y;
                     double d2 = (double)(level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().z;
-                    double dist = (double)(1.0F + level.getRandom().nextFloat() * 0.2F);
+                    double dist = (1.0F + level.getRandom().nextFloat() * 0.2F);
                     double d3 = d0 * dist;
                     double d4 = d1 * dist;
                     double d5 = d2 * dist;
@@ -70,5 +81,11 @@ public class ReapersStrideItem extends Meat_Shredder {
                 }
             }
         }
+    }
+
+    @Override
+    public void releaseUsing(ItemStack stack, Level world, LivingEntity living, int remainingUseTicks) {
+        world.playSound(null, living.getX(), living.getY(), living.getZ(), ModSounds.SHREDDER_END.get(), SoundSource.PLAYERS, 1.5F, 1.0F / (living.getRandom().nextFloat() * 0.4F + 0.8F));
+        BiosWrathWeaponsMod.PROXY.stopPlayingTickableSound(living);
     }
 }

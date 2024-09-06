@@ -2,12 +2,15 @@ package net.mcreator.bioswrathweapons;
 
 import net.mcreator.bioswrathweapons.init.*;
 import net.mcreator.bioswrathweapons.item.EnderEssenceItem;
+import net.mcreator.bioswrathweapons.proxy.ClientProxy;
+import net.mcreator.bioswrathweapons.proxy.CommonProxy;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -32,6 +35,10 @@ import java.util.function.Supplier;
 public class BiosWrathWeaponsMod {
 	public static final Logger LOGGER = LogManager.getLogger(BiosWrathWeaponsMod.class);
 	public static final String MODID = "bios_wrath_weapons";
+	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(
+			() -> ClientProxy::new,
+			() -> CommonProxy::new
+	);
 
 	public BiosWrathWeaponsMod() {
 		// Start of user code block mod constructor
