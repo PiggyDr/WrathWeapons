@@ -87,7 +87,7 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
         if (!this.level().isClientSide()) {
             Entity entity = result.getEntity();
             doFancyMagicAttack(entity);
-            chainAttack(entity.position(), this.random.nextInt(2, 6), entity instanceof Monster monster ? new ArrayList<>(List.of(monster)) : null);
+            chainAttack(entity.position(), this.random.nextInt(2, 6), entity instanceof Monster monster ? new ArrayList<>(List.of(monster)) : new ArrayList<>());
             this.discard();
         }
     }

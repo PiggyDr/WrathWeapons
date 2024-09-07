@@ -37,7 +37,7 @@ public class ForgeEventSubscriber {
             event.setCanceled(true);
 
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), BiosWrathWeaponsModSounds.INDOMITABLE_ESSENCE_ACTIVATE.get(), player.getSoundSource(), 1.0F, 1.0F);
-            PacketHandler.sendToPlayer(new ClientboundIndomitableEssencePacket(), (ServerPlayer) player);
+            BiosWrathWeaponsMod.sendToPlayer(new ClientboundIndomitableEssencePacket(), (ServerPlayer) player);
         }
     }
 

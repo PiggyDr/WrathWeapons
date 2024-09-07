@@ -26,11 +26,11 @@ public class ClientForgeEventSubscriber {
             Player player = event.getEntity();
             BiosWrathWeaponsMod.LOGGER.debug("attack valid; " + item);
             if (item == BiosWrathWeaponsModItems.ENDER_KATANA.get()) {
-                PacketHandler.sendToServer(new ServerboundEmptyAttackPacket());
+                BiosWrathWeaponsMod.sendToServer(new ServerboundEmptyAttackPacket());
                 EnderKatanaItem.shootProjectile(player);
             } else if (item == BiosWrathWeaponsModItems.SCULK_CLEAVER.get()) {
                 SculkCleaverItem.sweep(player);
-                PacketHandler.sendToServer(new ServerboundEmptyAttackPacket());
+                BiosWrathWeaponsMod.sendToServer(new ServerboundEmptyAttackPacket());
             }
         }
     }

@@ -31,11 +31,7 @@ public class PacketHandler {
                 ServerboundEmptyAttackPacket::handle);
     }
 
-    public static void sendToPlayer(Object msg, ServerPlayer player) {
-        INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msg);
-    }
 
-    public static void sendToServer(Object msg) {
-        INSTANCE.sendToServer(msg);
-    }
+
+
 }
