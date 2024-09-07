@@ -8,6 +8,7 @@ import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket
 import net.mcreator.bioswrathweapons.network.PacketHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -26,7 +27,8 @@ public class ForgeEventSubscriber {
                         inventory.getStacksHandler("essence").map(slot ->
                                         slot.getStacks().getStackInSlot(0).getItem() == BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get())
                                 .orElse(false)).orElse(false) && event.getEntity() instanceof Player player
-                && !player.getCooldowns().isOnCooldown(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get())) {
+                && !player.getCooldowns().isOnCooldown(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get())
+                && !event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 
             player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get(), 6000);
             player.setHealth(1);
