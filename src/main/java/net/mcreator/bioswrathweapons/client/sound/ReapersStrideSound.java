@@ -1,4 +1,4 @@
-package net.mcreator.bioswrathweapons.utils;
+package net.mcreator.bioswrathweapons.client.sound;
 
 import com.github.L_Ender.cataclysm.client.sound.MeatShredderSound;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;

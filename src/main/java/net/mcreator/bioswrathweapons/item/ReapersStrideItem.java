@@ -1,25 +1,14 @@
 package net.mcreator.bioswrathweapons.item;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.ClientProxy;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.items.Meat_Shredder;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModDamageTypes;
-import net.mcreator.bioswrathweapons.utils.ReapersStrideSound;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -50,7 +39,7 @@ public class ReapersStrideItem extends Meat_Shredder {
         BiosWrathWeaponsMod.PROXY.playTickableSound(living);
         Iterator var13 = possibleList.iterator();
 
-        while(var13.hasNext()) {
+        while (var13.hasNext()) {
             Entity entity = (Entity)var13.next();
             if (entity instanceof LivingEntity) {
                 float borderSize = 0.5F;

@@ -31,11 +31,11 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@Mod("bios_wrath_weapons")
+@Mod(BiosWrathWeaponsMod.MODID)
 public class BiosWrathWeaponsMod {
 	public static final Logger LOGGER = LogManager.getLogger(BiosWrathWeaponsMod.class);
 	public static final String MODID = "bios_wrath_weapons";
-	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(
+	public static CommonProxy PROXY = DistExecutor.unsafeRunForDist(
 			() -> ClientProxy::new,
 			() -> CommonProxy::new
 	);

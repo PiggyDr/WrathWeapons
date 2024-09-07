@@ -1,6 +1,6 @@
 package net.mcreator.bioswrathweapons.network;
 
-import net.mcreator.bioswrathweapons.client.BiosWrathWeaponsModClientPacketHandler;
+import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
@@ -28,11 +28,8 @@ public class ClientboundIndomitableEssencePacket implements Packet<ClientPacketL
 
     }
 
-    public static void handle(ClientboundIndomitableEssencePacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-                    BiosWrathWeaponsModClientPacketHandler.handle(packet, ctx));
-        });
+    public static void handle(ClientboundIndomitableEssencePacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> BiosWrathWeaponsMod.PROXY.displayIndomitableEssencePacket(msg));
         ctx.get().setPacketHandled(true);
     }
 
