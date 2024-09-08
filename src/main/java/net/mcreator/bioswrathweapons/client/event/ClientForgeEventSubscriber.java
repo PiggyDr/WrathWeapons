@@ -1,21 +1,28 @@
 package net.mcreator.bioswrathweapons.client.event;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.mcreator.bioswrathweapons.client.Keybinds;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsTags;
 import net.mcreator.bioswrathweapons.item.EnderKatanaItem;
 import net.mcreator.bioswrathweapons.item.SculkCleaverItem;
 import net.mcreator.bioswrathweapons.network.PacketHandler;
 import net.mcreator.bioswrathweapons.network.ServerboundEmptyAttackPacket;
+import net.mcreator.bioswrathweapons.network.ServerboundEssenceAbilityPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
-@Mod.EventBusSubscriber
+@OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = BiosWrathWeaponsMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEventSubscriber {
 
     @SubscribeEvent
@@ -32,6 +39,13 @@ public class ClientForgeEventSubscriber {
                 SculkCleaverItem.sweep(player);
                 BiosWrathWeaponsMod.sendToServer(new ServerboundEmptyAttackPacket());
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void keyPressed(InputEvent.Key event) {
+        if (event.getKey() == Keybinds.INSTANCE.essenceAbility.getKey().getValue() && Minecraft.getInstance().level != null) {
+            BiosWrathWeaponsMod.PACKET_HANDLER.sendToServer(new ServerboundEssenceAbilityPacket());
         }
     }
 }

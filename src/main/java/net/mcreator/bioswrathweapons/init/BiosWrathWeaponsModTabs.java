@@ -39,6 +39,7 @@ public class BiosWrathWeaponsModTabs {
 				tabData.accept(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get());
 				tabData.accept(BiosWrathWeaponsModItems.DWARVEN_ESSENCE.get());
 				tabData.accept(BiosWrathWeaponsModItems.SIREN_ESSENCE.get());
+				tabData.accept(BiosWrathWeaponsModItems.DARK_ESSENCE.get());
 			})
 
 					.build());

@@ -1,6 +1,7 @@
 package net.mcreator.bioswrathweapons.client.event;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.mcreator.bioswrathweapons.client.Keybinds;
 import net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel;
 import net.mcreator.bioswrathweapons.client.model.SirensTridentModel;
 import net.mcreator.bioswrathweapons.client.model.ballsdelightfulpanthrown;
@@ -17,13 +18,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = BiosWrathWeaponsMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEventSubscriber {
 
     @SubscribeEvent
@@ -54,5 +56,10 @@ public class ClientModEventSubscriber {
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ballsdelightfulpanthrown.LAYER_LOCATION, ballsdelightfulpanthrown::createBodyLayer);
         event.registerLayerDefinition(SirensTridentModel.LAYER_LOCATION, SirensTridentModel::createBodyLayer);
+    }
+
+    @SubscribeEvent
+    public static void registerKeys(RegisterKeyMappingsEvent event) {
+        event.register(Keybinds.INSTANCE.essenceAbility);
     }
 }

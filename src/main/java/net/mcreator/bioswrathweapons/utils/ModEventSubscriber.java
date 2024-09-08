@@ -4,11 +4,12 @@ import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
 import net.mcreator.bioswrathweapons.network.PacketHandler;
 import net.mcreator.bioswrathweapons.network.ServerboundEmptyAttackPacket;
+import net.mcreator.bioswrathweapons.network.ServerboundEssenceAbilityPacket;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = BiosWrathWeaponsMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventSubscriber {
 
     @SubscribeEvent
@@ -25,6 +26,12 @@ public class ModEventSubscriber {
                     ServerboundEmptyAttackPacket::write,
                     ServerboundEmptyAttackPacket::new,
                     ServerboundEmptyAttackPacket::handle
+            );
+            BiosWrathWeaponsMod.addNetworkMessage(
+                    ServerboundEssenceAbilityPacket.class,
+                    ServerboundEssenceAbilityPacket::write,
+                    ServerboundEssenceAbilityPacket::new,
+                    ServerboundEssenceAbilityPacket::handle
             );
         });
     }
