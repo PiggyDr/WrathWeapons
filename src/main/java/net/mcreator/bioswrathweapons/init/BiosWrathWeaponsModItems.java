@@ -5,9 +5,7 @@
 package net.mcreator.bioswrathweapons.init;
 
 import net.mcreator.bioswrathweapons.item.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.DeferredRegister;
@@ -36,7 +34,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> INDOMITABLE_ESSENCE = REGISTRY.register("indomitable_essence", () -> new IndomitableEssenceItem());
 	public static final RegistryObject<Item> DWARVEN_ESSENCE = REGISTRY.register("dwarven_essence", () -> new DwarvenEssenceItem());
 	public static final RegistryObject<Item> SIREN_ESSENCE = REGISTRY.register("siren_essence", SirenEssenceItem::new);
-	public static final RegistryObject<Item> DARK_ESSENCE = REGISTRY.register("dark_essence", DarkEssence::new);
+	public static final RegistryObject<Item> DARK_ESSENCE = REGISTRY.register("dark_essence", DarkEssenceItem::new);
 
 	public static boolean hasEssence(LivingEntity entity, Item essence) {
 		return CuriosApi.getCuriosInventory(entity).lazyMap(inventory ->
