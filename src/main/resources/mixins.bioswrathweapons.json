@@ -5,7 +5,9 @@
   "package": "net.mcreator.bioswrathweapons.mixin",
   "mixins": [
     "EndermanMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "MobMixin",
+    "ItemMixin"
   ],
   "client": [],
   "server": [],

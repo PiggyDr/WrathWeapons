@@ -17,11 +17,6 @@ public abstract class EndermanMixin {
             argsOnly = true
     )
     private LivingEntity modifyTarget(LivingEntity value) {
-        return CuriosApi.getCuriosInventory(value).lazyMap(inventory ->
-                inventory.getStacksHandler("essence").map(slot ->
-                        slot.getStacks().getStackInSlot(0).getItem() == BiosWrathWeaponsModItems.ENDER_ESSENCE.get())
-                        .orElse(false))
-                .orElse(false)
-                ? null : value;
+        return BiosWrathWeaponsModItems.hasEssence(value, BiosWrathWeaponsModItems.ENDER_ESSENCE.get()) ? null : value;
     }
 }

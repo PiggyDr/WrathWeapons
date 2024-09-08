@@ -6,6 +6,7 @@ package net.mcreator.bioswrathweapons.init;
 
 import net.mcreator.bioswrathweapons.item.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,6 +15,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraft.world.item.Item;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import top.theillusivec4.curios.api.CuriosApi;
 
 public class BiosWrathWeaponsModItems {
 	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, BiosWrathWeaponsMod.MODID); //TODO make properties more consistent
@@ -33,5 +35,14 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", () -> new EnderEssenceItem());
 	public static final RegistryObject<Item> INDOMITABLE_ESSENCE = REGISTRY.register("indomitable_essence", () -> new IndomitableEssenceItem());
 	public static final RegistryObject<Item> DWARVEN_ESSENCE = REGISTRY.register("dwarven_essence", () -> new DwarvenEssenceItem());
+	public static final RegistryObject<Item> SIREN_ESSENCE = REGISTRY.register("siren_essence", SirenEssenceItem::new);
+
+	public static boolean hasEssence(LivingEntity entity, Item essence) {
+		return CuriosApi.getCuriosInventory(entity).lazyMap(inventory ->
+						inventory.getStacksHandler("essence").map(slot ->
+										slot.getStacks().getStackInSlot(0).getItem() == essence)
+								.orElse(false))
+				.orElse(false);
+	}
 	// End of user code block custom items
 }
