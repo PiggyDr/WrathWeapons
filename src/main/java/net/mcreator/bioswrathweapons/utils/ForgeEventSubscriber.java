@@ -1,19 +1,22 @@
 package net.mcreator.bioswrathweapons.utils;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.mcreator.bioswrathweapons.capability.EssenceDataCapability;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
-import net.mcreator.bioswrathweapons.network.PacketHandler;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -47,6 +50,22 @@ public class ForgeEventSubscriber {
     public static void onDamage(LivingDamageEvent event) {
         if (event.getEntity().hasEffect(BiosWrathWeaponsModMobEffects.BUTTERED.get())) {
             event.setAmount(event.getAmount()*1.25F);
+        }
+    }
+
+    @SubscribeEvent
+    public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject().getType() == EntityType.PLAYER && !event.getObject().getCapability(EssenceDataCapability.ESSENCE_DATA).isPresent()) {
+            event.addCapability(EssenceDataCapability.RESOURCE_LOCATION, new EssenceDataCapability());
+        }
+    }
+
+    @SubscribeEvent
+    public static void incrementJumpCounter(LivingEvent.LivingJumpEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (!player.onGround())
+                player.getCapability(EssenceDataCapability.ESSENCE_DATA).ifPresent(EssenceDataCapability::incrementJumpsUsed);
+            player.getCapability(EssenceDataCapability.ESSENCE_DATA).ifPresent(cap -> BiosWrathWeaponsMod.LOGGER.info(cap.getJumpsUsed() + " | " + player.level().isClientSide()));
         }
     }
 }

@@ -35,6 +35,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> DWARVEN_ESSENCE = REGISTRY.register("dwarven_essence", () -> new DwarvenEssenceItem());
 	public static final RegistryObject<Item> SIREN_ESSENCE = REGISTRY.register("siren_essence", SirenEssenceItem::new);
 	public static final RegistryObject<Item> DARK_ESSENCE = REGISTRY.register("dark_essence", DarkEssenceItem::new);
+	public static final RegistryObject<Item> PHANTOM_ESSENCE = REGISTRY.register("phantom_essence", PhantomEssenceItem::new);
 
 	public static boolean hasEssence(LivingEntity entity, Item essence) {
 		return CuriosApi.getCuriosInventory(entity).lazyMap(inventory ->

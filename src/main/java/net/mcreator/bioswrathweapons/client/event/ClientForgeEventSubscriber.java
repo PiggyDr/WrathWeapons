@@ -1,21 +1,25 @@
 package net.mcreator.bioswrathweapons.client.event;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.client.Keybinds;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsTags;
 import net.mcreator.bioswrathweapons.item.EnderKatanaItem;
+import net.mcreator.bioswrathweapons.item.PhantomEssenceItem;
 import net.mcreator.bioswrathweapons.item.SculkCleaverItem;
-import net.mcreator.bioswrathweapons.network.PacketHandler;
+import net.mcreator.bioswrathweapons.network.ServerboundDoubleJumpPacket;
 import net.mcreator.bioswrathweapons.network.ServerboundEmptyAttackPacket;
 import net.mcreator.bioswrathweapons.network.ServerboundEssenceAbilityPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -44,8 +48,22 @@ public class ClientForgeEventSubscriber {
 
     @SubscribeEvent
     public static void keyPressed(InputEvent.Key event) {
-        if (event.getKey() == Keybinds.INSTANCE.essenceAbility.getKey().getValue() && Minecraft.getInstance().level != null) {
+        if (Minecraft.getInstance().level == null) return;
+
+        if (event.getKey() == Minecraft.getInstance().options.keyJump.getKey().getValue()) {
+//            BiosWrathWeaponsMod.LOGGER.info(!Minecraft.getInstance().player.onGround() + ", " + PhantomEssenceItem.doubleJumpAllowed(Minecraft.getInstance().player) + ", " + (event.getAction() == InputConstants.PRESS) + ", " + (Minecraft.getInstance().player.noJumpDelay == 0));
+        }
+
+        if (event.getKey() == Keybinds.INSTANCE.essenceAbility.getKey().getValue()) {
             BiosWrathWeaponsMod.PACKET_HANDLER.sendToServer(new ServerboundEssenceAbilityPacket());
+        } else if (event.getKey() == Minecraft.getInstance().options.keyJump.getKey().getValue()
+                && !Minecraft.getInstance().player.onGround()
+                && PhantomEssenceItem.doubleJumpAllowed(Minecraft.getInstance().player)
+                && (event.getAction() == InputConstants.PRESS
+                || Minecraft.getInstance().player.noJumpDelay == 0)) {
+            Minecraft.getInstance().player.jumpFromGround();
+            BiosWrathWeaponsMod.PACKET_HANDLER.sendToServer(new ServerboundDoubleJumpPacket());
+            Minecraft.getInstance().player.noJumpDelay = 10;
         }
     }
 }
