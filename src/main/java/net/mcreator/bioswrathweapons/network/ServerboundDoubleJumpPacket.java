@@ -1,6 +1,7 @@
 package net.mcreator.bioswrathweapons.network;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.mcreator.bioswrathweapons.item.PhantomEssenceItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
@@ -19,9 +20,7 @@ public class ServerboundDoubleJumpPacket implements Packet<PacketListener> {
 
     public static void handle(ServerboundDoubleJumpPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            Player player = ctx.get().getSender();
-            player.jumpFromGround();
-            player.noJumpDelay = 10;
+            PhantomEssenceItem.doubleJump(ctx.get().getSender());
         });
         ctx.get().setPacketHandled(true);
     }

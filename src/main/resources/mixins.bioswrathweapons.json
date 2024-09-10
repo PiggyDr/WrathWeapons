@@ -8,8 +8,7 @@
     "EntityMixin",
     "ItemMixin",
     "LivingEntityMixin",
-    "MobMixin",
-    "ServerGamePacketListernerImplMixin"
+    "MobMixin"
   ],
   "client": [],
   "server": [],

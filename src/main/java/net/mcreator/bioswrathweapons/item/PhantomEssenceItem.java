@@ -19,6 +19,12 @@ public class PhantomEssenceItem extends AbstractAbilityEssenceItem {
                 .map(cap -> cap.hasJumpsRemaining(entity)).orElse(false);
     }
 
+    public static void doubleJump(Player player) {
+        player.jumpFromGround();
+        player.noJumpDelay = 10;
+        player.causeFoodExhaustion(4F);
+    }
+
     @Override
     public void useAbility(Player player) {
 

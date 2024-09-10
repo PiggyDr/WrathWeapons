@@ -61,9 +61,8 @@ public class ClientForgeEventSubscriber {
                 && PhantomEssenceItem.doubleJumpAllowed(Minecraft.getInstance().player)
                 && (event.getAction() == InputConstants.PRESS
                 || Minecraft.getInstance().player.noJumpDelay == 0)) {
-            Minecraft.getInstance().player.jumpFromGround();
             BiosWrathWeaponsMod.PACKET_HANDLER.sendToServer(new ServerboundDoubleJumpPacket());
-            Minecraft.getInstance().player.noJumpDelay = 10;
+            PhantomEssenceItem.doubleJump(Minecraft.getInstance().player);
         }
     }
 }
