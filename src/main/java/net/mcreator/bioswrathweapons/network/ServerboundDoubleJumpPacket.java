@@ -20,7 +20,9 @@ public class ServerboundDoubleJumpPacket implements Packet<PacketListener> {
 
     public static void handle(ServerboundDoubleJumpPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PhantomEssenceItem.doubleJump(ctx.get().getSender()); //TODO implement any serverside checks whatsoever
+            Player player = ctx.get().getSender();
+            if (!player.onGround() && PhantomEssenceItem.doubleJumpAllowed(player))
+                PhantomEssenceItem.doubleJump(player);
         });
         ctx.get().setPacketHandled(true);
     }
