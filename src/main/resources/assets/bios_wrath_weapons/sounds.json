@@ -8,5 +8,16 @@
     "subtitle": "subtitle.item.indomitable_essence.activate",
     "sounds": [ "bios_wrath_weapons:indomitable_essence_activate" ],
     "volume": 5
+  },
+  "item.phantom_essence.activate": {
+    "subtitle": "subtitle.item.phantom_essence.activate",
+    "sounds": [
+      "bios_wrath_weapons:phantom_essence_1",
+      "bios_wrath_weapons:phantom_essence_2",
+      "bios_wrath_weapons:phantom_essence_3",
+      "bios_wrath_weapons:phantom_essence_4",
+      "bios_wrath_weapons:phantom_essence_5"
+    ],
+    "volume": 5
   }
 }

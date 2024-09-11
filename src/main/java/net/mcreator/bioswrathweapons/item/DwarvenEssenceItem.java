@@ -40,16 +40,16 @@ public class DwarvenEssenceItem extends AbstractAbilityEssenceItem {
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
         super.curioTick(slotContext, stack);
-        if (!inSunlight(slotContext.entity())) {
+        if (slotContext.entity() instanceof Player player && !inSunlight(player) && player.isCrouching()) {
             slotContext.entity().addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400));
         }
     }
 
-    private boolean inSunlight(LivingEntity entity) {
-        return entity.level().canSeeSky(BlockPos.containing(entity.position()))
-//                && entity.level().isDay()
-//                && !entity.isInWaterRainOrBubble()
-                || inExposedPowderSnow(entity.level(), BlockPos.containing(entity.position()));
+    private boolean inSunlight(Player entity) {
+        return (entity.level().canSeeSky(BlockPos.containing(entity.position()))
+                || inExposedPowderSnow(entity.level(), BlockPos.containing(entity.position())))
+                && entity.level().isDay()
+                && !entity.isInWaterRainOrBubble();
     }
 
     private boolean inExposedPowderSnow(Level level, BlockPos pos) {
