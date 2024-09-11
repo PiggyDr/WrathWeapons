@@ -16,7 +16,7 @@ import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import top.theillusivec4.curios.api.CuriosApi;
 
 public class BiosWrathWeaponsModItems {
-	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, BiosWrathWeaponsMod.MODID); //TODO make properties more consistent
+	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, BiosWrathWeaponsMod.MODID);
 	public static final RegistryObject<Item> UNHOOLY_HAMMER_TIME = REGISTRY.register("unhooly_hammer_time", () -> new UnhoolyHammerTimeItem());
 	public static final RegistryObject<Item> PURIST_SWORD = REGISTRY.register("purist_sword", () -> new PuristSwordItem());
 	public static final RegistryObject<Item> SCULK_CLEAVER = REGISTRY.register("sculk_cleaver", () -> new SculkCleaverItem());

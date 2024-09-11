@@ -28,7 +28,7 @@ import java.util.UUID;
 public class PhantomEssenceItem extends AbstractAbilityEssenceItem {
 
     public PhantomEssenceItem() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant());
     }
 
     public static boolean doubleJumpAllowed(LivingEntity entity) {

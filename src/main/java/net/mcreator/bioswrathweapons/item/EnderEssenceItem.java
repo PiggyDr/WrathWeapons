@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class EnderEssenceItem extends Item implements ICurioItem {
     public EnderEssenceItem() {
-        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant());
     }
 
     @Override

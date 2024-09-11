@@ -17,7 +17,7 @@ import java.util.UUID;
 public class IndomitableEssenceItem extends Item implements ICurioItem {
 
     public IndomitableEssenceItem() {
-        super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant());
     }
 
     @Override

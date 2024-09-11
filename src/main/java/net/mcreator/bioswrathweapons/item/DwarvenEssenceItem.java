@@ -27,7 +27,7 @@ import java.util.UUID;
 public class DwarvenEssenceItem extends AbstractAbilityEssenceItem {
 
     public DwarvenEssenceItem() {
-        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON).fireResistant());
     }
 
     @Override
