@@ -4,15 +4,21 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.capability.EssenceDataCapability;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.minecraft.client.gui.screens.EditServerScreen;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.phys.AABB;
 import org.checkerframework.checker.units.qual.A;
 import top.theillusivec4.curios.api.SlotContext;
 
@@ -50,6 +56,8 @@ public class PhantomEssenceItem extends AbstractAbilityEssenceItem {
 
     @Override
     public void useAbility(Player player) {
-        //TODO
+        player.level().getEntitiesOfClass(Monster.class, new AABB(player.position(), player.position()).inflate(15D))
+                .forEach(entity -> entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1200, 1), player));
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), BiosWrathWeaponsModSounds.PLACEHOLDER.get(), SoundSource.PLAYERS, 10F, 1F);
     }
 }
