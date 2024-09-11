@@ -59,13 +59,4 @@ public class ForgeEventSubscriber {
             event.addCapability(EssenceDataCapability.RESOURCE_LOCATION, new EssenceDataCapability());
         }
     }
-
-    @SubscribeEvent
-    public static void incrementJumpCounter(LivingEvent.LivingJumpEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (!player.onGround())
-                player.getCapability(EssenceDataCapability.ESSENCE_DATA).ifPresent(EssenceDataCapability::incrementJumpsUsed);
-            player.getCapability(EssenceDataCapability.ESSENCE_DATA).ifPresent(cap -> BiosWrathWeaponsMod.LOGGER.info(cap.getJumpsUsed() + " | " + player.level().isClientSide()));
-        }
-    }
 }

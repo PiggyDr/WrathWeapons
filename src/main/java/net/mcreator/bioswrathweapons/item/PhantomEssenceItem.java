@@ -23,10 +23,15 @@ public class PhantomEssenceItem extends AbstractAbilityEssenceItem {
         player.jumpFromGround();
         player.noJumpDelay = 10;
         player.causeFoodExhaustion(4F);
+        player.getCapability(EssenceDataCapability.ESSENCE_DATA).ifPresent(cap -> {
+            cap.incrementJumpsUsed();
+            cap.updateJumpedFrom(player);
+            cap.setHasJumpedFrom(true);
+        });
     }
 
     @Override
     public void useAbility(Player player) {
-
+        //TODO
     }
 }
