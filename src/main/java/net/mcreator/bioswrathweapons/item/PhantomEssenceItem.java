@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.capability.EssenceDataCapability;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.minecraft.client.gui.screens.EditServerScreen;
 import net.minecraft.sounds.SoundSource;
@@ -59,5 +60,6 @@ public class PhantomEssenceItem extends AbstractAbilityEssenceItem {
         player.level().getEntitiesOfClass(Monster.class, new AABB(player.position(), player.position()).inflate(15D))
                 .forEach(entity -> entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1200, 1), player));
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), BiosWrathWeaponsModSounds.PLACEHOLDER.get(), SoundSource.PLAYERS, 10F, 1F);
+        player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.PHANTOM_ESSENCE.get(), 2400);
     }
 }

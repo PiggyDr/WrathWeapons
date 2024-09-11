@@ -1,6 +1,5 @@
 package net.mcreator.bioswrathweapons.network;
 
-import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.item.PhantomEssenceItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketListener;
