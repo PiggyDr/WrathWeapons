@@ -10,5 +10,5 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BiosWrathWeaponsModMobEffects {
     public static DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, BiosWrathWeaponsMod.MODID);
-    public static RegistryObject<MobEffect> BUTTERED = REGISTRY.register("buttered", () -> new ButteredEffect(MobEffectCategory.HARMFUL, 0xEBDF78)); //TODO implement ice physics
+    public static RegistryObject<MobEffect> BUTTERED = REGISTRY.register("buttered", () -> new ButteredEffect(MobEffectCategory.HARMFUL, 0xEBDF78));
 }
