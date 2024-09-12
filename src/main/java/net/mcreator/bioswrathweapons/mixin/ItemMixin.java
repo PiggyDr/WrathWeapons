@@ -1,6 +1,7 @@
 package net.mcreator.bioswrathweapons.mixin;
 
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -19,9 +20,10 @@ public class ItemMixin {
                     target = "Lnet/minecraft/world/entity/player/Player;canEat(Z)Z"
             )
     )
-    private boolean denyNonMeatToSirenEssence(Player instance, boolean bypass, Level level, Player player, InteractionHand hand) { //TODO add origins tag
+    private boolean denyNonMeatToSirenEssence(Player instance, boolean bypass, Level level, Player player, InteractionHand hand) {
         return (!BiosWrathWeaponsModItems.hasEssence(instance, BiosWrathWeaponsModItems.SIREN_ESSENCE.get())
-                || instance.getItemInHand(hand).getFoodProperties(instance).isMeat())
+                || instance.getItemInHand(hand).getFoodProperties(instance).isMeat()
+                || instance.getItemInHand(hand).is(BiosWrathWeaponsTags.ORIGINS_MEAT))
                 && instance.canEat(bypass);
     }
 }

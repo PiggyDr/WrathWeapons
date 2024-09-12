@@ -112,7 +112,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
 
         if (this.ownedBy(entity)) { //try to pick up pan
             if (this.isReturning) {
-                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F); //FIXME might not play?
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
 
                 if (entity instanceof Player player && player.getInventory().canPlaceItem(1, this.item)) {
                     if (!(player.getAbilities().instabuild && player.getInventory().hasAnyOf(Set.of(BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get()))))

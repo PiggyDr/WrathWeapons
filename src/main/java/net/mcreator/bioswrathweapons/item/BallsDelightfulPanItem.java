@@ -57,7 +57,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 
 
 	public BallsDelightfulPanItem(Block block) {
-		super(block, new Item.Properties().stacksTo(1).fireResistant().defaultDurability(0)); //TODO get rid of durability
+		super(block, new Item.Properties().stacksTo(1).fireResistant().defaultDurability(0));
 		this.attackDamage = 6.0F;
 		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
