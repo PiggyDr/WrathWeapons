@@ -15,5 +15,7 @@
   "curios.identifier.essence": "Essence",
   "curios.modifiers.essence": "When bound as Essence:",
   "item.bios_wrath_weapons.ender_essence": "Ender Essence",
-  "item.bios_wrath_weapons.indomitable_essence": "Indomitable Essence"
+  "item.bios_wrath_weapons.indomitable_essence": "Indomitable Essence",
+  "tooltip.bios_wrath_weapons.cooldown": "%dm%ds remaining",
+  "tooltip.bios_wrath_weapons.cooldown_over": "Ready to use!"
 }

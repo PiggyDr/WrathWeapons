@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,12 +17,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
+import java.util.List;
 import java.util.UUID;
 
 public class DwarvenEssenceItem extends AbstractAbilityEssenceItem {
@@ -64,4 +68,11 @@ public class DwarvenEssenceItem extends AbstractAbilityEssenceItem {
         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 4));
         player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.DWARVEN_ESSENCE.get(), 600);
     }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        super.appendHoverText(itemStack, level, components, flag);
+        BiosWrathWeaponsMod.PROXY.addCooldownToTooltip(itemStack.getItem(), components);
+    }
+
 }

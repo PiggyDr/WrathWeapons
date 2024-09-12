@@ -62,9 +62,6 @@ public class BiosWrathWeaponsMod {
 	}
 
 	// Start of user code block mod methods
-	private void setup(FMLCommonSetupEvent event) {
-		CuriosApi.registerCurio(BiosWrathWeaponsModItems.ENDER_ESSENCE.get(), new EnderEssenceItem());
-	}
 	// End of user code block mod methods
 	private static final String PROTOCOL_VERSION = "1";
 	public static final SimpleChannel PACKET_HANDLER = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, MODID), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);

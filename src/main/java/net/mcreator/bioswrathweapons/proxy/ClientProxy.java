@@ -5,10 +5,16 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.mcreator.bioswrathweapons.client.sound.ReapersStrideSound;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -33,5 +39,16 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void displayIndomitableEssencePacket(ClientboundIndomitableEssencePacket msg) {
         Minecraft.getInstance().gameRenderer.displayItemActivation(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get().getDefaultInstance());
+    }
+
+    @Override
+    public void addCooldownToTooltip(Item item, List<Component> components) {
+        ItemCooldowns itemCooldowns = Minecraft.getInstance().player.getCooldowns();
+        if (itemCooldowns.cooldowns.containsKey(item)) {
+            int secondsToFinish = Math.floorDiv((itemCooldowns.cooldowns.get(item).endTime - itemCooldowns.tickCount), 20);
+            components.add(Component.translatable("tooltip.bios_wrath_weapons.cooldown", (int) Math.floor((double) secondsToFinish / 60), secondsToFinish % 60).withStyle(ChatFormatting.GRAY));
+        } else {
+            components.add(Component.translatable("tooltip.bios_wrath_weapons.cooldown_over").withStyle(ChatFormatting.GREEN));
+        }
     }
 }

@@ -7,6 +7,7 @@ import net.mcreator.bioswrathweapons.capability.EssenceDataCapability;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.minecraft.client.gui.screens.EditServerScreen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -19,10 +20,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.checkerframework.checker.units.qual.A;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PhantomEssenceItem extends AbstractAbilityEssenceItem {
@@ -61,5 +66,11 @@ public class PhantomEssenceItem extends AbstractAbilityEssenceItem {
                 .forEach(entity -> entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1200, 1), player));
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), BiosWrathWeaponsModSounds.PHANTOM_ESSENCE_ACTIVATE.get(), SoundSource.PLAYERS, 10F, 1F);
         player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.PHANTOM_ESSENCE.get(), 2400);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        super.appendHoverText(itemStack, level, components, flag);
+        BiosWrathWeaponsMod.PROXY.addCooldownToTooltip(itemStack.getItem(), components);
     }
 }
