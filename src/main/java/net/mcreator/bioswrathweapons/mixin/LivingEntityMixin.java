@@ -1,5 +1,6 @@
 package net.mcreator.bioswrathweapons.mixin;
 
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsTags;
 import net.minecraft.core.BlockPos;
@@ -12,18 +13,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
     @Shadow protected abstract void hurtArmor(DamageSource p_21122_, float p_21123_);
-
-    @Shadow public abstract void remove(Entity.RemovalReason p_276115_);
-
-    @Shadow protected abstract int increaseAirSupply(int p_21307_);
-
-    @Shadow public abstract void indicateDamage(double p_270514_, double p_270826_);
 
     @Redirect(
             method = "getDamageAfterArmorAbsorb",
@@ -58,6 +54,17 @@ public abstract class LivingEntityMixin {
     )
     private float bioswrathweapons$applyButteredFrictionModifier(BlockState instance, LevelReader levelReader, BlockPos pos, Entity entity) {
         return (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(BiosWrathWeaponsModMobEffects.BUTTERED.get())) ? instance.getFriction(levelReader, pos, entity) * 1.2F : instance.getFriction(levelReader, pos, entity);
+    }
+
+    @Redirect(
+            method = "getJumpPower",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;getJumpBoostPower()F"
+            )
+    )
+    private float modifyJumpBoostPower(LivingEntity instance) {
+        return instance.getJumpBoostPower() + (BiosWrathWeaponsModItems.hasEssence(instance, BiosWrathWeaponsModItems.UNHOOLY_ESSENCE.get()) ? 0.2F : 0.0F);
     }
 
 }

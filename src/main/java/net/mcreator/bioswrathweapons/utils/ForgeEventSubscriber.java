@@ -12,6 +12,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -50,6 +51,9 @@ public class ForgeEventSubscriber {
     public static void onDamage(LivingDamageEvent event) {
         if (event.getEntity().hasEffect(BiosWrathWeaponsModMobEffects.BUTTERED.get())) {
             event.setAmount(event.getAmount()*1.25F);
+        }
+        if (event.getSource().getEntity() instanceof LivingEntity livingEntity && BiosWrathWeaponsModItems.hasEssence(livingEntity, BiosWrathWeaponsModItems.UNHOOLY_ESSENCE.get())) {
+            livingEntity.heal(event.getAmount() / 10);
         }
     }
 
