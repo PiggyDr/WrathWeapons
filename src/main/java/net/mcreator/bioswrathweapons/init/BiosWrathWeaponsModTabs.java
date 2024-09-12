@@ -41,6 +41,7 @@ public class BiosWrathWeaponsModTabs {
 				tabData.accept(BiosWrathWeaponsModItems.SIREN_ESSENCE.get());
 				tabData.accept(BiosWrathWeaponsModItems.DARK_ESSENCE.get());
 				tabData.accept(BiosWrathWeaponsModItems.PHANTOM_ESSENCE.get());
+				tabData.accept(BiosWrathWeaponsModItems.UNHOOLY_ESSENCE.get());
 			})
 
 					.build());
