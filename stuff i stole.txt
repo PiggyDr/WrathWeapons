@@ -23,10 +23,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-if anyone particularly cares here's a list of all the stuff i stole (TODO: finish the list)
+if anyone particularly cares here's a list of all the stuff i stole
 bioswrathweapons:textures/block/delightful_pan_tray_top.png is directly copied from farmersdelight:textures/block/cooking_pot_tray_top.png
-net.mcreator.bioswrathweapons.client.event.ClientModEventSubscriber::onModelBake is copied from vectorwing.farmersdelight.client.event.ClientSetupEvents::onModelBake with superficial changes
-net.mcreator.bioswrathweapons.client.event.ClientModEventSubscriber::onModelRegister is directly copied from vectorwing.farmersdelight.client.event.ClientSetupEvents::onModelRegister
+net.mcreator.bioswrathweapons.client.event.ClientModEventSubscriber#onModelBake is copied from vectorwing.farmersdelight.client.event.ClientSetupEvents#onModelBake with superficial changes
+net.mcreator.bioswrathweapons.client.event.ClientModEventSubscriber#onModelRegister is directly copied from vectorwing.farmersdelight.client.event.ClientSetupEvents#onModelRegister. idk if this should even really be put on this list since its a fairly standard ModelEvent.RegisterAdditional subscriber
 net.mcreator.bioswrathweapons.client.model.BallsDelightfulPanModel is almost entirely copied from vectorwing.farmersdelight.client.model.SkilletModel with changes made to the item's transformation on the model and the model id
 the properties of net.mcreator.bioswrathweapons.block.BallsDelightfulPanBlock are copied from the skillet's properties in wherever fd registers its blocks
-i think thats it but it probably isn't
+obviously net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem#isPlayerNearHeatSource is copied from vectorwing.farmersdelight.common.item.SkilletItem#isPlayerNearHeatSource
+net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem$BDPEvents and its method is copied from vectorwing.farmersdelight.common.item.SkilletItem#SkilletEvents
+net.mcreator.bioswrathweapons.block.entity.BallsDelightfulPanBlockEntity is copied from whatever block entity class the skillet uses
