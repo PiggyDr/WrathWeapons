@@ -29,6 +29,7 @@ import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import oshi.util.tuples.Pair;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.io.File;
@@ -81,16 +82,19 @@ public class ForgeEventSubscriber {
     }
 
     @SubscribeEvent
-    public static void saveCooldowns(PlayerEvent.SaveToFile event) throws IOException { //i know nothing about java file manipulation so this is probably terrible
+    public static void saveCooldowns(PlayerEvent.SaveToFile event) { //i know nothing about java file manipulation so this is probably terrible
         ItemCooldowns itemCooldowns = event.getEntity().getCooldowns();
         CompoundTag cooldownNbt = new CompoundTag();
         for (Item item : itemCooldowns.cooldowns.keySet()) {
             BiosWrathWeaponsMod.LOGGER.info(ForgeRegistries.ITEMS.getKey(item));
             if (!item.getDefaultInstance().is(BiosWrathWeaponsTags.SAVE_COOLDOWNS)) continue;
-            cooldownNbt.putInt(ForgeRegistries.ITEMS.getKey(item).toString(), itemCooldowns.cooldowns.get(item).endTime - itemCooldowns.tickCount);
+            ItemCooldowns.CooldownInstance cooldown = itemCooldowns.cooldowns.get(item);
+            BiosWrathWeaponsMod.LOGGER.info(cooldown);
+            cooldownNbt.putIntArray(ForgeRegistries.ITEMS.getKey(item).toString(), new int[]{
+                    cooldown.endTime - itemCooldowns.tickCount,
+                    cooldown.endTime - cooldown.startTime
+            });
         }
-
-        BiosWrathWeaponsMod.LOGGER.info(cooldownNbt);
 
         File file = event.getPlayerFile("bww");
         try {
@@ -103,26 +107,32 @@ public class ForgeEventSubscriber {
     }
 
     @SubscribeEvent
-    public static void loadCooldowns(PlayerEvent.LoadFromFile event) throws IOException {
+    public static void loadCooldowns(PlayerEvent.LoadFromFile event) {
         try {
             CompoundTag cooldownNbt = NbtIo.read(event.getPlayerFile("bww"));
             if (cooldownNbt == null) return;
-            Map<Item, Integer> cooldowns = new HashMap<>();
+            Map<Item, int[]> cooldowns = new HashMap<>();
             for (String itemId : cooldownNbt.getAllKeys()) {
                 Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemId));
                 if (item == null) continue;
-                BiosWrathWeaponsMod.LOGGER.info("loading cooldown for " + itemId + ": " + cooldownNbt.getInt(itemId) + " ticks");
-                cooldowns.put(item, cooldownNbt.getInt(itemId));
+                BiosWrathWeaponsMod.LOGGER.info("loading cooldown for " + itemId + ": " + cooldownNbt.getIntArray(itemId) + " ticks");
+                if (event.getEntity() instanceof ServerPlayer splayer)
+                    BiosWrathWeaponsMod.LOGGER.info(splayer.connection);
+                BiosWrathWeaponsMod.LOGGER.info(event.getEntity().level());
+                cooldowns.put(item, cooldownNbt.getIntArray(itemId));
+                BiosWrathWeaponsMod.LOGGER.info(cooldownNbt.getIntArray(itemId)[0] + " " + cooldownNbt.getIntArray(itemId)[1]);
             }
             BiosWrathWeaponsMod.PROXY.cooldownsToApply.put(event.getEntity(), cooldowns);
+            BiosWrathWeaponsMod.LOGGER.info(BiosWrathWeaponsMod.PROXY.cooldownsToApply);
         } catch (IOException e) {
             BiosWrathWeaponsMod.LOGGER.error("Error while loading cooldowns");
-            throw e;
+            e.printStackTrace();
         }
     }
 
     @SubscribeEvent
     public static void applyCooldowns(PlayerEvent.PlayerLoggedInEvent event) {
+        BiosWrathWeaponsMod.LOGGER.info("applyCooldowns");
         BiosWrathWeaponsMod.PROXY.applyCooldowns(event.getEntity());
     }
 }

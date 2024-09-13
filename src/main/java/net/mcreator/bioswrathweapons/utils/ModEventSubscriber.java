@@ -1,10 +1,7 @@
 package net.mcreator.bioswrathweapons.utils;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
-import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
-import net.mcreator.bioswrathweapons.network.ServerboundDoubleJumpPacket;
-import net.mcreator.bioswrathweapons.network.ServerboundEmptyAttackPacket;
-import net.mcreator.bioswrathweapons.network.ServerboundEssenceAbilityPacket;
+import net.mcreator.bioswrathweapons.network.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -38,6 +35,12 @@ public class ModEventSubscriber {
                     ServerboundDoubleJumpPacket::write,
                     ServerboundDoubleJumpPacket::new,
                     ServerboundDoubleJumpPacket::handle
+            );
+            BiosWrathWeaponsMod.addNetworkMessage(
+                    ClientboundCustomCooldownPacket.class,
+                    ClientboundCustomCooldownPacket::write,
+                    ClientboundCustomCooldownPacket::new,
+                    ClientboundCustomCooldownPacket::handle
             );
         });
     }

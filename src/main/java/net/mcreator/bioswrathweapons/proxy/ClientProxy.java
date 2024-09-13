@@ -51,4 +51,10 @@ public class ClientProxy extends CommonProxy {
             components.add(Component.translatable("tooltip.bios_wrath_weapons.cooldown_over").withStyle(ChatFormatting.GREEN));
         }
     }
+
+    @Override
+    public void addCustomCooldown(Item item, int totalCooldown, int currentDuration) {
+        ItemCooldowns itemCooldowns = Minecraft.getInstance().player.getCooldowns();
+        itemCooldowns.cooldowns.put(item, new ItemCooldowns.CooldownInstance(itemCooldowns.tickCount - totalCooldown + currentDuration, itemCooldowns.tickCount + currentDuration));
+    }
 }
