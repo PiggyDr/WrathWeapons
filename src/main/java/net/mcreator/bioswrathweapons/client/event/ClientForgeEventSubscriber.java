@@ -17,13 +17,18 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -61,5 +66,19 @@ public class ClientForgeEventSubscriber {
             BiosWrathWeaponsMod.PACKET_HANDLER.sendToServer(new ServerboundDoubleJumpPacket());
             PhantomEssenceItem.doubleJump(Minecraft.getInstance().player);
         }
+    }
+
+    @SubscribeEvent
+    public static void renderEssence(RenderGuiEvent.Pre event) {
+        ItemStack essence = CuriosApi.getCuriosInventory(Minecraft.getInstance().player).map(inventory ->
+                        inventory.getStacksHandler("essence").map(handler ->
+                                        handler.getStacks().getStackInSlot(0))
+                                .orElse(Items.DIAMOND.getDefaultInstance()))
+                .orElse(Items.DIAMOND.getDefaultInstance());
+        int x = event.getWindow().getGuiScaledWidth() / 2 - 140;
+        int y = event.getWindow().getGuiScaledHeight() - 19;
+
+        event.getGuiGraphics().renderItem(essence, x, y);
+        event.getGuiGraphics().renderItemDecorations(Minecraft.getInstance().font, essence, x, y);
     }
 }
