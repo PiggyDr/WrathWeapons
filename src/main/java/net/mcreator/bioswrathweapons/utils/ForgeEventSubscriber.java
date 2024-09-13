@@ -2,10 +2,15 @@ package net.mcreator.bioswrathweapons.utils;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.capability.EssenceDataCapability;
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsTags;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,13 +19,24 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
 
 @Mod.EventBusSubscriber(modid = BiosWrathWeaponsMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventSubscriber {
@@ -62,5 +78,54 @@ public class ForgeEventSubscriber {
         if (event.getObject().getType() == EntityType.PLAYER && !event.getObject().getCapability(EssenceDataCapability.ESSENCE_DATA).isPresent()) {
             event.addCapability(EssenceDataCapability.RESOURCE_LOCATION, new EssenceDataCapability());
         }
+    }
+
+    @SubscribeEvent
+    public static void saveCooldowns(PlayerEvent.SaveToFile event) throws IOException { //i know nothing about java file manipulation so this is probably terrible
+        ItemCooldowns itemCooldowns = event.getEntity().getCooldowns();
+        CompoundTag cooldownNbt = new CompoundTag();
+        for (Item item : itemCooldowns.cooldowns.keySet()) {
+            BiosWrathWeaponsMod.LOGGER.info(ForgeRegistries.ITEMS.getKey(item));
+            if (!item.getDefaultInstance().is(BiosWrathWeaponsTags.SAVE_COOLDOWNS)) continue;
+            cooldownNbt.putInt(ForgeRegistries.ITEMS.getKey(item).toString(), itemCooldowns.cooldowns.get(item).endTime - itemCooldowns.tickCount);
+        }
+
+        BiosWrathWeaponsMod.LOGGER.info(cooldownNbt);
+
+        File file = event.getPlayerFile("bww");
+        try {
+            file.createNewFile();
+            NbtIo.write(cooldownNbt, file);
+        } catch (IOException e) {
+            BiosWrathWeaponsMod.LOGGER.error("Error while saving cooldowns");
+            e.printStackTrace();
+//            throw e;
+        }
+    }
+
+    @SubscribeEvent
+    public static void loadCooldowns(PlayerEvent.LoadFromFile event) throws IOException {
+        try {
+            CompoundTag cooldownNbt = NbtIo.read(event.getPlayerFile("bww"));
+            if (cooldownNbt == null) return;
+            Map<Item, Integer> cooldowns = new HashMap<>();
+            for (String itemId : cooldownNbt.getAllKeys()) {
+                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemId));
+                if (item == null) continue;
+                BiosWrathWeaponsMod.LOGGER.info("loading cooldown for " + itemId + ": " + cooldownNbt.getInt(itemId) + " ticks");
+//                event.getEntity().getCooldowns().addCooldown(item, cooldownNbt.getInt(itemId));
+                cooldowns.put(item, cooldownNbt.getInt(itemId));
+            }
+            BiosWrathWeaponsMod.PROXY.cooldownsToApply.put(event.getEntity(), cooldowns);
+        } catch (IOException e) {
+            BiosWrathWeaponsMod.LOGGER.error("Error while loading cooldowns");
+            throw e;
+//            e.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent
+    public static void applyCooldowns(LevelEvent.Load event) {
+        BiosWrathWeaponsMod.PROXY.applyCooldowns();
     }
 }
