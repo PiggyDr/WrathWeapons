@@ -2,6 +2,7 @@ package net.mcreator.bioswrathweapons.mixin;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsTags;
 import net.mcreator.bioswrathweapons.item.SirenEssenceItem;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,7 +26,7 @@ public abstract class MobMixin extends LivingEntity {
     )
     private LivingEntity modifyTarget(LivingEntity value) {
         return value == null
-                || (SirenEssenceItem.TARGET_PREVENTION_MOBS.contains(this.getType())
+                || (this.getType().is(BiosWrathWeaponsTags.SIRENS_ESSENCE_PREVENTS_AGGRO_OF)
                 && BiosWrathWeaponsModItems.hasEssence(value, BiosWrathWeaponsModItems.SIREN_ESSENCE.get())) ? null : value;
     }
 }

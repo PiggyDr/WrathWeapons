@@ -99,7 +99,6 @@ public class ForgeEventSubscriber {
         } catch (IOException e) {
             BiosWrathWeaponsMod.LOGGER.error("Error while saving cooldowns");
             e.printStackTrace();
-//            throw e;
         }
     }
 
@@ -113,19 +112,17 @@ public class ForgeEventSubscriber {
                 Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemId));
                 if (item == null) continue;
                 BiosWrathWeaponsMod.LOGGER.info("loading cooldown for " + itemId + ": " + cooldownNbt.getInt(itemId) + " ticks");
-//                event.getEntity().getCooldowns().addCooldown(item, cooldownNbt.getInt(itemId));
                 cooldowns.put(item, cooldownNbt.getInt(itemId));
             }
             BiosWrathWeaponsMod.PROXY.cooldownsToApply.put(event.getEntity(), cooldowns);
         } catch (IOException e) {
             BiosWrathWeaponsMod.LOGGER.error("Error while loading cooldowns");
             throw e;
-//            e.printStackTrace();
         }
     }
 
     @SubscribeEvent
-    public static void applyCooldowns(LevelEvent.Load event) {
-        BiosWrathWeaponsMod.PROXY.applyCooldowns();
+    public static void applyCooldowns(PlayerEvent.PlayerLoggedInEvent event) {
+        BiosWrathWeaponsMod.PROXY.applyCooldowns(event.getEntity());
     }
 }

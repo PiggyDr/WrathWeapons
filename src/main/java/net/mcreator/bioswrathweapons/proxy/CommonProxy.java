@@ -24,11 +24,9 @@ public class CommonProxy {
 
     public void addCooldownToTooltip(Item item, List<Component> components) {}
 
-    public void applyCooldowns() {
-        for (Map.Entry<Player, Map<Item, Integer>> playerEntry : this.cooldownsToApply.entrySet()) {
-            for (Map.Entry<Item, Integer> cooldownEntry : playerEntry.getValue().entrySet()) {
-                playerEntry.getKey().getCooldowns().addCooldown(cooldownEntry.getKey(), cooldownEntry.getValue());
-            }
+    public void applyCooldowns(Player player) {
+        for (Map.Entry<Item, Integer> cooldownEntry : this.cooldownsToApply.get(player).entrySet()) {
+            player.getCooldowns().addCooldown(cooldownEntry.getKey(), cooldownEntry.getValue());
         }
     }
 
