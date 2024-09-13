@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.mcreator.bioswrathweapons.client.sound.ReapersStrideSound;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.network.ClientboundIndomitableEssencePacket;
+import net.mcreator.bioswrathweapons.utils.CooldownUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -54,7 +55,6 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void addCustomCooldown(Item item, int totalCooldown, int currentDuration) {
-        ItemCooldowns itemCooldowns = Minecraft.getInstance().player.getCooldowns();
-        itemCooldowns.cooldowns.put(item, new ItemCooldowns.CooldownInstance(itemCooldowns.tickCount - totalCooldown + currentDuration, itemCooldowns.tickCount + currentDuration));
+        CooldownUtils.addCustomCooldown(Minecraft.getInstance().player, item, totalCooldown, currentDuration);
     }
 }
