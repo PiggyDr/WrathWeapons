@@ -1,5 +1,5 @@
 {
-  "parent": "bios_wrath_weapons:block/balls_delightful_pan",
+  "parent": "bios_wrath_weapons:custom/ballsdelightfulpan",
   "display": {
     "thirdperson_righthand": {
       "rotation": [70, 0, 0],

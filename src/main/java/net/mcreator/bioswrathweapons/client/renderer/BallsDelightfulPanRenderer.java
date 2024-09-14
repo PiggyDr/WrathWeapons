@@ -44,13 +44,16 @@ public class BallsDelightfulPanRenderer implements BlockEntityRenderer<BallsDeli
                 poseStack.pushPose();
 
                 // Stack up items in the skillet, with a slight offset per item
-                float xOffset = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
-                float zOffset = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
-                poseStack.translate(0.5D + xOffset, 0.1D + 0.03 * (i + 1), 0.5D + zOffset);
+                float xOffset = (this.random.nextFloat() * 2.0F - 1.0F) * 0.06F;
+                float zOffset = (this.random.nextFloat() * 2.0F - 1.0F) * 0.06F;
+                poseStack.translate(0.5D + xOffset, + 0.03 * (i + 1), 0.5D + zOffset);
 
                 // Rotate item to face the skillet's front side
                 float degrees = -direction.toYRot();
                 poseStack.mulPose(Axis.YP.rotationDegrees(degrees));
+
+                // move item to be in center of the pan
+                poseStack.translate(0.0D, 0.0D, -0.1D);
 
                 // Rotate item flat on the skillet. Use X and Y from now on
                 poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
