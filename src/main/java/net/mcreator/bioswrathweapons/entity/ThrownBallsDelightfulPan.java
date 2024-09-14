@@ -1,8 +1,8 @@
 package net.mcreator.bioswrathweapons.entity;
 
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,7 +30,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //probably shouldve used one of the thrown projectile classes
 

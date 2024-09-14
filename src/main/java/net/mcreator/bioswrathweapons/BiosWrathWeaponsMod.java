@@ -1,7 +1,6 @@
 package net.mcreator.bioswrathweapons;
 
 import net.mcreator.bioswrathweapons.init.*;
-import net.mcreator.bioswrathweapons.item.EnderEssenceItem;
 import net.mcreator.bioswrathweapons.proxy.ClientProxy;
 import net.mcreator.bioswrathweapons.proxy.CommonProxy;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,7 +12,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import net.minecraftforge.network.NetworkEvent;
@@ -22,7 +20,6 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

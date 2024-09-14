@@ -4,7 +4,6 @@ import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.EnderKatanaProjectile;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
 import net.mcreator.bioswrathweapons.entity.ThrownSirensTrident;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;

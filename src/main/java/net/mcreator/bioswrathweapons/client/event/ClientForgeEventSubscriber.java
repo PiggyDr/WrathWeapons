@@ -12,23 +12,17 @@ import net.mcreator.bioswrathweapons.network.ServerboundDoubleJumpPacket;
 import net.mcreator.bioswrathweapons.network.ServerboundEmptyAttackPacket;
 import net.mcreator.bioswrathweapons.network.ServerboundEssenceAbilityPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 
 @OnlyIn(Dist.CLIENT)

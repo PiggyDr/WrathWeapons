@@ -1,10 +1,8 @@
 package net.mcreator.bioswrathweapons.item.model;
 
-import software.bernie.geckolib.model.GeoModel;
-
-import net.minecraft.resources.ResourceLocation;
-
 import net.mcreator.bioswrathweapons.item.PuristSwordItem;
+import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.model.GeoModel;
 
 public class PuristSwordItemModel extends GeoModel<PuristSwordItem> {
 	@Override

@@ -1,7 +1,7 @@
 package net.mcreator.bioswrathweapons.procedures;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 public class UnhoolyHammerTimeLivingEntityIsHitWithToolProcedure {
 	public static void execute(Entity sourceentity) {

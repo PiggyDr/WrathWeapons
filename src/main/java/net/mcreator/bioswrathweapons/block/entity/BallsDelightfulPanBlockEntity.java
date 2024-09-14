@@ -1,8 +1,5 @@
 package net.mcreator.bioswrathweapons.block.entity;
 
-import java.util.Optional;
-import javax.annotation.Nullable;
-
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,6 +32,9 @@ import vectorwing.farmersdelight.common.registry.ModParticleTypes;
 import vectorwing.farmersdelight.common.registry.ModSounds;
 import vectorwing.farmersdelight.common.utility.ItemUtils;
 import vectorwing.farmersdelight.common.utility.TextUtils;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 /*
     this file or significant portions of it were taken from farmers delight; see [TODO: correct file] for details

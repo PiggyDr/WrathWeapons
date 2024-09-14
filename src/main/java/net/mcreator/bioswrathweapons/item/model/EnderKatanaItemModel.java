@@ -1,10 +1,8 @@
 package net.mcreator.bioswrathweapons.item.model;
 
-import software.bernie.geckolib.model.GeoModel;
-
-import net.minecraft.resources.ResourceLocation;
-
 import net.mcreator.bioswrathweapons.item.EnderKatanaItem;
+import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.model.GeoModel;
 
 public class EnderKatanaItemModel extends GeoModel<EnderKatanaItem> {
 	@Override

@@ -1,22 +1,19 @@
 package net.mcreator.bioswrathweapons.item.renderer;
 
-import software.bernie.geckolib.renderer.GeoItemRenderer;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.MultiBufferSource;
-
-import net.mcreator.bioswrathweapons.item.model.PuristSwordItemModel;
-import net.mcreator.bioswrathweapons.item.PuristSwordItem;
-
-import java.util.Set;
-import java.util.HashSet;
-
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.mcreator.bioswrathweapons.item.PuristSwordItem;
+import net.mcreator.bioswrathweapons.item.model.PuristSwordItemModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.renderer.GeoItemRenderer;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class PuristSwordItemRenderer extends GeoItemRenderer<PuristSwordItem> {
 	public PuristSwordItemRenderer() {

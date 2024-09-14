@@ -1,9 +1,7 @@
 package net.mcreator.bioswrathweapons.mixin;
 
-import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsTags;
-import net.mcreator.bioswrathweapons.item.SirenEssenceItem;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

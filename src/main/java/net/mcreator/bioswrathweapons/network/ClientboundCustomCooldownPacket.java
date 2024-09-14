@@ -1,8 +1,6 @@
 package net.mcreator.bioswrathweapons.network;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;

@@ -14,8 +14,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import java.net.http.HttpResponse;
-
 public class SirensTridentRenderer extends EntityRenderer<ThrownSirensTrident> {
 
     private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(BiosWrathWeaponsMod.MODID, "textures/item/sirenstrident.png");

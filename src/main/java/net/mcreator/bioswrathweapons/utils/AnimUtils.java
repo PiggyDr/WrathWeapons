@@ -1,11 +1,9 @@
 package net.mcreator.bioswrathweapons.utils;
 
-import software.bernie.geckolib.cache.object.GeoBone;
-
-import net.minecraft.client.model.geom.ModelPart;
-
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.geom.ModelPart;
+import software.bernie.geckolib.cache.object.GeoBone;
 
 public class AnimUtils {
 	public static void renderPartOverBone(ModelPart model, GeoBone bone, PoseStack stack, VertexConsumer buffer, int packedLightIn, int packedOverlayIn, float alpha) {

@@ -1,17 +1,14 @@
 package net.mcreator.bioswrathweapons.init;
 
-import software.bernie.geckolib.animatable.GeoItem;
-
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.event.TickEvent;
-
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.Minecraft;
-
-import net.mcreator.bioswrathweapons.item.PuristSwordItem;
 import net.mcreator.bioswrathweapons.item.EnderKatanaItem;
+import net.mcreator.bioswrathweapons.item.PuristSwordItem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import software.bernie.geckolib.animatable.GeoItem;
 
 @Mod.EventBusSubscriber
 public class ItemAnimationFactory {
