@@ -60,7 +60,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 
 public class BallsDelightfulPanBlock extends SkilletBlock {
-    
+
     private static final VoxelShape TRAY = Block.box(0.0, -1.0, 0.0, 16.0, 0.0, 16.0);
     protected static final VoxelShape SHAPE_EAST = Block.box(1F, 0F, 3F, 11F, 2F, 13F);
     protected static final VoxelShape SHAPE_WEST = Block.box(5F, 0F, 3F, 15F, 2F, 13F);

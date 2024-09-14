@@ -50,9 +50,11 @@ public class ClientForgeEventSubscriber {
     public static void keyPressed(InputEvent.Key event) {
         if (Minecraft.getInstance().level == null) return;
 
-        if (event.getKey() == Keybinds.INSTANCE.essenceAbility.getKey().getValue()) {
+        if (event.getKey() == Keybinds.INSTANCE.essenceAbility.getKey().getValue()
+            && Keybinds.INSTANCE.essenceAbility.isDown()) {
             BiosWrathWeaponsMod.PACKET_HANDLER.sendToServer(new ServerboundEssenceAbilityPacket());
         } else if (event.getKey() == Minecraft.getInstance().options.keyJump.getKey().getValue()
+                && Minecraft.getInstance().options.keyJump.isDown()
                 && !Minecraft.getInstance().player.onGround()
                 && PhantomEssenceItem.doubleJumpAllowed(Minecraft.getInstance().player)
                 && (event.getAction() == InputConstants.PRESS
