@@ -19,7 +19,6 @@ public class EssenceDataCapability implements ICapabilitySerializable<CompoundTa
     public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(BiosWrathWeaponsMod.MODID, "essence_data");
     private final LazyOptional<EssenceDataCapability> optional = LazyOptional.of(() -> this);
 
-    private int cooldown; //TODO implement
     private int jumpsUsed;
     private float jumpedFrom;
     private boolean hasJumpedFrom = false;
@@ -41,22 +40,6 @@ public class EssenceDataCapability implements ICapabilitySerializable<CompoundTa
     public void deserializeNBT(CompoundTag nbt) {
         this.jumpsUsed = nbt.getInt("jumps_used");
         this.jumpedFrom = nbt.getFloat("jumped_from");
-    }
-
-    public int getCooldown() {
-        return cooldown;
-    }
-
-    public void setCooldown(int i) {
-        this.cooldown = i;
-    }
-
-    public void decrementCooldown() {
-        this.setCooldown(this.getCooldown() - 1);
-    }
-
-    public boolean onCooldown() {
-        return this.cooldown > 0;
     }
 
 
