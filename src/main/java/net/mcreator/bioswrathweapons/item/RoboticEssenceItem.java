@@ -54,7 +54,7 @@ public class RoboticEssenceItem extends AbstractAbilityEssenceItem implements IC
                 player.level().addFreshEntity(cursor);
             }
         }
-        player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.ROBOTIC_ESSENCE.get(), 18);
+        player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.ROBOTIC_ESSENCE.get(), 1800);
         AABB aabb = new AABB(player.position(), player.position()).inflate(9);
         player.level().getEntitiesOfClass(SculkMiteEntity.class, aabb).forEach(mite -> mite.hurt(player.damageSources().sonicBoom(player), mite.getHealth()));
         player.level().getEntitiesOfClass(SculkMiteAggressorEntity.class, aabb).forEach(mite -> mite.hurt(player.damageSources().sonicBoom(player), mite.getHealth()));

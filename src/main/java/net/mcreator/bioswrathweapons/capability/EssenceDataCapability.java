@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
@@ -76,7 +77,7 @@ public class EssenceDataCapability implements ICapabilitySerializable<CompoundTa
     }
 
     public boolean hasJumpsRemaining(LivingEntity entity) {
-        return BiosWrathWeaponsModItems.hasEssence(entity, BiosWrathWeaponsModItems.PHANTOM_ESSENCE.get()) && this.getJumpsUsed() < 5;
+        return this.getJumpsUsed() < BiosWrathWeaponsModItems.getEssence(entity).map(itemStack -> BiosWrathWeaponsModItems.getDoubleJumps(itemStack.getItem())).orElse(0);
     }
 
     public float getJumpedFrom() {

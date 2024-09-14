@@ -70,11 +70,7 @@ public class ClientForgeEventSubscriber {
 
     @SubscribeEvent
     public static void renderEssence(RenderGuiEvent.Pre event) {
-        ItemStack essence = CuriosApi.getCuriosInventory(Minecraft.getInstance().player).map(inventory ->
-                        inventory.getStacksHandler("essence").map(handler ->
-                                        handler.getStacks().getStackInSlot(0))
-                                .orElse(Items.DIAMOND.getDefaultInstance()))
-                .orElse(Items.DIAMOND.getDefaultInstance());
+        ItemStack essence = BiosWrathWeaponsModItems.getEssence(Minecraft.getInstance().player).orElse(ItemStack.EMPTY);
         int x = event.getWindow().getGuiScaledWidth() / 2 - 140;
         int y = event.getWindow().getGuiScaledHeight() - 19;
 

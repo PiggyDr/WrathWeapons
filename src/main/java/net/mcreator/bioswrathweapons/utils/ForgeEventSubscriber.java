@@ -39,10 +39,8 @@ public class ForgeEventSubscriber {
 
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
-        if (CuriosApi.getCuriosInventory(event.getEntity()).lazyMap(inventory ->
-                        inventory.getStacksHandler("essence").map(slot ->
-                                        slot.getStacks().getStackInSlot(0).getItem() == BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get())
-                                .orElse(false)).orElse(false) && event.getEntity() instanceof Player player
+        if (BiosWrathWeaponsModItems.hasEssence(event.getEntity(), BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get())
+                && event.getEntity() instanceof Player player
                 && !player.getCooldowns().isOnCooldown(BiosWrathWeaponsModItems.INDOMITABLE_ESSENCE.get())
                 && !event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 

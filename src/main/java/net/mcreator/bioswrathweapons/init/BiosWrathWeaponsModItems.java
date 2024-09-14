@@ -6,6 +6,7 @@ package net.mcreator.bioswrathweapons.init;
 
 import net.mcreator.bioswrathweapons.item.*;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.DeferredRegister;
@@ -14,6 +15,8 @@ import net.minecraft.world.item.Item;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import java.util.Optional;
 
 public class BiosWrathWeaponsModItems {
 	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, BiosWrathWeaponsMod.MODID);
@@ -40,11 +43,18 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> ROBOTIC_ESSENCE = REGISTRY.register("robotic_essence", RoboticEssenceItem::new);
 
 	public static boolean hasEssence(LivingEntity entity, Item essence) {
-		return CuriosApi.getCuriosInventory(entity).lazyMap(inventory ->
+		return getEssence(entity).map(itemStack -> itemStack.getItem() == essence).orElse(false);
+	}
+	public static Optional<ItemStack> getEssence(LivingEntity entity) {
+		return CuriosApi.getCuriosInventory(entity).map(inventory ->
 						inventory.getStacksHandler("essence").map(slot ->
-										slot.getStacks().getStackInSlot(0).getItem() == essence)
-								.orElse(false))
-				.orElse(false);
+										slot.getStacks().getStackInSlot(0)))
+				.orElse(Optional.empty());
+	}
+	public static int getDoubleJumps(Item item) {
+		if (item == PHANTOM_ESSENCE.get()) return 5;
+		if (item == ROBOTIC_ESSENCE.get()) return 1;
+		return 0;
 	}
 	// End of user code block custom items
 }

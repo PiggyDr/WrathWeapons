@@ -1,6 +1,7 @@
 package net.mcreator.bioswrathweapons.network;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.item.AbstractAbilityEssenceItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketListener;
@@ -28,15 +29,12 @@ public class ServerboundEssenceAbilityPacket implements Packet<PacketListener> {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;
-            CuriosApi.getCuriosInventory(player)
-                    .ifPresent(inventory ->
-                            inventory.getStacksHandler("essence")
-                                    .ifPresent(handler -> {
-                                        ItemStack essence = handler.getStacks().getStackInSlot(0);
+            BiosWrathWeaponsModItems.getEssence(player)
+                                    .ifPresent(essence -> {
                                         Item essenceType = essence.getItem();
                                         if (!player.getCooldowns().isOnCooldown(essenceType) && essenceType instanceof AbstractAbilityEssenceItem abilityEssence)
                                             abilityEssence.useAbility(player);
-                                    }));
+                                    });
         });
         ctx.get().setPacketHandled(true);
     }
