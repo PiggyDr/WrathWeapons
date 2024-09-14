@@ -19,5 +19,10 @@
       "bios_wrath_weapons:phantom_essence_5"
     ],
     "volume": 5
+  },
+  "item.robotic_essence.activate": {
+    "subtitle": "subtitle.item.robotic_essence.activate",
+    "sounds": [ "bios_wrath_weapons:robotic_essence_activate" ],
+    "volume": 5
   }
 }

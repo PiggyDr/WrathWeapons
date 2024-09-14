@@ -7,8 +7,10 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -57,10 +59,14 @@ public class RoboticEssenceItem extends AbstractAbilityEssenceItem implements IC
                 player.level().addFreshEntity(cursor);
             }
         }
+
         player.getCooldowns().addCooldown(BiosWrathWeaponsModItems.ROBOTIC_ESSENCE.get(), 1800);
+
         AABB aabb = new AABB(player.position(), player.position()).inflate(9);
         player.level().getEntitiesOfClass(SculkMiteEntity.class, aabb).forEach(mite -> mite.hurt(player.damageSources().sonicBoom(player), mite.getHealth()));
         player.level().getEntitiesOfClass(SculkMiteAggressorEntity.class, aabb).forEach(mite -> mite.hurt(player.damageSources().sonicBoom(player), mite.getHealth()));
+
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), BiosWrathWeaponsModSounds.ROBOTIC_ESSENCE_ACTIVATE.get(), SoundSource.PLAYERS, 3F, 1F);
     }
 
     @Override

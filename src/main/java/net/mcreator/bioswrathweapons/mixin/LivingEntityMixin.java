@@ -63,7 +63,7 @@ public abstract class LivingEntityMixin {
             )
     )
     private float modifyJumpBoostPower(LivingEntity instance) {
-        return instance.getJumpBoostPower() + (BiosWrathWeaponsModItems.hasEssence(instance, BiosWrathWeaponsModItems.UNHOOLY_ESSENCE.get()) ? 0.2F : 0.0F);
+        return instance.getJumpBoostPower() + ((BiosWrathWeaponsModItems.hasEssence(instance, BiosWrathWeaponsModItems.UNHOOLY_ESSENCE.get()) || BiosWrathWeaponsModItems.hasEssence(instance, BiosWrathWeaponsModItems.ROBOTIC_ESSENCE.get())) ? 0.2F : 0.0F);
     }
 
 }
