@@ -126,7 +126,7 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
 
     private void playSound() {
         BiosWrathWeaponsMod.LOGGER.info("playing to world");
-        this.level().playSound(null, getX(), getY(), getZ(), SoundEvents.THORNS_HIT, SoundSource.PLAYERS, 2F, 1F);
+        this.level().playSound(null, getX(), getY(), getZ(), SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.PLAYERS, 2F, 1F);
     }
 
     @Override
