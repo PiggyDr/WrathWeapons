@@ -32,3 +32,4 @@ the properties of net.mcreator.bioswrathweapons.block.BallsDelightfulPanBlock ar
 obviously net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem#isPlayerNearHeatSource is copied from vectorwing.farmersdelight.common.item.SkilletItem#isPlayerNearHeatSource
 net.mcreator.bioswrathweapons.item.BallsDelightfulPanItem$BDPEvents and its method is copied from vectorwing.farmersdelight.common.item.SkilletItem#SkilletEvents
 net.mcreator.bioswrathweapons.block.entity.BallsDelightfulPanBlockEntity is copied from whatever block entity class the skillet uses
+either the entirety of net.mcreator.bioswrathweapons.block.BallsDelightfulPanBlock or a lot of its methods were copied from vectorwing.farmersdelight.common.block.SkilletBlock (probably the latter)
