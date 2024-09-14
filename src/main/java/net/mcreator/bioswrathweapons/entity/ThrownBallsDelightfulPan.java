@@ -1,5 +1,6 @@
 package net.mcreator.bioswrathweapons.entity;
 
+import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModDamageTypes;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
@@ -139,7 +140,7 @@ public class ThrownBallsDelightfulPan extends AbstractHurtingProjectile { //prob
                 fire += 5;
             damage *= 0.85F;
 
-            DamageSource damageSource = this.damageSources().trident(this, getOwner() == null ? this : getOwner());
+            DamageSource damageSource = BiosWrathWeaponsModDamageTypes.thrownPan(this, getOwner() == null ? this : getOwner());
             if (entity.hurt(damageSource, damage) && entity.getType() != EntityType.ENDERMAN) {
                 entity.setSecondsOnFire(fire);
 

@@ -27,5 +27,12 @@
   "item.bios_wrath_weapons.high_elf_blade.tooltip": "Dancing among the leaves and quartz.",
   "item.bios_wrath_weapons.balls_delightful_pan.tooltip": "The Grand Chef has arrived.",
   "item.bios_wrath_weapons.gods_tool.tooltip": "Play with their minds, friend.",
-  "item.bios_wrath_weapons.sculk_saber.tooltip": "[Cleansing Protocol Confirmed]"
+  "item.bios_wrath_weapons.sculk_saber.tooltip": "[Cleansing Protocol Confirmed]",
+
+  "death.attack.thrown_pan": "%1$s was bludgeoned tastefully",
+  "death.attack.thrown_pan.player": "%1$s was bludgeoned tastefully by %2$s",
+  "death.attack.thrown_pan.item": "%1$s was bludgeoned tastefully by %2$s using %3$s",
+  "death.attack.reapers_stride": "%1$s was shredded",
+  "death.attack.reapers_stride.player": "%1$s was shredded by %2$s",
+  "death.attack.reapers_stride.item": "%1$s was shredded by %2$s using %3$s"
 }
