@@ -23,6 +23,9 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import vectorwing.farmersdelight.common.block.SkilletBlock;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.registry.ModSounds;
@@ -57,9 +60,43 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 
 public class BallsDelightfulPanBlock extends SkilletBlock {
+    
+    private static final VoxelShape TRAY = Block.box(0.0, -1.0, 0.0, 16.0, 0.0, 16.0);
+    protected static final VoxelShape SHAPE_EAST = Block.box(1F, 0F, 3F, 11F, 2F, 13F);
+    protected static final VoxelShape SHAPE_WEST = Block.box(5F, 0F, 3F, 15F, 2F, 13F);
+    protected static final VoxelShape SHAPE_SOUTH = Block.box(3F, 0F, 1F, 13F, 2F, 11F);
+    protected static final VoxelShape SHAPE_NORTH = Block.box(3F, 0F, 5F, 13F, 2F, 15F);
+    protected static final VoxelShape SHAPE_EAST_TRAY = Shapes.or(SHAPE_EAST, TRAY);
+    protected static final VoxelShape SHAPE_WEST_TRAY = Shapes.or(SHAPE_WEST, TRAY);
+    protected static final VoxelShape SHAPE_SOUTH_TRAY = Shapes.or(SHAPE_SOUTH, TRAY);
+    protected static final VoxelShape SHAPE_NORTH_TRAY = Shapes.or(SHAPE_NORTH, TRAY);
 
     public BallsDelightfulPanBlock() {
         super(Block.Properties.copy(ModBlocks.SKILLET.get()));
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        switch (state.getValue(FACING)) {
+            case EAST -> { return SHAPE_EAST; }
+            case WEST -> { return SHAPE_WEST; }
+            case SOUTH -> { return SHAPE_SOUTH; }
+            default -> {}
+        }
+        return SHAPE_NORTH;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (state.getValue(SUPPORT))
+            switch (state.getValue(FACING)) {
+                case EAST -> { return SHAPE_EAST_TRAY; }
+                case WEST -> { return SHAPE_WEST_TRAY; }
+                case SOUTH -> { return SHAPE_SOUTH_TRAY; }
+                default -> { return SHAPE_NORTH_TRAY; }
+            }
+
+        return this.getShape(state, level, pos, context);
     }
 
     @Nullable
