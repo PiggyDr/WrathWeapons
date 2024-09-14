@@ -7,6 +7,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -125,7 +126,7 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
 
     private void playSound() {
         BiosWrathWeaponsMod.LOGGER.info("playing to world");
-        this.level().playSound(null, getX(), getY(), getZ(), BiosWrathWeaponsModSounds.PLACEHOLDER.get(), SoundSource.PLAYERS, 2F, 1F);
+        this.level().playSound(null, getX(), getY(), getZ(), SoundEvents.THORNS_HIT, SoundSource.PLAYERS, 2F, 1F);
     }
 
     @Override
