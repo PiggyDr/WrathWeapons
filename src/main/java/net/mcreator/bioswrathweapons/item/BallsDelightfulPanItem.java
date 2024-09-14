@@ -7,6 +7,7 @@ import com.mojang.math.Axis;
 import net.mcreator.bioswrathweapons.entity.ThrownBallsDelightfulPan;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModMobEffects;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
@@ -118,7 +119,7 @@ public class BallsDelightfulPanItem extends SkilletItem {
 	@Override
 	public void appendHoverText(ItemStack itemstack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("§6The Grand Chef has arrived."));
+		list.add(Component.translatable("item.bios_wrath_weapons.balls_delightful_pan.tooltip").withStyle(ChatFormatting.GOLD));
 	}
 
 	public float getDamage() {

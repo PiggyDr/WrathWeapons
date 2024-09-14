@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModItems;
 import net.mcreator.bioswrathweapons.item.renderer.PuristSwordItemRenderer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -128,7 +129,7 @@ public class PuristSwordItem extends Item implements GeoItem {
 	@Override
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("\u00A76Purification is the way to peace."));
+		list.add(Component.translatable("item.bios_wrath_weapons.purist_sword.tooltip").withStyle(ChatFormatting.GOLD));
 		BiosWrathWeaponsMod.PROXY.addCooldownToTooltip(itemstack.getItem(), list);
 	}
 

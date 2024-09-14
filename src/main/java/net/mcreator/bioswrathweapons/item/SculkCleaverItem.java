@@ -1,6 +1,7 @@
 
 package net.mcreator.bioswrathweapons.item;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -94,6 +95,6 @@ public class SculkCleaverItem extends SwordItem {
 	@Override
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("\u00A73The Forgotten Claymore for a Forgotten Warrior."));
+		list.add(Component.translatable("item.bios_wrath_weapons.sculk_cleaver.tooltip").withStyle(ChatFormatting.DARK_AQUA));
 	}
 }

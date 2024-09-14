@@ -2,6 +2,7 @@
 package net.mcreator.bioswrathweapons.item;
 
 import com.github.sculkhorde.core.ModMobEffects;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -44,7 +45,7 @@ public class SculkSaberItem extends SwordItem {
     @Override
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("\u00A76\u00A7l[Cleansing Protocol Confirmed]"));
+		list.add(Component.translatable("item.bios_wrath_weapons.sculk_saber.tooltip").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD));
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 {
-  "parent": "bios_wrath_weapons:custom/bladeofthepixie",
+  "parent": "bios_wrath_weapons:custom/blade_of_thepixie",
   "textures": {
-    "0": "bios_wrath_weapons:block/bladeofthepixie",
-    "particle": "bios_wrath_weapons:item/bladeofthepixie"
+    "0": "bios_wrath_weapons:block/blade_of_thepixie",
+    "particle": "bios_wrath_weapons:item/blade_of_thepixie"
   }
 }

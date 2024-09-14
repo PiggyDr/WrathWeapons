@@ -2,6 +2,7 @@
 package net.mcreator.bioswrathweapons.item;
 
 import net.mcreator.bioswrathweapons.procedures.UnhoolyHammerTimeLivingEntityIsHitWithToolProcedure;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
@@ -49,6 +50,6 @@ public class UnhoolyHammerTimeItem extends PickaxeItem {
 	@Override
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("\u00A72A Relic of time, brought through the cosmos back into the hands of a queen."));
+		list.add(Component.translatable("item.bios_wrath_weapons.unhooly_hammer_time.tooltip").withStyle(ChatFormatting.GREEN));
 	}
 }

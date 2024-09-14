@@ -26,7 +26,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> BALLS_DELIGHTFUL_PAN = REGISTRY.register("balls_delightful_pan", () -> new BallsDelightfulPanItem(BiosWrathWeaponsModBlocks.BALLS_DELIGHTFUL_PAN.get()));
 	public static final RegistryObject<Item> ENDER_KATANA = REGISTRY.register("ender_katana", EnderKatanaItem::new);
 	public static final RegistryObject<Item> HIGH_ELF_BLADE = REGISTRY.register("high_elf_blade", HighElfBladeItem::new);
-	public static final RegistryObject<Item> BLADEOFTHE_PIXIE = REGISTRY.register("bladeofthe_pixie", BladeofthePixieItem::new);
+	public static final RegistryObject<Item> BLADE_OF_THE_PIXIE = REGISTRY.register("blade_of_the_pixie", BladeOfThePixieItem::new);
 	public static final RegistryObject<Item> GODS_TOOL = REGISTRY.register("gods_tool", GodsToolItem::new);
 	public static final RegistryObject<Item> SIRENS_TRIDENT = REGISTRY.register("sirens_trident", SirensTridentItem::new);
 	public static final RegistryObject<Item> REAPERS_STRIDE = REGISTRY.register("reapers_stride", ReapersStrideItem::new);

@@ -22,7 +22,7 @@ public class BiosWrathWeaponsModTabs {
 	public static final RegistryObject<CreativeModeTab> WRATH_WEAPONS = REGISTRY.register("wrath_weapons",
 			() -> CreativeModeTab.builder().title(Component.translatable("item_group.bios_wrath_weapons.wrath_weapons")).icon(() -> new ItemStack(BiosWrathWeaponsModItems.UNHOOLY_HAMMER_TIME.get())).displayItems((parameters, tabData) -> {
 				tabData.accept(BiosWrathWeaponsModItems.BALLS_DELIGHTFUL_PAN.get());
-				tabData.accept(BiosWrathWeaponsModItems.BLADEOFTHE_PIXIE.get());
+				tabData.accept(BiosWrathWeaponsModItems.BLADE_OF_THE_PIXIE.get());
 				tabData.accept(BiosWrathWeaponsModItems.DWARVEN_LEGACY.get());
 				tabData.accept(BiosWrathWeaponsModItems.HIGH_ELF_BLADE.get());
 				tabData.accept(BiosWrathWeaponsModItems.PURIST_SWORD.get());

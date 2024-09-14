@@ -5,6 +5,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -59,7 +60,7 @@ public class DwarvenLegacyItem extends PickaxeItem {
 	@Override
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("\u00A7dThe next light of the Dwarven Race."));
+		list.add(Component.translatable("item.bios_wrath_weapons.dwarven_legacy.tooltip").withStyle(ChatFormatting.LIGHT_PURPLE));
 	}
 
 	@Override

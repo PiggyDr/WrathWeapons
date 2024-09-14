@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.entity.EnderKatanaProjectile;
 import net.mcreator.bioswrathweapons.item.renderer.EnderKatanaItemRenderer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -124,20 +125,10 @@ public class EnderKatanaItem extends Item implements GeoItem {
 	@Override
 	public void appendHoverText(ItemStack itemstack, Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
-		list.add(Component.literal("\u00A75Echoes of the Void watch you."));
+		list.add(Component.translatable("item.bios_wrath_weapons.ender_katana.tooltip").withStyle(ChatFormatting.DARK_PURPLE));
 	}
 
-//	@Override
-//	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-//        if (!level.isClientSide()) {
-//			EnderKatanaProjectile projectile = new EnderKatanaProjectile(player, 0, 0, 0, level);
-//			projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 0);
-//			level.addFreshEntity(projectile);
-//		}
-//		return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), !level.isClientSide());
-//	}
-
-	public static void shootProjectile(Player player) {
+    public static void shootProjectile(Player player) {
 		BiosWrathWeaponsMod.LOGGER.debug("shjootprojectikel ");
 		EnderKatanaProjectile projectile = new EnderKatanaProjectile(player, 0, 0, 0, player.level());
 		projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 0);

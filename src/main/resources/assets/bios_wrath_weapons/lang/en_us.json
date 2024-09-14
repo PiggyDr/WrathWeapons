@@ -1,8 +1,15 @@
 {
-  "item.bios_wrath_weapons.sculk_cleaver": "§3§lSculk Cleaver",
+  "curios.identifier.essence": "Essence",
+  "curios.modifiers.essence": "When bound as Essence:",
+  "item.bios_wrath_weapons.ender_essence": "Ender Essence",
+  "item.bios_wrath_weapons.indomitable_essence": "Indomitable Essence",
+  "tooltip.bios_wrath_weapons.cooldown": "%dm%ds remaining",
+  "tooltip.bios_wrath_weapons.cooldown_over": "Ready to use!",
   "item_group.bios_wrath_weapons.wrath_weapons": "Wrath Weapons",
+
+  "item.bios_wrath_weapons.sculk_cleaver": "§3§lSculk Cleaver",
   "item.bios_wrath_weapons.unhooly_hammer_time": "§4§lUnhooly (Hammer Time)",
-  "item.bios_wrath_weapons.bladeofthe_pixie": "§a§lBladeofthe Pixie",
+  "item.bios_wrath_weapons.blade_of_the_pixie": "§a§lBlade of the Pixie",
   "item.bios_wrath_weapons.dwarven_legacy": "§dDwarven Legacy",
   "item.bios_wrath_weapons.purist_sword": "§6§lPurist Sword",
   "item.bios_wrath_weapons.ender_katana": "§5§lEnder Katana",
@@ -12,10 +19,13 @@
   "item.bios_wrath_weapons.sculk_saber": "§6Sculk Saber",
   "item.bios_wrath_weapons.sirens_trident": "Siren's Trident",
 
-  "curios.identifier.essence": "Essence",
-  "curios.modifiers.essence": "When bound as Essence:",
-  "item.bios_wrath_weapons.ender_essence": "Ender Essence",
-  "item.bios_wrath_weapons.indomitable_essence": "Indomitable Essence",
-  "tooltip.bios_wrath_weapons.cooldown": "%dm%ds remaining",
-  "tooltip.bios_wrath_weapons.cooldown_over": "Ready to use!"
+  "item.bios_wrath_weapons.sculk_cleaver.tooltip": "The Forgotten Claymore for a Forgotten Warrior.",
+  "item.bios_wrath_weapons.unhooly_hammer_time.tooltip": "Relic of time, brought through the cosmos back into the hands of a queen.",
+  "item.bios_wrath_weapons.blade_of_the_pixie.tooltip": "Sparkle Sparkle, mf-",
+  "item.bios_wrath_weapons.dwarven_legacy.tooltip": "The next light of the Dwarven Race.",
+  "item.bios_wrath_weapons.ender_katana.tooltip": "Echoes of the Void watch you.",
+  "item.bios_wrath_weapons.high_elf_blade.tooltip": "Dancing among the leaves and quartz.",
+  "item.bios_wrath_weapons.balls_delightful_pan.tooltip": "The Grand Chef has arrived.",
+  "item.bios_wrath_weapons.gods_tool.tooltip": "Play with their minds, friend.",
+  "item.bios_wrath_weapons.sculk_saber.tooltip": "[Cleansing Protocol Confirmed]"
 }
