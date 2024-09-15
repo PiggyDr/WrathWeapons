@@ -40,10 +40,7 @@ public class ballsdelightfulpanthrown<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		//pan.yRot = (headPitch - 90F) / (180F / (float) Math.PI);
-		//pan.xRot = (netHeadYaw + 90F) / (180F / (float) Math.PI);
-		//pan.y -= 0.5F;
-		pan.yRot = (float) (ageInTicks % 10 * Math.PI * 4);
+        pan.yRot = (float) (ageInTicks % 10 * Math.PI * 4); // i dont think this does anything or is actually important but i'm keeping it in just in case
 	}
 
 	@Override

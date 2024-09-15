@@ -2,7 +2,6 @@ package net.mcreator.bioswrathweapons.entity;
 
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
 import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModEntities;
-import net.mcreator.bioswrathweapons.init.BiosWrathWeaponsModSounds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

@@ -30,18 +30,4 @@ public class ClientboundIndomitableEssencePacket implements Packet<ClientPacketL
         ctx.get().enqueueWork(() -> BiosWrathWeaponsMod.PROXY.displayIndomitableEssencePacket(msg));
         ctx.get().setPacketHandled(true);
     }
-
-//    private static Runnable displayActivation() {
-//        if (FMLEnvironment.dist == Dist.CLIENT)
-//            return getClientSupplier();
-//        else
-//            return () -> {};
-//    }
-
-//    @OnlyIn(Dist.CLIENT)
-//    private static Runnable getClientSupplier() {
-//        return () -> ;
-//    }
-
-
 }
