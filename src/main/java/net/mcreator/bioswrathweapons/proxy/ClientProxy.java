@@ -22,6 +22,7 @@ public class ClientProxy extends CommonProxy {
 
     public static final Int2ObjectMap<ReapersStrideSound> TODO_NAME_THIS_FIELD = new Int2ObjectOpenHashMap<>();
 
+    //see readme for licensing info
     @Override
     public void playTickableSound(LivingEntity source) {
         ReapersStrideSound sound = TODO_NAME_THIS_FIELD.computeIfAbsent(source.getId(), i -> new ReapersStrideSound(source));
@@ -32,6 +33,7 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
+    //see readme for licensing info
     @Override
     public void stopPlayingTickableSound(LivingEntity source) {
         TODO_NAME_THIS_FIELD.remove(source.getId());

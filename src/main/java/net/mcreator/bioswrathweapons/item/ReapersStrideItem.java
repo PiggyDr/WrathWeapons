@@ -26,9 +26,14 @@ public class ReapersStrideItem extends Meat_Shredder {
         super(new Item.Properties().stacksTo(1).fireResistant());
     }
 
-    //copied from cataclysms meat shredder class with some stuff swapped out
+    /*
+        i cant be bothered to make anything resembling an actual formal licensing notice like i did for fd so uh
+        the majority of this method was copied from l enders cataclysm; specifically the meat shredder
+        i slightly increased the damage, changed the damage type, and swapped out the proxy tickable method so it accepts the item as valid
+        lenders cataclysm is licenced under lgpl 3 which you can find at https://www.gnu.org/licenses/lgpl-3.0.en.html#license-text
+     */
     @Override
-    public void onUseTick(Level level, LivingEntity living, ItemStack stack, int count) { //TODO add lgpl notice
+    public void onUseTick(Level level, LivingEntity living, ItemStack stack, int count) {
         double range = 2.5;
         Vec3 srcVec = living.getEyePosition();
         Vec3 lookVec = living.getViewVector(1.0F);
