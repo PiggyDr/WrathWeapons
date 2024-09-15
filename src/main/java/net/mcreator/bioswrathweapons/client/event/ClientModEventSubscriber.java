@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Map;
 
 /*
-    this file or significant portions of it were taken from farmers delight; see [TODO: correct file] for details
+    this file or significant portions of it were taken from farmers delight; see the readme for details
 
     MIT License
 

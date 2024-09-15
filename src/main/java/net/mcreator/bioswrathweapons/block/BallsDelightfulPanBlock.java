@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /*
-    this file or significant portions of it were taken from farmers delight; see [TODO: correct file] for details
+    this file or significant portions of it were taken from farmers delight; see the readme for details
 
     MIT License
 
