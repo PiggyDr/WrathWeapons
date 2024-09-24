@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 
 public class SirensTridentRenderer extends EntityRenderer<ThrownSirensTrident> {
 
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(BiosWrathWeaponsMod.MODID, "textures/item/sirenstrident.png");
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(BiosWrathWeaponsMod.MODID, "textures/item/sirens_trident.png");
     private final SirensTridentModel<ThrownSirensTrident> model;
 
 
