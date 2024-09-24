@@ -14,12 +14,12 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
-public class SirensTridentModel<T extends Entity> extends EntityModel<T> {
+public class SirensSpearModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(BiosWrathWeaponsMod.MODID, "sirenstrident_converted"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(BiosWrathWeaponsMod.MODID, "sirens_spear"), "main");
 	private final ModelPart bone;
 
-	public SirensTridentModel(ModelPart root) {
+	public SirensSpearModel(ModelPart root) {
 		this.bone = root.getChild("bone");
 	}
 

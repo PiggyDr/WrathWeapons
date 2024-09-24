@@ -28,7 +28,7 @@ public class BiosWrathWeaponsModItems {
 	public static final RegistryObject<Item> HIGH_ELF_BLADE = REGISTRY.register("high_elf_blade", HighElfBladeItem::new);
 	public static final RegistryObject<Item> BLADE_OF_THE_PIXIE = REGISTRY.register("blade_of_the_pixie", BladeOfThePixieItem::new);
 	public static final RegistryObject<Item> GODS_TOOL = REGISTRY.register("gods_tool", GodsToolItem::new);
-	public static final RegistryObject<Item> SIRENS_TRIDENT = REGISTRY.register("sirens_trident", SirensTridentItem::new);
+	public static final RegistryObject<Item> SIRENS_SPEAR = REGISTRY.register("sirens_spear", SirensSpearItem::new);
 	public static final RegistryObject<Item> REAPERS_STRIDE = REGISTRY.register("reapers_stride", ReapersStrideItem::new);
     // Start of user code block custom items
 	public static final RegistryObject<Item> ENDER_ESSENCE = REGISTRY.register("ender_essence", EnderEssenceItem::new);

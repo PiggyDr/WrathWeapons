@@ -3,7 +3,7 @@ package net.mcreator.bioswrathweapons.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.mcreator.bioswrathweapons.BiosWrathWeaponsMod;
-import net.mcreator.bioswrathweapons.entity.ThrownSirensTrident;
+import net.mcreator.bioswrathweapons.entity.ThrownSirensSpear;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -26,11 +26,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class SirensTridentItem extends Item implements Vanishable {
+public class SirensSpearItem extends Item implements Vanishable {
 
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public SirensTridentItem() {
+    public SirensSpearItem() {
         super(new Item.Properties().stacksTo(1).fireResistant());
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 10D, AttributeModifier.Operation.ADDITION));
@@ -51,7 +51,7 @@ public class SirensTridentItem extends Item implements Vanishable {
                 player.startAutoSpinAttack(20);
                 level.playSound(null, player, SoundEvents.TRIDENT_RIPTIDE_3, SoundSource.PLAYERS, 1F, 1F);
             } else if (!level.isClientSide()) {
-                ThrownSirensTrident trident = new ThrownSirensTrident(player, itemStack.copy(), level);
+                ThrownSirensSpear trident = new ThrownSirensSpear(player, itemStack.copy(), level);
                 trident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.5F, 1.0F);
                 if (player.getAbilities().instabuild)
                     trident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

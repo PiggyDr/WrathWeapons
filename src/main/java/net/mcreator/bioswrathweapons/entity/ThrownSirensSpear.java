@@ -27,18 +27,18 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
-public class ThrownSirensTrident extends AbstractArrow {
+public class ThrownSirensSpear extends AbstractArrow {
 
     private ItemStack item;
     private boolean isReturning;
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownSirensTrident.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownSirensSpear.class, EntityDataSerializers.BOOLEAN);
 
-    public ThrownSirensTrident(EntityType<? extends AbstractArrow> type, Level level) {
+    public ThrownSirensSpear(EntityType<? extends AbstractArrow> type, Level level) {
         super(type, level);
     }
 
-    public ThrownSirensTrident(LivingEntity owner, ItemStack itemStack, Level level) {
-        super(BiosWrathWeaponsModEntities.SIRENS_TRIDENT.get(), owner, level);
+    public ThrownSirensSpear(LivingEntity owner, ItemStack itemStack, Level level) {
+        super(BiosWrathWeaponsModEntities.SIRENS_SPEAR.get(), owner, level);
         this.item = itemStack;
         this.entityData.set(ID_FOIL, itemStack.hasFoil());
         this.setPos(owner.getEyePosition());
