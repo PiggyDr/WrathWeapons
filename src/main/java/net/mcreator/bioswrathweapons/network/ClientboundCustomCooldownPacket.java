@@ -38,7 +38,6 @@ public class ClientboundCustomCooldownPacket implements Packet<PacketListener> {
 
     public static void handle(ClientboundCustomCooldownPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            BiosWrathWeaponsMod.LOGGER.info("recieved cooldown packet: " + packet.item + ", " + packet.totalCooldown + ", " + packet.currentDuration);
             BiosWrathWeaponsMod.PROXY.addCustomCooldown(packet.item, packet.totalCooldown, packet.currentDuration);
         });
         ctx.get().setPacketHandled(true);

@@ -129,7 +129,6 @@ public class EnderKatanaItem extends Item implements GeoItem {
 	}
 
     public static void shootProjectile(Player player) {
-		BiosWrathWeaponsMod.LOGGER.debug("shjootprojectikel ");
 		EnderKatanaProjectile projectile = new EnderKatanaProjectile(player, 0, 0, 0, player.level());
 		projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1, 0);
 		projectile.setPos(player.getX(), player.getEyeY(), player.getZ());

@@ -46,7 +46,6 @@ public class RoboticEssenceItem extends AbstractAbilityEssenceItem implements IC
     @Override
     public void useAbility(Player player) {
         if (!player.level().isClientSide()) {
-            BiosWrathWeaponsMod.LOGGER.info("serverside cursor");
             int cursorCount = player.getRandom().nextInt(4);
             for (int i = 0; i < cursorCount; i++) {
                 CursorSurfacePurifierEntity cursor = new CursorSurfacePurifierEntity(player.level());

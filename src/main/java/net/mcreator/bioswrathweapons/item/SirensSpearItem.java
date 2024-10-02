@@ -43,11 +43,9 @@ public class SirensSpearItem extends Item implements Vanishable {
         if (this.getUseDuration(itemStack) - timeLeft >= 10 && entity instanceof Player player) {
             if (player.isInWaterOrRain()) {
                 Vec3 motion = Vec3.directionFromRotation(player.getXRot(), player.getYRot()).normalize().scale(3.5);
-                BiosWrathWeaponsMod.LOGGER.info(player.onGround());
                 if (player.onGround())
                     player.move(MoverType.SELF, new Vec3(0.0D, 1.2D, 0.0D)); //no idea what this is for but it's in trident code so i should probably have it here
                 player.setDeltaMovement(motion.x, motion.y, motion.z);
-                BiosWrathWeaponsMod.LOGGER.info(motion);
                 player.startAutoSpinAttack(20);
                 level.playSound(null, player, SoundEvents.TRIDENT_RIPTIDE_3, SoundSource.PLAYERS, 1F, 1F);
             } else if (!level.isClientSide()) {

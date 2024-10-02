@@ -77,7 +77,6 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        BiosWrathWeaponsMod.LOGGER.info("onhitendftgyyu");
         this.playSound();
         if (!this.level().isClientSide()) {
             Entity entity = result.getEntity();
@@ -124,7 +123,6 @@ public class EnderKatanaProjectile extends AbstractHurtingProjectile {
     }
 
     private void playSound() {
-        BiosWrathWeaponsMod.LOGGER.info("playing to world");
         this.level().playSound(null, getX(), getY(), getZ(), SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.PLAYERS, 2F, 1F);
     }
 

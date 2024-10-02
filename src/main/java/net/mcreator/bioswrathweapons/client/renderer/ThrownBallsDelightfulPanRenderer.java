@@ -36,7 +36,6 @@ public class ThrownBallsDelightfulPanRenderer extends EntityRenderer<ThrownBalls
                 ((entity.level().getGameTime() % 50) * (360F / 50)) + entity.getInitialYRot(),
                 (((entity.level().getGameTime() + 1 ) % 50) * (360F / 50)) + entity.getInitialYRot());
         poseStack.mulPose(Axis.ZP.rotationDegrees(rot));
-        //BiosWrathWeaponsMod.LOGGER.info(rot);
         VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(source, this.model.renderType(TEXTURE_LOCATION), false, entity.isFoil());
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();

@@ -78,10 +78,8 @@ public class ForgeEventSubscriber {
         ItemCooldowns itemCooldowns = event.getEntity().getCooldowns();
         CompoundTag cooldownNbt = new CompoundTag();
         for (Item item : itemCooldowns.cooldowns.keySet()) {
-            BiosWrathWeaponsMod.LOGGER.info(ForgeRegistries.ITEMS.getKey(item));
             if (!item.getDefaultInstance().is(BiosWrathWeaponsTags.SAVE_COOLDOWNS)) continue;
             ItemCooldowns.CooldownInstance cooldown = itemCooldowns.cooldowns.get(item);
-            BiosWrathWeaponsMod.LOGGER.info(cooldown);
             cooldownNbt.putIntArray(ForgeRegistries.ITEMS.getKey(item).toString(), new int[]{
                     cooldown.endTime - itemCooldowns.tickCount,
                     cooldown.endTime - cooldown.startTime

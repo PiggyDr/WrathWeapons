@@ -103,7 +103,6 @@ public class BallsDelightfulPanBlock extends SkilletBlock {
     @Override
     @ParametersAreNonnullByDefault
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        BiosWrathWeaponsMod.LOGGER.info("newBlockEntity");
         return BiosWrathWeaponsModBlockEntityTypes.BALLS_DELIGHTFUL_PAN.get().create(pos, state);
     }
 
@@ -111,7 +110,6 @@ public class BallsDelightfulPanBlock extends SkilletBlock {
     @Override
     @ParametersAreNonnullByDefault
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntity) {
-        BiosWrathWeaponsMod.LOGGER.info("got ticker");
         if (level.isClientSide) {
             return createTickerHelper(blockEntity, BiosWrathWeaponsModBlockEntityTypes.BALLS_DELIGHTFUL_PAN.get(), BallsDelightfulPanBlockEntity::animationTick);
         } else {
