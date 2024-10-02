@@ -29,9 +29,8 @@ import java.util.Collection;
 
 public class ThrownSirensSpear extends AbstractArrow {
 
-    private ItemStack item;
     private boolean isReturning;
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownSirensSpear.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<ItemStack> ID_ITEM = SynchedEntityData.defineId(ThrownSirensSpear.class, EntityDataSerializers.ITEM_STACK);
 
     public ThrownSirensSpear(EntityType<? extends AbstractArrow> type, Level level) {
         super(type, level);
@@ -39,24 +38,27 @@ public class ThrownSirensSpear extends AbstractArrow {
 
     public ThrownSirensSpear(LivingEntity owner, ItemStack itemStack, Level level) {
         super(BiosWrathWeaponsModEntities.SIRENS_SPEAR.get(), owner, level);
-        this.item = itemStack;
-        this.entityData.set(ID_FOIL, itemStack.hasFoil());
+        this.setItem(itemStack);
         this.setPos(owner.getEyePosition());
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(ID_FOIL, false);
+        this.entityData.define(ID_ITEM, ItemStack.EMPTY);
     }
 
-    public boolean isFoil() {
-        return this.entityData.get(ID_FOIL);
+    public ItemStack getItem() {
+        return this.entityData.get(ID_ITEM);
+    }
+
+    public void setItem(ItemStack newItem) {
+        this.entityData.set(ID_ITEM, newItem);
     }
 
     @Override
     protected ItemStack getPickupItem() {
-        return item.copy();
+        return getItem().copy();
     }
 
     @Override
@@ -81,8 +83,8 @@ public class ThrownSirensSpear extends AbstractArrow {
         float damage = (float) getItemAttributeValue(Attributes.ATTACK_DAMAGE);
         double knockback = getItemAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.75 + 0.3;
         if (entity instanceof LivingEntity lentity) {
-            damage += EnchantmentHelper.getDamageBonus(this.item, lentity.getMobType());
-            knockback += this.item.getEnchantmentLevel(Enchantments.KNOCKBACK);
+            damage += EnchantmentHelper.getDamageBonus(this.getItem(), lentity.getMobType());
+            knockback += this.getItem().getEnchantmentLevel(Enchantments.KNOCKBACK);
         }
 
         DamageSource damageSource = this.damageSources().trident(this, getOwner() == null ? this : getOwner());
@@ -109,7 +111,7 @@ public class ThrownSirensSpear extends AbstractArrow {
 
         this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
 
-        if (this.level() instanceof ServerLevel && this.level().isThundering() && EnchantmentHelper.hasChanneling(this.item) && this.level().canSeeSky(entity.blockPosition())) {
+        if (this.level() instanceof ServerLevel && this.level().isThundering() && EnchantmentHelper.hasChanneling(this.getItem()) && this.level().canSeeSky(entity.blockPosition())) {
             LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(this.level());
             if (bolt != null) {
                 bolt.moveTo(Vec3.atBottomCenterOf(entity.blockPosition()));
@@ -144,7 +146,7 @@ public class ThrownSirensSpear extends AbstractArrow {
     }
 
     private double getItemAttributeValue(Attribute attribute) {
-        Collection<AttributeModifier> modifiers = this.item.getAttributeModifiers(EquipmentSlot.MAINHAND).get(attribute);
+        Collection<AttributeModifier> modifiers = this.getItem().getAttributeModifiers(EquipmentSlot.MAINHAND).get(attribute);
         AttributeInstance attributeInstance = new AttributeInstance(attribute, a -> {});
         for (AttributeModifier modifier : modifiers) {
             attributeInstance.addTransientModifier(modifier);
@@ -160,12 +162,12 @@ public class ThrownSirensSpear extends AbstractArrow {
     @Override
     public void addAdditionalSaveData(CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
-        nbt.put("item", item.save(new CompoundTag()));
+        nbt.put("item", this.getItem().save(new CompoundTag()));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
-        item = ItemStack.of(nbt.getCompound("item"));
+        this.setItem(ItemStack.of(nbt.getCompound("item")));
     }
 }
